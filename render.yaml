@@ -1,0 +1,36 @@
+# Render Blueprint for nisahr (CareerOS) API
+# Deploy: Render Dashboard -> New -> Blueprint -> connect github.com/scamlux/nisahr
+# You will be prompted for the two `sync: false` secrets (DATABASE_URL, OPENAI_API_KEY).
+services:
+  - type: web
+    name: nisahr-api
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile
+    dockerContext: .
+    plan: free
+    region: frankfurt # same region as Supabase (eu-central-1)
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: JWT_ACCESS_TTL
+        value: 900s
+      - key: JWT_REFRESH_TTL
+        value: 7d
+      - key: AI_PROVIDER
+        value: openai
+      - key: OPENAI_BASE_URL
+        value: https://api.openai.com/v1
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
