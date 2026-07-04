@@ -11,8 +11,10 @@ import { PageHeader } from '@/components/app/page-header';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/lib/i18n';
 
 export default function LearningPage() {
+  const { t } = useI18n();
   const [openCourse, setOpenCourse] = useState<string | null>(null);
 
   const { data: courses, isLoading } = useQuery({
@@ -26,11 +28,11 @@ export default function LearningPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
-      <PageHeader title="Learning Hub" subtitle="Courses, lessons, quizzes and certificates to build real skills." />
+      <PageHeader title={t.pages.learning.title} subtitle={t.pages.learning.subtitle} />
 
       {certificates?.length > 0 && (
         <div className="mb-8">
-          <p className="mb-3 flex items-center gap-2 text-sm font-medium"><Award className="h-4 w-4 text-warning" /> Your certificates</p>
+          <p className="mb-3 flex items-center gap-2 text-sm font-medium"><Award className="h-4 w-4 text-warning" /> {t.pages.learning.yourCertificates}</p>
           <div className="flex flex-wrap gap-3">
             {certificates.map((c: any) => (
               <div key={c.id} className="card flex items-center gap-3 p-3 pr-5">
@@ -69,9 +71,9 @@ export default function LearningPage() {
                 <h3 className="font-display font-semibold">{c.title}</h3>
                 <p className="mt-1 line-clamp-2 text-sm text-muted">{c.description}</p>
                 <div className="mt-3 flex gap-3 text-xs text-muted">
-                  <span>{c._count.lessons} lessons</span>
-                  <span>{c._count.quizzes} quiz</span>
-                  <span>by {c.instructor.name.split(' ')[0]}</span>
+                  <span>{c._count.lessons} {t.pages.learning.lessonsUnit}</span>
+                  <span>{c._count.quizzes} {t.pages.learning.quizUnit}</span>
+                  <span>{t.pages.learning.instructorBy} {c.instructor.name.split(' ')[0]}</span>
                 </div>
               </div>
             </motion.button>
@@ -87,6 +89,7 @@ export default function LearningPage() {
 }
 
 function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => void }) {
+  const { t } = useI18n();
   const qc = useQueryClient();
   const [activeLesson, setActiveLesson] = useState(0);
   const [enrolling, setEnrolling] = useState(false);
@@ -109,7 +112,7 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
     try {
       await api.post(`/learning/courses/${courseId}/enroll`);
       qc.invalidateQueries({ queryKey: ['enrollments'] });
-      toast.success('Enrolled!');
+      toast.success(t.pages.learning.toastEnrolled);
     } catch (err) { toast.error(apiError(err)); } finally { setEnrolling(false); }
   }
 
@@ -118,8 +121,8 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
       const { data } = await api.post(`/learning/courses/${courseId}/lessons/${lessonId}/complete`);
       qc.invalidateQueries({ queryKey: ['enrollments'] });
       qc.invalidateQueries({ queryKey: ['certificates'] });
-      if (data.certificate) toast.success('Course complete — certificate issued! 🏆');
-      else toast.success('Lesson completed');
+      if (data.certificate) toast.success(t.pages.learning.toastCourseComplete);
+      else toast.success(t.pages.learning.toastLessonCompleted);
     } catch (err) { toast.error(apiError(err)); }
   }
 
@@ -143,7 +146,7 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
             <div className="flex items-center justify-between border-b border-border/60 p-5">
               <div>
                 <h2 className="font-display text-xl font-bold">{course.title}</h2>
-                <p className="text-sm text-muted">{enrollment ? `${enrollment.progressPct}% complete` : 'Not enrolled'}</p>
+                <p className="text-sm text-muted">{enrollment ? <>{enrollment.progressPct}{t.pages.learning.percentComplete}</> : t.pages.learning.notEnrolled}</p>
               </div>
               <button onClick={onClose} className="text-muted hover:text-fg"><X className="h-5 w-5" /></button>
             </div>
@@ -153,9 +156,9 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
                 <div>
                   <GraduationCap className="mx-auto mb-4 h-12 w-12 text-primary" />
                   <p className="mb-1 font-medium">{course.description}</p>
-                  <p className="mb-6 text-sm text-muted">{course.lessons.length} lessons · {course.quizzes.length} quiz</p>
+                  <p className="mb-6 text-sm text-muted">{course.lessons.length} {t.pages.learning.lessonsUnit} · {course.quizzes.length} {t.pages.learning.quizUnit}</p>
                   <button className="btn-primary" onClick={enroll} disabled={enrolling}>
-                    {enrolling ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enroll now'}
+                    {enrolling ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.learning.enrollNow}
                   </button>
                 </div>
               </div>
@@ -198,7 +201,7 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
                     onClick={() => completeLesson(lesson.id)}
                     disabled={completedLessonIds.includes(lesson?.id)}
                   >
-                    {completedLessonIds.includes(lesson?.id) ? <><Check className="h-4 w-4" /> Completed</> : 'Mark as complete'}
+                    {completedLessonIds.includes(lesson?.id) ? <><Check className="h-4 w-4" /> {t.pages.learning.completed}</> : t.pages.learning.markComplete}
                   </button>
                 </div>
               </div>
@@ -211,6 +214,7 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
 }
 
 function Quiz({ quiz, onExit }: { quiz: any; onExit: () => void }) {
+  const { t } = useI18n();
   const [answers, setAnswers] = useState<number[]>(Array(quiz.questions.length).fill(-1));
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -225,7 +229,7 @@ function Quiz({ quiz, onExit }: { quiz: any; onExit: () => void }) {
 
   return (
     <div className="flex-1 overflow-y-auto p-6">
-      <button onClick={onExit} className="mb-4 text-sm text-muted hover:text-fg">← Back to lessons</button>
+      <button onClick={onExit} className="mb-4 text-sm text-muted hover:text-fg">← {t.pages.learning.backToLessons}</button>
       <h3 className="mb-5 font-display text-lg font-semibold">{quiz.title}</h3>
       <div className="space-y-5">
         {quiz.questions.map((q: any, qi: number) => (
@@ -259,12 +263,12 @@ function Quiz({ quiz, onExit }: { quiz: any; onExit: () => void }) {
       </div>
       {!result ? (
         <button className="btn-primary mt-6" onClick={submit} disabled={loading || answers.includes(-1)}>
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Submit quiz'}
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.learning.submitQuiz}
         </button>
       ) : (
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={cn('mt-6 rounded-2xl border p-5 text-center', result.passed ? 'border-success/40 bg-success/10' : 'border-warning/40 bg-warning/10')}>
           <p className="font-display text-3xl font-bold">{result.score}%</p>
-          <p className="mt-1 text-sm text-muted">{result.correct}/{result.total} correct — {result.passed ? 'Passed! 🎉' : 'Keep practicing'}</p>
+          <p className="mt-1 text-sm text-muted">{result.correct}/{result.total} {t.pages.learning.correctLabel} — {result.passed ? t.pages.learning.passed : t.pages.learning.keepPracticing}</p>
         </motion.div>
       )}
     </div>

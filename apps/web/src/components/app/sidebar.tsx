@@ -16,20 +16,24 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/lib/store';
 import { cn, initials } from '@/lib/utils';
-
-const nav = [
-  { href: '/home', label: 'AI Consultant', icon: MessagesSquare },
-  { href: '/roadmap', label: 'Roadmap', icon: Map },
-  { href: '/learning', label: 'Learning Hub', icon: GraduationCap },
-  { href: '/progress', label: 'Progress', icon: LineChart },
-  { href: '/career', label: 'Career Prep', icon: Briefcase },
-  { href: '/profile', label: 'Profile', icon: User },
-];
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { LangSwitcher } from '@/components/ui/lang-switcher';
+import { useI18n } from '@/lib/i18n';
 
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
+  const { t } = useI18n();
+
+  const nav = [
+    { href: '/home', label: t.pages.app.navHome, icon: MessagesSquare },
+    { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
+    { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap },
+    { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },
+    { href: '/career', label: t.pages.app.navCareer, icon: Briefcase },
+    { href: '/profile', label: t.pages.app.navProfile, icon: User },
+  ];
 
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border/60 bg-surface/40 p-4 backdrop-blur-xl lg:flex">
@@ -66,7 +70,12 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-4 rounded-2xl border border-border bg-surface-2/50 p-3">
+      <div className="mt-4 flex items-center justify-between gap-2 px-1">
+        <LangSwitcher />
+        <ThemeToggle />
+      </div>
+
+      <div className="mt-3 rounded-2xl border border-border bg-surface-2/50 p-3">
         <div className="flex items-center gap-3">
           <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-semibold text-primary-fg">
             {user ? initials(user.name) : '?'}
@@ -75,9 +84,9 @@ export function Sidebar() {
             <p className="truncate text-sm font-medium">{user?.name}</p>
             <p className="flex items-center gap-1 text-xs text-muted">
               {user?.plan === 'PREMIUM' ? (
-                <><Crown className="h-3 w-3 text-warning" /> Premium</>
+                <><Crown className="h-3 w-3 text-warning" /> {t.pages.app.planPremium}</>
               ) : (
-                'Free plan'
+                t.pages.app.planFree
               )}
             </p>
           </div>
@@ -87,7 +96,7 @@ export function Sidebar() {
               router.push('/login');
             }}
             className="text-muted transition-colors hover:text-danger"
-            title="Sign out"
+            title={t.pages.app.signOut}
           >
             <LogOut className="h-4 w-4" />
           </button>

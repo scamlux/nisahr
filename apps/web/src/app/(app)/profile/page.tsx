@@ -9,15 +9,17 @@ import { useAuth } from '@/lib/store';
 import { PageHeader } from '@/components/app/page-header';
 import { toast } from '@/components/ui/toast';
 import { cn, initials } from '@/lib/utils';
-
-const PLANS = [
-  { id: 'FREE', name: 'Free', price: '$0', features: ['AI-HR chat (basic)', '1 roadmap', 'Learning hub', 'Basic tracker'] },
-  { id: 'PREMIUM', name: 'Premium', price: '$12', features: ['Unlimited roadmaps', 'Mock interviews', 'Deep skill analysis', 'AI insights', 'Resume & job readiness', 'Certificates'] },
-];
+import { useI18n } from '@/lib/i18n';
 
 export default function ProfilePage() {
+  const { t } = useI18n();
   const { user, setUser, setTokens, refreshToken } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
+
+  const PLANS = [
+    { id: 'FREE', name: t.pages.profile.planFreeName, price: '$0', features: [t.pages.profile.freeFeatureChat, t.pages.profile.freeFeatureRoadmap, t.pages.profile.freeFeatureLearningHub, t.pages.profile.freeFeatureTracker] },
+    { id: 'PREMIUM', name: t.pages.profile.planPremiumName, price: '$12', features: [t.pages.profile.premiumFeatureRoadmaps, t.pages.profile.premiumFeatureInterviews, t.pages.profile.premiumFeatureSkillAnalysis, t.pages.profile.premiumFeatureInsights, t.pages.profile.premiumFeatureResume, t.pages.profile.premiumFeatureCertificates] },
+  ];
 
   const { data: recs } = useQuery({
     queryKey: ['recommendations'],
@@ -37,9 +39,9 @@ export default function ProfilePage() {
       } else {
         setUser({ plan: plan as any });
       }
-      toast.success(plan === 'PREMIUM' ? 'Welcome to Premium! 👑' : 'Switched to Free plan');
+      toast.success(plan === 'PREMIUM' ? t.pages.profile.successPremium : t.pages.profile.successFree);
     } catch (err) {
-      toast.error(apiError(err, 'Could not change plan'));
+      toast.error(apiError(err, t.pages.profile.errorChangePlan));
     } finally {
       setLoading(null);
     }
@@ -47,7 +49,7 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 lg:px-8">
-      <PageHeader title="Profile & Plan" subtitle="Manage your account and subscription." />
+      <PageHeader title={t.pages.profile.title} subtitle={t.pages.profile.subtitle} />
 
       {/* identity */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="card mb-6 flex items-center gap-4 p-6">
@@ -60,7 +62,7 @@ export default function ProfilePage() {
             <span className="flex items-center gap-1.5"><Mail className="h-3.5 w-3.5" /> {user?.email}</span>
             <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" /> {user?.role}</span>
             <span className="flex items-center gap-1.5">
-              {user?.plan === 'PREMIUM' ? <><Crown className="h-3.5 w-3.5 text-warning" /> Premium</> : 'Free plan'}
+              {user?.plan === 'PREMIUM' ? <><Crown className="h-3.5 w-3.5 text-warning" /> {t.pages.profile.premium}</> : t.pages.profile.freePlan}
             </span>
           </div>
         </div>
@@ -82,11 +84,11 @@ export default function ProfilePage() {
               <div className="relative">
                 <div className="flex items-center justify-between">
                   <h3 className="font-display text-2xl font-bold">{plan.name}</h3>
-                  {current && <span className="chip border-success/30 bg-success/10 text-success">Current</span>}
+                  {current && <span className="chip border-success/30 bg-success/10 text-success">{t.pages.profile.current}</span>}
                 </div>
                 <div className="mt-2 flex items-end gap-1">
                   <span className="font-display text-4xl font-bold">{plan.price}</span>
-                  <span className="mb-1 text-muted">/mo</span>
+                  <span className="mb-1 text-muted">{t.pages.profile.perMonth}</span>
                 </div>
                 <ul className="mt-5 space-y-2.5">
                   {plan.features.map((f) => (
@@ -100,7 +102,7 @@ export default function ProfilePage() {
                   disabled={current || loading !== null}
                   onClick={() => changePlan(plan.id)}
                 >
-                  {loading === plan.id ? <Loader2 className="h-4 w-4 animate-spin" /> : current ? 'Active plan' : premium ? <><Crown className="h-4 w-4" /> Upgrade</> : 'Downgrade'}
+                  {loading === plan.id ? <Loader2 className="h-4 w-4 animate-spin" /> : current ? t.pages.profile.activePlan : premium ? <><Crown className="h-4 w-4" /> {t.pages.profile.upgrade}</> : t.pages.profile.downgrade}
                 </button>
               </div>
             </motion.div>
@@ -111,7 +113,7 @@ export default function ProfilePage() {
       {/* recommendations */}
       {recs?.length > 0 && (
         <div className="card p-6">
-          <p className="mb-4 flex items-center gap-2 text-sm font-medium"><Target className="h-4 w-4 text-primary" /> Your career recommendations</p>
+          <p className="mb-4 flex items-center gap-2 text-sm font-medium"><Target className="h-4 w-4 text-primary" /> {t.pages.profile.recommendationsTitle}</p>
           <div className="space-y-2">
             {recs.map((r: any) => (
               <div key={r.id} className="flex items-center justify-between rounded-xl border border-border bg-surface-2/40 p-3">

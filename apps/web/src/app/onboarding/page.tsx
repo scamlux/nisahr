@@ -6,20 +6,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, Loader2, PartyPopper } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
+import { useI18n } from '@/lib/i18n';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
-const INTERESTS = ['Web', 'Design', 'Data', 'AI / ML', 'Business', 'People', 'Math', 'Creative', 'Systems', 'Testing'];
-const SKILLS = ['HTML', 'CSS', 'JavaScript', 'Python', 'SQL', 'Figma', 'Excel', 'React', 'Statistics', 'Communication'];
-const LEVELS = [
-  { v: 'BEGINNER', label: 'Just starting', desc: 'New to the field' },
-  { v: 'JUNIOR', label: 'Some basics', desc: '0–1 years' },
-  { v: 'MID', label: 'Comfortable', desc: '1–3 years' },
-  { v: 'SENIOR', label: 'Experienced', desc: '3+ years' },
-];
-const WORK_STYLES = ['Remote', 'Hybrid', 'On-site', 'Async', 'Collaborative'];
-
 export default function OnboardingPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const setUser = useAuth((s) => s.setUser);
   const [step, setStep] = useState(0);
@@ -34,11 +26,54 @@ export default function OnboardingPage() {
   const [weaknesses, setWeaknesses] = useState('');
   const [preferredWorkStyle, setPreferredWorkStyle] = useState('Remote');
 
+  const INTERESTS = [
+    { value: 'Web', label: t.pages.onboarding.interestWeb },
+    { value: 'Design', label: t.pages.onboarding.interestDesign },
+    { value: 'Data', label: t.pages.onboarding.interestData },
+    { value: 'AI / ML', label: t.pages.onboarding.interestAiMl },
+    { value: 'Business', label: t.pages.onboarding.interestBusiness },
+    { value: 'People', label: t.pages.onboarding.interestPeople },
+    { value: 'Math', label: t.pages.onboarding.interestMath },
+    { value: 'Creative', label: t.pages.onboarding.interestCreative },
+    { value: 'Systems', label: t.pages.onboarding.interestSystems },
+    { value: 'Testing', label: t.pages.onboarding.interestTesting },
+  ];
+  const SKILLS = [
+    { value: 'HTML', label: t.pages.onboarding.skillHtml },
+    { value: 'CSS', label: t.pages.onboarding.skillCss },
+    { value: 'JavaScript', label: t.pages.onboarding.skillJavascript },
+    { value: 'Python', label: t.pages.onboarding.skillPython },
+    { value: 'SQL', label: t.pages.onboarding.skillSql },
+    { value: 'Figma', label: t.pages.onboarding.skillFigma },
+    { value: 'Excel', label: t.pages.onboarding.skillExcel },
+    { value: 'React', label: t.pages.onboarding.skillReact },
+    { value: 'Statistics', label: t.pages.onboarding.skillStatistics },
+    { value: 'Communication', label: t.pages.onboarding.skillCommunication },
+  ];
+  const LEVELS = [
+    { v: 'BEGINNER', label: t.pages.onboarding.levelBeginnerLabel, desc: t.pages.onboarding.levelBeginnerDesc },
+    { v: 'JUNIOR', label: t.pages.onboarding.levelJuniorLabel, desc: t.pages.onboarding.levelJuniorDesc },
+    { v: 'MID', label: t.pages.onboarding.levelMidLabel, desc: t.pages.onboarding.levelMidDesc },
+    { v: 'SENIOR', label: t.pages.onboarding.levelSeniorLabel, desc: t.pages.onboarding.levelSeniorDesc },
+  ];
+  const WORK_STYLES = [
+    { value: 'Remote', label: t.pages.onboarding.workStyleRemote },
+    { value: 'Hybrid', label: t.pages.onboarding.workStyleHybrid },
+    { value: 'On-site', label: t.pages.onboarding.workStyleOnsite },
+    { value: 'Async', label: t.pages.onboarding.workStyleAsync },
+    { value: 'Collaborative', label: t.pages.onboarding.workStyleCollaborative },
+  ];
+
   const toggle = (arr: string[], set: (v: string[]) => void, v: string) =>
     set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
-  const steps = ['Interests', 'Experience', 'Skills', 'Goals'];
-  const progress = ((step + 1) / steps.length) * 100;
+  const stepLabels = [
+    t.pages.onboarding.stepInterests,
+    t.pages.onboarding.stepExperience,
+    t.pages.onboarding.stepSkills,
+    t.pages.onboarding.stepGoals,
+  ];
+  const progress = ((step + 1) / stepLabels.length) * 100;
 
   async function finish() {
     setLoading(true);
@@ -56,7 +91,7 @@ export default function OnboardingPage() {
       setDone(true);
       setTimeout(() => router.push('/home'), 1600);
     } catch (err) {
-      toast.error(apiError(err, 'Could not save profile'));
+      toast.error(apiError(err, t.pages.onboarding.saveError));
       setLoading(false);
     }
   }
@@ -77,8 +112,8 @@ export default function OnboardingPage() {
           >
             <PartyPopper className="h-8 w-8" />
           </motion.div>
-          <h1 className="font-display text-2xl font-bold">You’re all set!</h1>
-          <p className="mt-2 text-muted">Building your personalized dashboard…</p>
+          <h1 className="font-display text-2xl font-bold">{t.pages.onboarding.doneTitle}</h1>
+          <p className="mt-2 text-muted">{t.pages.onboarding.doneSubtitle}</p>
         </motion.div>
       </div>
     );
@@ -94,8 +129,10 @@ export default function OnboardingPage() {
       <div className="glass w-full max-w-2xl rounded-3xl p-8">
         {/* progress */}
         <div className="mb-2 flex justify-between text-xs text-muted">
-          <span>Step {step + 1} of {steps.length}</span>
-          <span>{steps[step]}</span>
+          <span>
+            {t.pages.onboarding.stepLabel} {step + 1} {t.pages.onboarding.ofLabel} {stepLabels.length}
+          </span>
+          <span>{stepLabels[step]}</span>
         </div>
         <div className="mb-8 h-1.5 overflow-hidden rounded-full bg-surface-2">
           <motion.div
@@ -114,12 +151,12 @@ export default function OnboardingPage() {
             transition={{ duration: 0.3 }}
           >
             {step === 0 && (
-              <Section title="What are you drawn to?" hint="Pick everything that sparks your interest.">
+              <Section title={t.pages.onboarding.interestsTitle} hint={t.pages.onboarding.interestsHint}>
                 <ChipGrid options={INTERESTS} selected={interests} onToggle={(v) => toggle(interests, setInterests, v)} />
               </Section>
             )}
             {step === 1 && (
-              <Section title="Where are you right now?" hint="Be honest — this tailors your roadmap pace.">
+              <Section title={t.pages.onboarding.experienceTitle} hint={t.pages.onboarding.experienceHint}>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {LEVELS.map((l) => (
                     <button
@@ -140,26 +177,41 @@ export default function OnboardingPage() {
               </Section>
             )}
             {step === 2 && (
-              <Section title="What can you already do?" hint="Select your current skills.">
+              <Section title={t.pages.onboarding.skillsTitle} hint={t.pages.onboarding.skillsHint}>
                 <ChipGrid options={SKILLS} selected={currentSkills} onToggle={(v) => toggle(currentSkills, setCurrentSkills, v)} />
               </Section>
             )}
             {step === 3 && (
-              <Section title="Tell us your goal" hint="A sentence or two is plenty.">
+              <Section title={t.pages.onboarding.goalsTitle} hint={t.pages.onboarding.goalsHint}>
                 <div className="space-y-4">
                   <textarea
                     className="input min-h-[88px] resize-none"
-                    placeholder="e.g. Become a frontend developer and land my first job in 6 months"
+                    placeholder={t.pages.onboarding.goalsPlaceholder}
                     value={goals}
                     onChange={(e) => setGoals(e.target.value)}
                   />
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <input className="input" placeholder="Your strengths" value={strengths} onChange={(e) => setStrengths(e.target.value)} />
-                    <input className="input" placeholder="Areas to improve" value={weaknesses} onChange={(e) => setWeaknesses(e.target.value)} />
+                    <input
+                      className="input"
+                      placeholder={t.pages.onboarding.strengthsPlaceholder}
+                      value={strengths}
+                      onChange={(e) => setStrengths(e.target.value)}
+                    />
+                    <input
+                      className="input"
+                      placeholder={t.pages.onboarding.weaknessesPlaceholder}
+                      value={weaknesses}
+                      onChange={(e) => setWeaknesses(e.target.value)}
+                    />
                   </div>
                   <div>
-                    <p className="mb-2 text-sm text-muted">Preferred work style</p>
-                    <ChipGrid options={WORK_STYLES} selected={[preferredWorkStyle]} onToggle={setPreferredWorkStyle} single />
+                    <p className="mb-2 text-sm text-muted">{t.pages.onboarding.workStyleLabel}</p>
+                    <ChipGrid
+                      options={WORK_STYLES}
+                      selected={[preferredWorkStyle]}
+                      onToggle={setPreferredWorkStyle}
+                      single
+                    />
                   </div>
                 </div>
               </Section>
@@ -173,15 +225,21 @@ export default function OnboardingPage() {
             onClick={() => setStep((s) => Math.max(0, s - 1))}
             disabled={step === 0}
           >
-            <ArrowLeft className="h-4 w-4" /> Back
+            <ArrowLeft className="h-4 w-4" /> {t.pages.onboarding.backButton}
           </button>
-          {step < steps.length - 1 ? (
+          {step < stepLabels.length - 1 ? (
             <button className="btn-primary" onClick={() => setStep((s) => s + 1)}>
-              Continue <ArrowRight className="h-4 w-4" />
+              {t.pages.onboarding.continueButton} <ArrowRight className="h-4 w-4" />
             </button>
           ) : (
             <button className="btn-primary" onClick={finish} disabled={loading}>
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Finish <Check className="h-4 w-4" /></>}
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  {t.pages.onboarding.finishButton} <Check className="h-4 w-4" />
+                </>
+              )}
             </button>
           )}
         </div>
@@ -206,7 +264,7 @@ function ChipGrid({
   onToggle,
   single,
 }: {
-  options: string[];
+  options: { value: string; label: string }[];
   selected: string[];
   onToggle: (v: string) => void;
   single?: boolean;
@@ -214,11 +272,11 @@ function ChipGrid({
   return (
     <div className="flex flex-wrap gap-2.5">
       {options.map((o) => {
-        const active = selected.includes(o);
+        const active = selected.includes(o.value);
         return (
           <button
-            key={o}
-            onClick={() => onToggle(o)}
+            key={o.value}
+            onClick={() => onToggle(o.value)}
             className={cn(
               'rounded-full border px-4 py-2 text-sm font-medium transition-all',
               active
@@ -227,7 +285,7 @@ function ChipGrid({
             )}
           >
             {active && !single && <Check className="mr-1 inline h-3.5 w-3.5" />}
-            {o}
+            {o.label}
           </button>
         );
       })}
