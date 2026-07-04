@@ -1,6 +1,7 @@
 /**
  * Translation dictionaries for CareerOS. Three locales: English, Russian, Uzbek.
  * Keys are shared 1:1 across locales — `en` is the canonical shape.
+ * Landing copy is written to read natively per language, not translated 1:1.
  */
 
 import { pagesEn, pagesRu, pagesUz } from './i18n-pages';
@@ -29,8 +30,8 @@ const en = {
     from: 'From',
     to: 'to',
     subtitle:
-      'CareerOS guides you the whole way — an AI-HR consultant, a personalized roadmap, a learning hub, progress tracking and interview prep, all in one platform.',
-    ctaPrimary: 'Start your journey',
+      'From that first foggy question to a signed offer — an AI-HR consultant, a roadmap built around you, a learning hub and interview prep, all in one place.',
+    ctaPrimary: 'Start free',
     ctaSecondary: 'I already have an account',
   },
   stats: {
@@ -41,55 +42,55 @@ const en = {
   },
   how: {
     title: 'How CareerOS works',
-    subtitle: 'Three steps from uncertainty to an offer.',
-    step1Title: 'Talk to your AI consultant',
+    subtitle: 'Three steps from lost to hired.',
+    step1Title: 'Meet your AI career consultant',
     step1Body:
-      'Answer a short quiz and chat with an AI-HR consultant that understands your interests, strengths and goals — then recommends roles that actually fit.',
-    step2Title: 'Get a personalized roadmap',
+      'Take a two-minute quiz and talk to an AI-HR that actually gets your interests, strengths and goals — then points you to roles worth chasing.',
+    step2Title: 'Get a roadmap built around you',
     step2Body:
-      'A stage-by-stage plan — skills, curated resources, hands-on projects and milestones — tailored to your level and weekly hours.',
-    step3Title: 'Learn, build & track',
+      'A stage-by-stage plan — skills, hand-picked resources, real projects and milestones — tuned to your level and the hours you can spare each week.',
+    step3Title: 'Learn, build, get hired',
     step3Body:
-      'Follow the learning hub, complete projects, watch your skill heatmap and streak grow, and prep for interviews until you are job-ready.',
+      'Move through the learning hub, ship projects, watch your streak and skill map climb, and rehearse interviews until the offer feels inevitable.',
   },
   features: {
     title: 'One platform.',
     titleAccent: 'Every step.',
-    subtitle: 'Stop juggling ten tabs. CareerOS is the operating system for your career.',
+    subtitle: 'Stop juggling ten tabs and half-finished courses. CareerOS is the operating system for your career.',
     items: [
-      { title: 'AI-HR Consultant', body: 'Career guidance that returns real recommendations and a skill-gap analysis, not generic advice.' },
-      { title: 'Roadmap Engine', body: 'Personalized, editable roadmaps with progress rings, milestones and a 3D path view.' },
-      { title: 'Learning Hub', body: 'Curated resources plus an internal LMS with lessons, quizzes and certificates.' },
-      { title: 'Progress Analytics', body: 'Streaks, weekly hours, skill heatmaps and AI insights into your pace and momentum.' },
-      { title: 'Interview Prep', body: 'Turn-based mock HR, technical and behavioral interviews with scored feedback.' },
-      { title: 'Job Readiness', body: 'A single 0–100 score from your skills, roadmap, resume and interview performance.' },
+      { title: 'AI-HR Consultant', body: 'Real recommendations and an honest skill-gap read — not recycled, one-size-fits-all advice.' },
+      { title: 'Roadmap Engine', body: 'Personalized, editable roadmaps with progress rings, milestones and a path you can see in 3D.' },
+      { title: 'Learning Hub', body: 'Curated resources plus a built-in LMS: lessons, quizzes and certificates that actually mean something.' },
+      { title: 'Progress Analytics', body: 'Streaks, weekly hours and skill heatmaps, with AI reading your pace and momentum.' },
+      { title: 'Interview Prep', body: 'Mock HR, technical and behavioral interviews, turn by turn, with scored, specific feedback.' },
+      { title: 'Job Readiness', body: 'One honest 0–100 score from your skills, roadmap, resume and interview performance.' },
     ],
   },
   pricing: {
     title: 'Simple pricing',
-    subtitle: 'Start free. Upgrade when you’re ready to get hired.',
+    subtitle: 'Start free. Go Premium the day you decide to get hired.',
     perMonth: '/mo',
     mostPopular: 'Most popular',
     free: {
       name: 'Free',
-      tagline: 'Start exploring your path',
+      tagline: 'Find your direction',
       features: ['AI-HR chat (basic)', '1 personalized roadmap', 'Learning hub access', 'Basic progress tracker'],
       cta: 'Start free',
     },
     premium: {
       name: 'Premium',
-      tagline: 'Everything you need to get hired',
+      tagline: 'Everything it takes to land the job',
       features: ['Unlimited roadmaps', 'Mock interviews', 'Deep skill-gap analysis', 'AI learning insights', 'Resume review & job readiness', 'Verified certificates'],
       cta: 'Go Premium',
     },
   },
   ctaBand: {
     title: 'Your career, finally on autopilot.',
-    subtitle: 'Join CareerOS and turn confusion into a clear, trackable plan toward the job you want.',
-    button: 'Get started — it’s free',
+    subtitle: 'Turn a vague “someday” into a plan you can see, track and finish — right up to the offer.',
+    button: 'Start free — no card needed',
   },
   footer: {
-    tagline: 'Built as a flagship demo.',
+    tagline: 'From first step to first offer.',
     rights: 'All rights reserved.',
   },
   ui: {
@@ -117,8 +118,8 @@ const ru: Dict = {
     from: 'От',
     to: 'к',
     subtitle:
-      'CareerOS ведёт вас на всём пути — ИИ-HR-консультант, персональная дорожная карта, хаб обучения, отслеживание прогресса и подготовка к собеседованиям в одной платформе.',
-    ctaPrimary: 'Начать путь',
+      'От первого туманного вопроса до подписанного оффера — ИИ-HR-консультант, дорожная карта под тебя, хаб обучения и подготовка к собеседованиям в одном месте.',
+    ctaPrimary: 'Начать бесплатно',
     ctaSecondary: 'У меня уже есть аккаунт',
   },
   stats: {
@@ -129,55 +130,55 @@ const ru: Dict = {
   },
   how: {
     title: 'Как работает CareerOS',
-    subtitle: 'Три шага от неопределённости до оффера.',
-    step1Title: 'Поговорите с ИИ-консультантом',
+    subtitle: 'Три шага — от «я потерян» до оффера.',
+    step1Title: 'Знакомство с ИИ-консультантом',
     step1Body:
-      'Пройдите короткий тест и пообщайтесь с ИИ-HR-консультантом, который понимает ваши интересы, сильные стороны и цели — и рекомендует роли, которые действительно вам подходят.',
-    step2Title: 'Получите персональную дорожную карту',
+      'Пройди двухминутный тест и поговори с ИИ-HR, который правда понимает твои интересы, сильные стороны и цели — и подскажет роли, за которые стоит браться.',
+    step2Title: 'Дорожная карта под тебя',
     step2Body:
-      'Поэтапный план — навыки, отобранные ресурсы, практические проекты и вехи — адаптированный под ваш уровень и часы в неделю.',
-    step3Title: 'Учитесь, создавайте и отслеживайте',
+      'Пошаговый план — навыки, отобранные материалы, реальные проекты и вехи — под твой уровень и то количество часов, что есть в неделю.',
+    step3Title: 'Учись, создавай, получай оффер',
     step3Body:
-      'Следуйте хабу обучения, выполняйте проекты, наблюдайте за ростом карты навыков и серии, готовьтесь к собеседованиям — пока не будете готовы к работе.',
+      'Проходи хаб обучения, делай проекты, следи, как растут серия и карта навыков, тренируй собеседования — пока оффер не станет делом времени.',
   },
   features: {
     title: 'Одна платформа.',
     titleAccent: 'Каждый шаг.',
-    subtitle: 'Хватит жонглировать десятью вкладками. CareerOS — это операционная система вашей карьеры.',
+    subtitle: 'Хватит жонглировать десятком вкладок и брошенных курсов. CareerOS — операционная система твоей карьеры.',
     items: [
-      { title: 'ИИ-HR-консультант', body: 'Карьерные советы с реальными рекомендациями и анализом пробелов в навыках, а не общие фразы.' },
-      { title: 'Движок дорожных карт', body: 'Персональные редактируемые карты с кольцами прогресса, вехами и 3D-видом пути.' },
-      { title: 'Хаб обучения', body: 'Отобранные ресурсы плюс внутренний LMS с уроками, тестами и сертификатами.' },
-      { title: 'Аналитика прогресса', body: 'Серии, часы в неделю, тепловые карты навыков и ИИ-инсайты о вашем темпе.' },
-      { title: 'Подготовка к собеседованиям', body: 'Пошаговые пробные HR-, технические и поведенческие интервью с оценкой.' },
-      { title: 'Готовность к найму', body: 'Единый балл от 0 до 100 по навыкам, дорожной карте, резюме и собеседованиям.' },
+      { title: 'ИИ-HR-консультант', body: 'Живые рекомендации и честный разбор пробелов в навыках — а не переписанные общие советы.' },
+      { title: 'Движок дорожных карт', body: 'Персональные редактируемые карты с кольцами прогресса, вехами и путём, который видно в 3D.' },
+      { title: 'Хаб обучения', body: 'Отобранные материалы плюс встроенный LMS: уроки, тесты и сертификаты, которые что-то значат.' },
+      { title: 'Аналитика прогресса', body: 'Серии, часы за неделю и тепловые карты навыков, а ИИ считывает твой темп.' },
+      { title: 'Подготовка к собеседованиям', body: 'Пробные HR-, технические и поведенческие интервью, ход за ходом, с конкретной оценкой.' },
+      { title: 'Готовность к найму', body: 'Один честный балл 0–100 по навыкам, карте, резюме и собеседованиям.' },
     ],
   },
   pricing: {
     title: 'Простые тарифы',
-    subtitle: 'Начните бесплатно. Переходите на Premium, когда будете готовы устроиться.',
+    subtitle: 'Начни бесплатно. Перейдёшь на Premium в день, когда решишь устроиться.',
     perMonth: '/мес',
     mostPopular: 'Популярный',
     free: {
       name: 'Бесплатно',
-      tagline: 'Начните исследовать свой путь',
+      tagline: 'Найди своё направление',
       features: ['ИИ-HR-чат (базовый)', '1 персональная карта', 'Доступ к хабу обучения', 'Базовый трекер прогресса'],
       cta: 'Начать бесплатно',
     },
     premium: {
       name: 'Premium',
-      tagline: 'Всё, что нужно, чтобы вас наняли',
+      tagline: 'Всё, чтобы получить работу',
       features: ['Безлимитные дорожные карты', 'Пробные собеседования', 'Глубокий анализ навыков', 'ИИ-инсайты обучения', 'Проверка резюме и готовность', 'Подтверждённые сертификаты'],
       cta: 'Перейти на Premium',
     },
   },
   ctaBand: {
-    title: 'Ваша карьера — наконец на автопилоте.',
-    subtitle: 'Присоединяйтесь к CareerOS и превратите растерянность в чёткий, отслеживаемый план к желаемой работе.',
-    button: 'Начать — это бесплатно',
+    title: 'Карьера — наконец на автопилоте.',
+    subtitle: 'Преврати размытое «когда-нибудь» в план, который видно, можно отследить и довести до оффера.',
+    button: 'Начать бесплатно — без карты',
   },
   footer: {
-    tagline: 'Создано как флагманское демо.',
+    tagline: 'От первого шага до первого оффера.',
     rights: 'Все права защищены.',
   },
   ui: {
@@ -203,8 +204,8 @@ const uz: Dict = {
     from: '',
     to: '',
     subtitle:
-      'CareerOS sizni butun yo‘l davomida boshqaradi — AI-HR maslahatchi, shaxsiy yo‘l xaritasi, o‘quv markazi, taraqqiyotni kuzatish va suhbatga tayyorgarlik — barchasi bitta platformada.',
-    ctaPrimary: 'Yo‘lni boshlash',
+      'Birinchi noaniq savoldan imzolangan offergacha — AI-HR maslahatchi, siz uchun tuzilgan yo‘l xaritasi, o‘quv markazi va suhbatga tayyorgarlik, barchasi bitta joyda.',
+    ctaPrimary: 'Bepul boshlash',
     ctaSecondary: 'Menda hisob bor',
   },
   stats: {
@@ -215,55 +216,55 @@ const uz: Dict = {
   },
   how: {
     title: 'CareerOS qanday ishlaydi',
-    subtitle: 'Noaniqlikdan takliifgacha uch qadam.',
-    step1Title: 'AI maslahatchi bilan suhbatlashing',
+    subtitle: 'Noaniqlikdan offergacha uch qadam.',
+    step1Title: 'AI maslahatchi bilan tanishing',
     step1Body:
-      'Qisqa testdan o‘ting va qiziqishlaringiz, kuchli tomonlaringiz va maqsadlaringizni tushunadigan AI-HR maslahatchi bilan suhbatlashing — u sizga mos keladigan kasblarni tavsiya qiladi.',
-    step2Title: 'Shaxsiy yo‘l xaritasini oling',
+      'Ikki daqiqalik testdan o‘ting va qiziqishlaringiz, kuchli tomonlaringiz va maqsadlaringizni chindan tushunadigan AI-HR bilan suhbatlashing — u sizga arziydigan kasblarni ko‘rsatadi.',
+    step2Title: 'Siz uchun tuzilgan yo‘l xaritasi',
     step2Body:
-      'Bosqichma-bosqich reja — ko‘nikmalar, tanlangan resurslar, amaliy loyihalar va bosqichlar — darajangiz va haftalik soatlaringizga moslashtirilgan.',
-    step3Title: 'O‘rganing, yarating va kuzating',
+      'Bosqichma-bosqich reja — ko‘nikmalar, saralangan manbalar, haqiqiy loyihalar va bosqichlar — darajangiz va haftada ajrata oladigan soatlaringizga moslab.',
+    step3Title: 'O‘rganing, yarating, ishga joylashing',
     step3Body:
-      'O‘quv markazini kuzating, loyihalarni bajaring, ko‘nikmalar xaritangiz va seriyangiz o‘sishini ko‘ring, ishga tayyor bo‘lguningizcha suhbatlarga tayyorlaning.',
+      'O‘quv markazidan o‘ting, loyihalar yarating, seriyangiz va ko‘nikma xaritangiz o‘sishini kuzating, offer muqarrar tuyulguncha suhbatlarni mashq qiling.',
   },
   features: {
     title: 'Bitta platforma.',
     titleAccent: 'Har bir qadam.',
-    subtitle: 'O‘nlab oynalar bilan ovora bo‘lishni bas qiling. CareerOS — karyerangiz operatsion tizimi.',
+    subtitle: 'O‘nlab oynalar va tashlab ketilgan kurslar bilan ovora bo‘lishni bas qiling. CareerOS — karyerangiz operatsion tizimi.',
     items: [
-      { title: 'AI-HR maslahatchi', body: 'Umumiy maslahat emas, balki haqiqiy tavsiyalar va ko‘nikma tahlilini beruvchi karyera yo‘riqnomasi.' },
-      { title: 'Yo‘l xaritasi mexanizmi', body: 'Taraqqiyot halqalari, bosqichlar va 3D yo‘l ko‘rinishi bilan shaxsiy, tahrirlanadigan xaritalar.' },
-      { title: 'O‘quv markazi', body: 'Tanlangan resurslar hamda darslar, testlar va sertifikatlar bilan ichki LMS.' },
-      { title: 'Taraqqiyot tahlili', body: 'Seriyalar, haftalik soatlar, ko‘nikma xaritalari va sur’atingiz haqida AI tahlillari.' },
-      { title: 'Suhbatga tayyorgarlik', body: 'Baholanadigan sinov HR, texnik va xulq-atvor suhbatlari.' },
-      { title: 'Ishga tayyorlik', body: 'Ko‘nikmalar, yo‘l xaritasi, rezyume va suhbatlardan yagona 0–100 ball.' },
+      { title: 'AI-HR maslahatchi', body: 'Jonli tavsiyalar va ko‘nikmalardagi bo‘shliqlarning halol tahlili — qayta yozilgan umumiy maslahat emas.' },
+      { title: 'Yo‘l xaritasi mexanizmi', body: 'Taraqqiyot halqalari, bosqichlar va 3D’da ko‘rinadigan yo‘l bilan shaxsiy, tahrirlanadigan xaritalar.' },
+      { title: 'O‘quv markazi', body: 'Saralangan manbalar va ichki LMS: chindan qadrlanadigan darslar, testlar va sertifikatlar.' },
+      { title: 'Taraqqiyot tahlili', body: 'Seriyalar, haftalik soatlar va ko‘nikma xaritalari, AI esa sur’atingizni o‘qiydi.' },
+      { title: 'Suhbatga tayyorgarlik', body: 'Sinov HR, texnik va xulq-atvor suhbatlari, qadam-baqadam, aniq baho bilan.' },
+      { title: 'Ishga tayyorlik', body: 'Ko‘nikma, xarita, rezyume va suhbatlar bo‘yicha bitta halol 0–100 ball.' },
     ],
   },
   pricing: {
     title: 'Oddiy tariflar',
-    subtitle: 'Bepul boshlang. Ishga joylashishga tayyor bo‘lganingizda yangilang.',
+    subtitle: 'Bepul boshlang. Ishga joylashishga qaror qilgan kuningiz Premium’ga o‘ting.',
     perMonth: '/oy',
     mostPopular: 'Ommabop',
     free: {
       name: 'Bepul',
-      tagline: 'Yo‘lingizni o‘rganishni boshlang',
+      tagline: 'Yo‘nalishingizni toping',
       features: ['AI-HR chat (asosiy)', '1 shaxsiy yo‘l xaritasi', 'O‘quv markaziga kirish', 'Asosiy taraqqiyot kuzatuvi'],
       cta: 'Bepul boshlash',
     },
     premium: {
       name: 'Premium',
-      tagline: 'Ishga joylashish uchun barcha kerakli narsalar',
+      tagline: 'Ishga joylashish uchun barchasi',
       features: ['Cheksiz yo‘l xaritalari', 'Sinov suhbatlari', 'Chuqur ko‘nikma tahlili', 'AI o‘quv tahlillari', 'Rezyume tahlili va tayyorlik', 'Tasdiqlangan sertifikatlar'],
       cta: 'Premiumga o‘tish',
     },
   },
   ctaBand: {
     title: 'Karyerangiz — nihoyat avtopilotda.',
-    subtitle: 'CareerOS ga qo‘shiling va sarosimani orzuingizdagi ishga aniq, kuzatiladigan rejaga aylantiring.',
-    button: 'Boshlash — bu bepul',
+    subtitle: 'Noaniq «qachondir» ni ko‘rinadigan, kuzatib boriladigan va offergacha yetkaziladigan rejaga aylantiring.',
+    button: 'Bepul boshlash — karta shart emas',
   },
   footer: {
-    tagline: 'Flagman demo sifatida yaratilgan.',
+    tagline: 'Birinchi qadamdan birinchi offergacha.',
     rights: 'Barcha huquqlar himoyalangan.',
   },
   ui: {
