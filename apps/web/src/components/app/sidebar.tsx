@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/lib/store';
 import { cn, initials } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { LangSwitcher } from '@/components/ui/lang-switcher';
 
 const nav = [
   { href: '/home', label: 'AI Consultant', icon: MessagesSquare },
@@ -66,7 +68,12 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-4 rounded-2xl border border-border bg-surface-2/50 p-3">
+      <div className="mt-4 flex items-center justify-between gap-2 px-1">
+        <LangSwitcher />
+        <ThemeToggle />
+      </div>
+
+      <div className="mt-3 rounded-2xl border border-border bg-surface-2/50 p-3">
         <div className="flex items-center gap-3">
           <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-semibold text-primary-fg">
             {user ? initials(user.name) : '?'}
