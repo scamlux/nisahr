@@ -168,87 +168,56 @@ html.lenis body {
   background: transparent;
 }
 
-/* ─── Hi-tech surface utilities ─────────────────────────────────────────── */
+/* ─── Landing surface utilities (quiet, Apple-restrained) ───────────────── */
 
-/* Animated technical grid — fades toward the edges via a radial mask. */
-.tech-grid {
+/* Single soft radial wash behind the hero — barely-there depth, no blobs. */
+.hero-wash {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, rgb(var(--border) / 0.5) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--border) / 0.5) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
-  animation: grid-pan 24s linear infinite;
-}
-
-/* Radial spotlight glow behind the hero content. */
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(60% 50% at 50% 30%, rgb(var(--primary) / 0.18), transparent 70%),
-    radial-gradient(45% 40% at 80% 60%, rgb(var(--accent) / 0.12), transparent 70%);
   pointer-events: none;
+  background:
+    radial-gradient(48% 42% at 50% 18%, rgb(var(--primary) / 0.14), transparent 72%),
+    radial-gradient(38% 34% at 82% 42%, rgb(var(--accent) / 0.08), transparent 74%);
 }
 
-/* Animated gradient outline — wrap a card to get a rotating border sheen. */
-.gradient-border {
-  position: relative;
-  isolation: isolate;
-}
-.gradient-border::before {
-  content: '';
+/* Faint dot-grid texture, masked to fade at the edges. Static, calm. */
+.dot-grid {
   position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--angle, 0deg),
-    transparent 0deg,
-    rgb(var(--primary) / 0.7) 90deg,
-    rgb(var(--accent) / 0.7) 180deg,
-    transparent 300deg
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: border-spin 6s linear infinite;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgb(var(--muted) / 0.16) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 100%);
 }
 
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+/* Hairline top-border used to separate large sections without heavy lines. */
+.hairline {
+  border-top: 1px solid rgb(var(--border) / 0.6);
 }
 
-/* Marquee track (tech stack strip). */
-.marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
+/* Elevated content card — soft, precise, no glow kitsch. */
+.tile {
+  border-radius: 1.5rem;
+  border: 1px solid rgb(var(--border) / 0.7);
+  background: linear-gradient(180deg, rgb(var(--surface) / 0.9), rgb(var(--surface) / 0.55));
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
 }
-.marquee-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+.tile:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--primary) / 0.35);
+  box-shadow: 0 24px 60px -32px rgb(0 0 0 / 0.55);
 }
 
-@keyframes grid-pan {
-  to {
-    background-position: 56px 56px;
-  }
-}
-@keyframes border-spin {
-  to {
-    --angle: 360deg;
-  }
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
+/* Soft tinted square that holds a feature icon. */
+.icon-chip {
+  display: grid;
+  place-items: center;
+  border-radius: 0.9rem;
+  background: linear-gradient(160deg, rgb(var(--primary) / 0.16), rgb(var(--accent) / 0.12));
+  color: rgb(var(--primary));
+  border: 1px solid rgb(var(--border) / 0.6);
 }
