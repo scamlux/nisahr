@@ -1,0 +1,342 @@
+// CareerOS — Prisma schema (PostgreSQL)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  PREMIUM
+}
+
+enum ExperienceLevel {
+  BEGINNER
+  JUNIOR
+  MID
+  SENIOR
+}
+
+enum RoadmapStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum StageStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+}
+
+enum SkillStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+}
+
+enum ResourceType {
+  VIDEO
+  ARTICLE
+  YOUTUBE
+  COURSERA
+  UDEMY
+  INTERNAL
+}
+
+enum ProgressEventType {
+  LESSON_DONE
+  SKILL_DONE
+  TASK_DONE
+  STAGE_DONE
+}
+
+enum InterviewType {
+  HR
+  TECHNICAL
+  BEHAVIORAL
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  EXPIRED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(STUDENT)
+  plan         Plan     @default(FREE)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  careerProfile   CareerProfile?
+  chatSessions    ChatSession[]
+  recommendations CareerRecommendation[]
+  roadmaps        Roadmap[]
+  enrollments     Enrollment[]
+  certificates    Certificate[]
+  progressEvents  ProgressEvent[]
+  resumeReviews   ResumeReview[]
+  mockInterviews  MockInterview[]
+  jobReadiness    JobReadiness[]
+  subscription    Subscription?
+  coursesTaught   Course[]               @relation("InstructorCourses")
+}
+
+model CareerProfile {
+  id                  String          @id @default(cuid())
+  userId              String          @unique
+  user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interests           String[]
+  goals               String          @default("")
+  experienceLevel     ExperienceLevel @default(BEGINNER)
+  currentSkills       Json            @default("[]")
+  strengths           String          @default("")
+  weaknesses          String          @default("")
+  preferredWorkStyle  String          @default("")
+  onboardingCompleted Boolean         @default(false)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+model ChatSession {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String        @default("New conversation")
+  createdAt DateTime      @default(now())
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id                String      @id @default(cuid())
+  sessionId         String
+  session           ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role              String // "user" | "assistant"
+  content           String
+  structuredPayload Json?
+  createdAt         DateTime    @default(now())
+}
+
+model CareerRecommendation {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  reason          String
+  entryDifficulty String   @default("MEDIUM")
+  estimatedMonths Int      @default(6)
+  score           Float    @default(50)
+  createdAt       DateTime @default(now())
+}
+
+model Roadmap {
+  id             String         @id @default(cuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetRole     String
+  level          ExperienceLevel @default(BEGINNER)
+  weeklyHours    Int            @default(10)
+  status         RoadmapStatus  @default(ACTIVE)
+  estimatedWeeks Int            @default(12)
+  isAiGenerated  Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  stages         RoadmapStage[]
+}
+
+model RoadmapStage {
+  id          String      @id @default(cuid())
+  roadmapId   String
+  roadmap     Roadmap     @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  order       Int
+  title       String
+  description String      @default("")
+  status      StageStatus @default(NOT_STARTED)
+  milestone   Boolean     @default(false)
+
+  stageSkills RoadmapStageSkill[]
+  resources   LearningResource[]
+  tasks       PracticalTask[]
+}
+
+model Skill {
+  id          String              @id @default(cuid())
+  name        String              @unique
+  category    String              @default("General")
+  stageSkills RoadmapStageSkill[]
+  resources   LearningResource[]
+}
+
+model RoadmapStageSkill {
+  id      String      @id @default(cuid())
+  stageId String
+  stage   RoadmapStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  skillId String
+  skill   Skill        @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  status  SkillStatus  @default(NOT_STARTED)
+
+  @@unique([stageId, skillId])
+}
+
+model LearningResource {
+  id          String       @id @default(cuid())
+  title       String
+  type        ResourceType @default(ARTICLE)
+  url         String
+  provider    String       @default("Internal")
+  durationMin Int          @default(15)
+  skillId     String?
+  skill       Skill?       @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  stageId     String?
+  stage       RoadmapStage? @relation(fields: [stageId], references: [id], onDelete: SetNull)
+}
+
+model PracticalTask {
+  id            String       @id @default(cuid())
+  stageId       String
+  stage         RoadmapStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  title         String
+  description   String       @default("")
+  isAutoChecked Boolean      @default(false)
+  completed     Boolean      @default(false)
+}
+
+model Course {
+  id           String       @id @default(cuid())
+  instructorId String
+  instructor   User         @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
+  title        String
+  description  String       @default("")
+  coverColor   String       @default("#6d5efc")
+  price        Float        @default(0)
+  published    Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  lessons      Lesson[]
+  quizzes      Quiz[]
+  enrollments  Enrollment[]
+  certificates Certificate[]
+}
+
+model Lesson {
+  id        String   @id @default(cuid())
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title     String
+  videoUrl  String   @default("")
+  content   String   @default("")
+  order     Int      @default(0)
+  durationMin Int    @default(10)
+}
+
+model Quiz {
+  id        String         @id @default(cuid())
+  courseId  String
+  course    Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title     String
+  questions QuizQuestion[]
+}
+
+model QuizQuestion {
+  id           String @id @default(cuid())
+  quizId       String
+  quiz         Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  prompt       String
+  options      Json // string[]
+  correctIndex Int
+}
+
+model Enrollment {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progressPct Float    @default(0)
+  completedLessonIds Json @default("[]")
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, courseId])
+}
+
+model Certificate {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  issuedAt  DateTime @default(now())
+  serial    String   @unique @default(cuid())
+
+  @@unique([userId, courseId])
+}
+
+model ProgressEvent {
+  id         String            @id @default(cuid())
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       ProgressEventType
+  refId      String?
+  hoursSpent Float             @default(1)
+  createdAt  DateTime          @default(now())
+}
+
+model ResumeReview {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileUrl     String   @default("")
+  parsedText  String   @default("")
+  score       Float    @default(0)
+  strengths   String[]
+  gaps        String[]
+  suggestions String[]
+  createdAt   DateTime @default(now())
+}
+
+model MockInterview {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       InterviewType @default(HR)
+  targetRole String        @default("")
+  transcript Json          @default("[]")
+  feedback   String        @default("")
+  score      Float         @default(0)
+  completed  Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+}
+
+model JobReadiness {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetRole String
+  score      Float    @default(0)
+  breakdown  Json     @default("{}")
+  createdAt  DateTime @default(now())
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  userId    String             @unique
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      Plan               @default(FREE)
+  status    SubscriptionStatus @default(ACTIVE)
+  startedAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
