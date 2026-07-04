@@ -88,9 +88,6 @@ const en = {
     subtitle: 'Join CareerOS and turn confusion into a clear, trackable plan toward the job you want.',
     button: 'Get started — it’s free',
   },
-  marquee: {
-    label: 'Powered by a modern learning stack',
-  },
   footer: {
     tagline: 'Built as a flagship demo.',
     rights: 'All rights reserved.',
@@ -179,9 +176,6 @@ const ru: Dict = {
     subtitle: 'Присоединяйтесь к CareerOS и превратите растерянность в чёткий, отслеживаемый план к желаемой работе.',
     button: 'Начать — это бесплатно',
   },
-  marquee: {
-    label: 'На основе современного стека обучения',
-  },
   footer: {
     tagline: 'Создано как флагманское демо.',
     rights: 'Все права защищены.',
@@ -267,9 +261,6 @@ const uz: Dict = {
     title: 'Karyerangiz — nihoyat avtopilotda.',
     subtitle: 'CareerOS ga qo‘shiling va sarosimani orzuingizdagi ishga aniq, kuzatiladigan rejaga aylantiring.',
     button: 'Boshlash — bu bepul',
-  },
-  marquee: {
-    label: 'Zamonaviy o‘quv steki asosida',
   },
   footer: {
     tagline: 'Flagman demo sifatida yaratilgan.',
