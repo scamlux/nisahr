@@ -15,7 +15,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { SmoothScroll } from '@/components/smooth-scroll';
-import { HeroCanvas } from '@/components/three/hero-canvas';
+import { CosmicBackground } from '@/components/three/cosmic-background';
 import { LandingNav } from '@/components/marketing/landing-nav';
 import { Reveal, RevealGroup, RevealItem } from '@/components/ui/reveal';
 import { AnimatedNumber } from '@/components/ui/animated-number';
@@ -82,11 +82,7 @@ export default function LandingPage() {
         className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden px-6 pt-32 text-center"
       >
         <motion.div style={{ y: ambientY, scale: ambientScale }} className="absolute inset-0 -z-10">
-          <div className="hero-wash" />
-          <div className="dot-grid opacity-70" />
-          <div className="absolute inset-0 opacity-[0.55]">
-            <HeroCanvas />
-          </div>
+          <CosmicBackground />
         </motion.div>
 
         <motion.div style={{ y: contentY, opacity: contentOpacity }}>
