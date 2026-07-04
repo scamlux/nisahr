@@ -1,7 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { Compass } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 export default function NotFound() {
+  const { t } = useI18n();
   return (
     <div className="grid min-h-screen place-items-center p-6 text-center">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -12,8 +16,8 @@ export default function NotFound() {
           <Compass className="h-8 w-8" />
         </div>
         <h1 className="font-display text-7xl font-bold gradient-text">404</h1>
-        <p className="mt-2 text-muted">This path isn’t on your roadmap yet.</p>
-        <Link href="/" className="btn-primary mt-6">Back to CareerOS</Link>
+        <p className="mt-2 text-muted">{t.pages.app.notFoundBody}</p>
+        <Link href="/" className="btn-primary mt-6">{t.pages.app.notFoundCta}</Link>
       </div>
     </div>
   );

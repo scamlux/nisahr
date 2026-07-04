@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Compass } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 export function AuthShell({
   title,
@@ -15,6 +16,8 @@ export function AuthShell({
   children: React.ReactNode;
   footer: React.ReactNode;
 }) {
+  const { t } = useI18n();
+
   return (
     <div className="relative grid min-h-screen lg:grid-cols-2">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -32,15 +35,15 @@ export function AuthShell({
         </Link>
         <div>
           <h2 className="font-display text-4xl font-bold leading-tight">
-            Your career,
+            {t.pages.auth.heroTitleLine1}
             <br />
-            <span className="gradient-text">finally clear.</span>
+            <span className="gradient-text">{t.pages.auth.heroTitleLine2}</span>
           </h2>
           <p className="mt-4 max-w-sm text-muted">
-            One platform to discover your path, build the right skills and land the job.
+            {t.pages.auth.heroSubtitle}
           </p>
         </div>
-        <p className="text-sm text-muted">© 2026 CareerOS</p>
+        <p className="text-sm text-muted">{t.pages.auth.copyrightText}</p>
       </div>
 
       {/* Right: form */}

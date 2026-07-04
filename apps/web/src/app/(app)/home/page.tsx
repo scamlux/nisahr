@@ -7,6 +7,7 @@ import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/lib/i18n';
 import type { CareerStructuredPayload } from '@careeros/shared';
 
 interface Msg {
@@ -16,20 +17,21 @@ interface Msg {
   structuredPayload?: CareerStructuredPayload | null;
 }
 
-const SUGGESTIONS = [
-  'I like design and building things — what fits me?',
-  'How do I become a frontend developer?',
-  'What skills am I missing for data analysis?',
-  'Help me choose between backend and AI engineering',
-];
-
 export default function HomePage() {
+  const { t } = useI18n();
   const user = useAuth((s) => s.user);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const suggestions = [
+    t.pages.home.suggestion1,
+    t.pages.home.suggestion2,
+    t.pages.home.suggestion3,
+    t.pages.home.suggestion4,
+  ];
 
   useEffect(() => {
     (async () => {
@@ -45,7 +47,7 @@ export default function HomePage() {
           setSessionId(created.data.id);
         }
       } catch (err) {
-        toast.error(apiError(err, 'Could not load chat'));
+        toast.error(apiError(err, t.pages.home.toastLoadFailed));
       }
     })();
   }, []);
@@ -64,7 +66,7 @@ export default function HomePage() {
       const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, { content: text });
       setMessages((m) => [...m, data]);
     } catch (err) {
-      toast.error(apiError(err, 'Message failed'));
+      toast.error(apiError(err, t.pages.home.toastMessageFailed));
     } finally {
       setTyping(false);
     }
@@ -80,8 +82,8 @@ export default function HomePage() {
           <Sparkles className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="font-display text-lg font-bold leading-tight">AI Career Consultant</h1>
-          <p className="text-xs text-muted">Your personal AI-HR — ask anything about your path</p>
+          <h1 className="font-display text-lg font-bold leading-tight">{t.pages.home.headerTitle}</h1>
+          <p className="text-xs text-muted">{t.pages.home.headerSubtitle}</p>
         </div>
       </div>
 
@@ -97,13 +99,13 @@ export default function HomePage() {
               <Compass className="h-8 w-8" />
             </motion.div>
             <h2 className="font-display text-xl font-semibold">
-              Hi {user?.name.split(' ')[0]}, where do you want to go?
+              {t.pages.home.greetingHi} {user?.name.split(' ')[0]}, {t.pages.home.greetingRest}
             </h2>
             <p className="mt-1 max-w-sm text-sm text-muted">
-              Tell me about your interests and goals. I’ll recommend roles and show your skill gaps.
+              {t.pages.home.heroSubtitle}
             </p>
             <div className="mt-6 grid w-full max-w-lg gap-2 sm:grid-cols-2">
-              {SUGGESTIONS.map((s) => (
+              {suggestions.map((s) => (
                 <button
                   key={s}
                   onClick={() => send(s)}
@@ -167,7 +169,7 @@ export default function HomePage() {
       >
         <input
           className="input flex-1"
-          placeholder="Ask your AI career consultant…"
+          placeholder={t.pages.home.composerPlaceholder}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
@@ -180,6 +182,7 @@ export default function HomePage() {
 }
 
 function StructuredPanel({ payload }: { payload: CareerStructuredPayload }) {
+  const { t } = useI18n();
   // CSS animation (not Framer) so the panel always reveals, even when its
   // message is loaded from history rather than mounted live.
   return (
@@ -187,18 +190,18 @@ function StructuredPanel({ payload }: { payload: CareerStructuredPayload }) {
       {payload.recommendations && payload.recommendations.length > 0 && (
         <div className="space-y-2">
           <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted">
-            <Target className="h-3.5 w-3.5" /> Recommended roles
+            <Target className="h-3.5 w-3.5" /> {t.pages.home.recommendedRoles}
           </p>
           {payload.recommendations.map((r) => (
             <div key={r.title} className="rounded-xl border border-border bg-surface/60 p-3">
               <div className="flex items-center justify-between">
                 <span className="font-medium">{r.title}</span>
-                <span className="chip border-primary/30 bg-primary/10 text-primary">{Math.round(r.score)}% match</span>
+                <span className="chip border-primary/30 bg-primary/10 text-primary">{Math.round(r.score)}% {t.pages.home.matchSuffix}</span>
               </div>
               <p className="mt-1 text-xs text-muted">{r.reason}</p>
               <div className="mt-2 flex gap-3 text-[11px] text-muted">
-                <span>~{r.estimatedMonths} mo</span>
-                <span>Entry: {r.entryDifficulty}</span>
+                <span>~{r.estimatedMonths} {t.pages.home.monthsSuffix}</span>
+                <span>{t.pages.home.entryLabel} {r.entryDifficulty}</span>
               </div>
             </div>
           ))}
@@ -207,7 +210,7 @@ function StructuredPanel({ payload }: { payload: CareerStructuredPayload }) {
       {payload.skillGaps && payload.skillGaps.length > 0 && (
         <div>
           <p className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted">
-            <TrendingUp className="h-3.5 w-3.5" /> Skill gaps to close
+            <TrendingUp className="h-3.5 w-3.5" /> {t.pages.home.skillGapsToClose}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {payload.skillGaps.map((g) => (

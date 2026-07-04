@@ -9,19 +9,19 @@ import {
 } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
+import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { ProgressRing } from '@/components/ui/progress-ring';
 import { PremiumGate } from '@/components/app/premium-gate';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
-const ROLES = ['Frontend Developer', 'Backend Developer', 'Product Manager', 'UI/UX Designer', 'Data Analyst', 'QA Engineer', 'AI Engineer'];
-
 export default function CareerPage() {
+  const { t } = useI18n();
   const isPremium = useAuth((s) => s.user?.plan) === 'PREMIUM';
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 lg:px-8">
-      <PageHeader title="Career Preparation" subtitle="Sharpen your resume, rehearse interviews and measure your readiness." />
+      <PageHeader title={t.pages.career.pageTitle} subtitle={t.pages.career.pageSubtitle} />
       <div className="space-y-8">
         <ResumeReview />
         <MockInterview locked={!isPremium} />
@@ -33,6 +33,16 @@ export default function CareerPage() {
 
 /* ------------------------------ Resume ------------------------------ */
 function ResumeReview() {
+  const { t } = useI18n();
+  const ROLE_OPTIONS = [
+    { value: 'Frontend Developer', label: t.pages.career.roleFrontendDeveloper },
+    { value: 'Backend Developer', label: t.pages.career.roleBackendDeveloper },
+    { value: 'Product Manager', label: t.pages.career.roleProductManager },
+    { value: 'UI/UX Designer', label: t.pages.career.roleUiUxDesigner },
+    { value: 'Data Analyst', label: t.pages.career.roleDataAnalyst },
+    { value: 'QA Engineer', label: t.pages.career.roleQaEngineer },
+    { value: 'AI Engineer', label: t.pages.career.roleAiEngineer },
+  ];
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState('');
   const [text, setText] = useState('');
@@ -44,7 +54,7 @@ function ResumeReview() {
 
   async function review() {
     if (!fileRef.current && !text.trim()) {
-      toast.error('Upload a file or paste your resume text');
+      toast.error(t.pages.career.resumeUploadRequired);
       return;
     }
     setLoading(true);
@@ -55,14 +65,14 @@ function ResumeReview() {
       form.append('targetRole', targetRole);
       const { data } = await api.post('/resume/review', form, { headers: { 'Content-Type': 'multipart/form-data' } });
       setResult(data);
-      toast.success('Resume analyzed');
+      toast.success(t.pages.career.resumeAnalyzed);
     } catch (err) { toast.error(apiError(err)); } finally { setLoading(false); }
   }
 
   return (
     <section className="card p-6">
-      <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><FileText className="h-5 w-5 text-primary" /> Resume Review</h2>
-      <p className="mb-5 text-sm text-muted">Upload a PDF/DOCX or paste your resume — get a score, strengths, gaps and suggestions.</p>
+      <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><FileText className="h-5 w-5 text-primary" /> {t.pages.career.resumeReviewTitle}</h2>
+      <p className="mb-5 text-sm text-muted">{t.pages.career.resumeReviewSubtitle}</p>
 
       <div className="grid gap-4 md:grid-cols-2">
         <div>
@@ -78,17 +88,17 @@ function ResumeReview() {
             className={cn('flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-8 text-center transition-colors', dragging ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50')}
           >
             <Upload className="mb-2 h-7 w-7 text-muted" />
-            <p className="text-sm font-medium">{fileName || 'Drop your resume or click to browse'}</p>
-            <p className="mt-1 text-xs text-muted">PDF, DOCX or TXT</p>
+            <p className="text-sm font-medium">{fileName || t.pages.career.resumeDropHint}</p>
+            <p className="mt-1 text-xs text-muted">{t.pages.career.resumeFileTypes}</p>
             <input ref={inputRef} type="file" accept=".pdf,.docx,.txt" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) { fileRef.current = f; setFileName(f.name); } }} />
           </div>
-          <textarea className="input mt-3 min-h-[80px] resize-none" placeholder="…or paste your resume text here" value={text} onChange={(e) => setText(e.target.value)} />
+          <textarea className="input mt-3 min-h-[80px] resize-none" placeholder={t.pages.career.resumePastePlaceholder} value={text} onChange={(e) => setText(e.target.value)} />
           <div className="mt-3 flex gap-2">
             <select className="input" value={targetRole} onChange={(e) => setTargetRole(e.target.value)}>
-              {ROLES.map((r) => <option key={r}>{r}</option>)}
+              {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
             </select>
             <button className="btn-primary shrink-0" onClick={review} disabled={loading}>
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Analyze'}
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.analyzeButton}
             </button>
           </div>
         </div>
@@ -97,7 +107,7 @@ function ResumeReview() {
           {result ? (
             <motion.div key="res" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="rounded-2xl border border-border bg-surface-2/40 p-5">
               <div className="flex items-center gap-4">
-                <ProgressRing value={result.score} size={88} stroke={8} sublabel="score" />
+                <ProgressRing value={result.score} size={88} stroke={8} sublabel={t.pages.career.sublabelScore} />
                 <div className="space-y-2 text-sm">
                   {result.strengths?.map((s: string) => (
                     <p key={s} className="flex items-start gap-2 text-success"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0" />{s}</p>
@@ -121,7 +131,7 @@ function ResumeReview() {
             </motion.div>
           ) : (
             <div className="grid place-items-center rounded-2xl border border-border bg-surface-2/30 p-8 text-center text-sm text-muted">
-              Your analysis will appear here.
+              {t.pages.career.resumeEmptyState}
             </div>
           )}
         </AnimatePresence>
@@ -132,6 +142,21 @@ function ResumeReview() {
 
 /* --------------------------- Mock Interview ------------------------- */
 function MockInterview({ locked }: { locked: boolean }) {
+  const { t } = useI18n();
+  const ROLE_OPTIONS = [
+    { value: 'Frontend Developer', label: t.pages.career.roleFrontendDeveloper },
+    { value: 'Backend Developer', label: t.pages.career.roleBackendDeveloper },
+    { value: 'Product Manager', label: t.pages.career.roleProductManager },
+    { value: 'UI/UX Designer', label: t.pages.career.roleUiUxDesigner },
+    { value: 'Data Analyst', label: t.pages.career.roleDataAnalyst },
+    { value: 'QA Engineer', label: t.pages.career.roleQaEngineer },
+    { value: 'AI Engineer', label: t.pages.career.roleAiEngineer },
+  ];
+  const TYPE_OPTIONS = [
+    { value: 'HR', label: t.pages.career.typeHr },
+    { value: 'TECHNICAL', label: t.pages.career.typeTechnical },
+    { value: 'BEHAVIORAL', label: t.pages.career.typeBehavioral },
+  ];
   const qc = useQueryClient();
   const [type, setType] = useState('HR');
   const [targetRole, setTargetRole] = useState('Frontend Developer');
@@ -151,8 +176,8 @@ function MockInterview({ locked }: { locked: boolean }) {
   if (locked) {
     return (
       <section>
-        <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-semibold"><Mic className="h-5 w-5 text-primary" /> Mock Interview <Crown className="h-4 w-4 text-warning" /></h2>
-        <PremiumGate feature="Mock interviews" />
+        <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-semibold"><Mic className="h-5 w-5 text-primary" /> {t.pages.career.mockInterviewTitle} <Crown className="h-4 w-4 text-warning" /></h2>
+        <PremiumGate feature={t.pages.career.mockInterviewFeature} />
       </section>
     );
   }
@@ -189,15 +214,15 @@ function MockInterview({ locked }: { locked: boolean }) {
   return (
     <section className="card p-6">
       <div className="mb-1 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2 font-display text-lg font-semibold"><Mic className="h-5 w-5 text-primary" /> Mock Interview</h2>
+        <h2 className="flex items-center gap-2 font-display text-lg font-semibold"><Mic className="h-5 w-5 text-primary" /> {t.pages.career.mockInterviewTitle}</h2>
         {!state && !reportId && (
           <button onClick={() => setShowHistory((s) => !s)} className="btn-ghost !px-3 !py-1.5 text-xs">
-            <History className="h-3.5 w-3.5" /> Past interviews
+            <History className="h-3.5 w-3.5" /> {t.pages.career.pastInterviewsButton}
             <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', showHistory && 'rotate-180')} />
           </button>
         )}
       </div>
-      <p className="mb-5 text-sm text-muted">Turn-based HR, technical or behavioral interview with a scored report you can revisit.</p>
+      <p className="mb-5 text-sm text-muted">{t.pages.career.mockInterviewSubtitle}</p>
 
       {reportId ? (
         <ReportView id={reportId} onNew={reset} />
@@ -208,16 +233,16 @@ function MockInterview({ locked }: { locked: boolean }) {
               <p className="rounded-2xl border border-border bg-surface-2/60 px-4 py-3 text-sm">{h.q}</p>
               <p className="ml-auto max-w-[85%] rounded-2xl bg-primary px-4 py-3 text-sm text-primary-fg">{h.a}</p>
               <div className="flex items-center gap-2 text-xs">
-                <span className="chip border-accent/30 bg-accent/10 text-accent">Score {h.score}</span>
+                <span className="chip border-accent/30 bg-accent/10 text-accent">{t.pages.career.scoreLabel} {h.score}</span>
                 <span className="text-muted">{h.feedback}</span>
               </div>
             </div>
           ))}
           <p className="rounded-2xl border border-border bg-surface-2/60 px-4 py-3 text-sm font-medium">
-            Q{state.currentIndex + 1}/{state.totalQuestions}: {state.question}
+            {t.pages.career.questionAbbr}{state.currentIndex + 1}/{state.totalQuestions}: {state.question}
           </p>
           <div className="flex gap-2">
-            <textarea className="input min-h-[60px] resize-none" placeholder="Type your answer…" value={answer} onChange={(e) => setAnswer(e.target.value)} />
+            <textarea className="input min-h-[60px] resize-none" placeholder={t.pages.career.typeAnswerPlaceholder} value={answer} onChange={(e) => setAnswer(e.target.value)} />
             <button className="btn-primary shrink-0 self-end" onClick={submit} disabled={loading || !answer.trim()}>
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </button>
@@ -227,18 +252,18 @@ function MockInterview({ locked }: { locked: boolean }) {
         <div className="space-y-4">
           <div className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="mb-1.5 block text-xs text-muted">Type</label>
+              <label className="mb-1.5 block text-xs text-muted">{t.pages.career.typeLabel}</label>
               <div className="flex gap-2">
-                {['HR', 'TECHNICAL', 'BEHAVIORAL'].map((t) => (
-                  <button key={t} onClick={() => setType(t)} className={cn('rounded-lg border px-3 py-2 text-xs font-medium', type === t ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted')}>{t}</button>
+                {TYPE_OPTIONS.map((opt) => (
+                  <button key={opt.value} onClick={() => setType(opt.value)} className={cn('rounded-lg border px-3 py-2 text-xs font-medium', type === opt.value ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted')}>{opt.label}</button>
                 ))}
               </div>
             </div>
             <select className="input max-w-[200px]" value={targetRole} onChange={(e) => setTargetRole(e.target.value)}>
-              {ROLES.map((r) => <option key={r}>{r}</option>)}
+              {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
             </select>
             <button className="btn-primary" onClick={start} disabled={loading}>
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Start interview'}
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.startInterviewButton}
             </button>
           </div>
 
@@ -250,7 +275,7 @@ function MockInterview({ locked }: { locked: boolean }) {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
               >
-                <p className="mb-2 mt-2 text-xs font-medium uppercase tracking-wide text-muted">Your past interviews</p>
+                <p className="mb-2 mt-2 text-xs font-medium uppercase tracking-wide text-muted">{t.pages.career.pastInterviewsHeading}</p>
                 {historyQuery.isLoading ? (
                   <div className="py-4 text-center"><Loader2 className="mx-auto h-4 w-4 animate-spin text-primary" /></div>
                 ) : historyQuery.data?.length ? (
@@ -264,7 +289,7 @@ function MockInterview({ locked }: { locked: boolean }) {
                         <div>
                           <p className="text-sm font-medium">{h.type} · {h.targetRole}</p>
                           <p className="text-xs text-muted">
-                            {new Date(h.createdAt).toLocaleDateString()} · {h.answered}/{h.total} answered · {h.completed ? 'completed' : 'in progress'}
+                            {new Date(h.createdAt).toLocaleDateString()} · {h.answered}/{h.total} {t.pages.career.answeredLabel} · {h.completed ? t.pages.career.completedStatus : t.pages.career.inProgressStatus}
                           </p>
                         </div>
                         <span className={cn('chip', h.completed ? 'border-primary/30 bg-primary/10 text-primary' : 'border-border text-muted')}>
@@ -274,7 +299,7 @@ function MockInterview({ locked }: { locked: boolean }) {
                     ))}
                   </div>
                 ) : (
-                  <p className="py-3 text-sm text-muted">No past interviews yet — start one above.</p>
+                  <p className="py-3 text-sm text-muted">{t.pages.career.noPastInterviews}</p>
                 )}
               </motion.div>
             )}
@@ -287,6 +312,7 @@ function MockInterview({ locked }: { locked: boolean }) {
 
 /* --------------------- Saved Interview Report ----------------------- */
 function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
+  const { t } = useI18n();
   const { data, isLoading } = useQuery({
     queryKey: ['interview-report', id],
     queryFn: async () => (await api.get(`/interview/${id}`)).data,
@@ -298,11 +324,11 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
 
   const r = data.report;
   const dims = [
-    { label: 'Communication', value: r.breakdown.communication },
-    { label: 'Specificity', value: r.breakdown.specificity },
-    { label: 'Structure', value: r.breakdown.structure },
+    { label: t.pages.career.dimCommunication, value: r.breakdown.communication },
+    { label: t.pages.career.dimSpecificity, value: r.breakdown.specificity },
+    { label: t.pages.career.dimStructure, value: r.breakdown.structure },
   ];
-  const verdict = r.overall >= 80 ? 'Interview-ready' : r.overall >= 60 ? 'Solid — keep polishing' : 'Needs more practice';
+  const verdict = r.overall >= 80 ? t.pages.career.verdictReady : r.overall >= 60 ? t.pages.career.verdictSolid : t.pages.career.verdictNeedsPractice;
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
@@ -312,10 +338,10 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
           <div>
             <div className="flex items-center gap-2">
               <Trophy className="h-5 w-5 text-warning" />
-              <span className="font-display text-lg font-semibold">Interview Report</span>
+              <span className="font-display text-lg font-semibold">{t.pages.career.interviewReportTitle}</span>
             </div>
             <p className="mt-0.5 text-xs text-muted">
-              {data.type} · {data.targetRole} · {new Date(data.createdAt).toLocaleDateString()} · {r.answered}/{r.total} answered
+              {data.type} · {data.targetRole} · {new Date(data.createdAt).toLocaleDateString()} · {r.answered}/{r.total} {t.pages.career.answeredLabel}
             </p>
           </div>
           <div className="text-right">
@@ -348,7 +374,7 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
       {/* strengths + improvements */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-2xl border border-success/30 bg-success/5 p-4">
-          <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-success"><Check className="h-4 w-4" /> Strengths</p>
+          <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-success"><Check className="h-4 w-4" /> {t.pages.career.strengthsLabel}</p>
           <ul className="space-y-1.5">
             {r.strengths.length ? r.strengths.map((s: string) => (
               <li key={s} className="text-sm text-muted">{s}</li>
@@ -356,7 +382,7 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
           </ul>
         </div>
         <div className="rounded-2xl border border-warning/30 bg-warning/5 p-4">
-          <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-warning"><Lightbulb className="h-4 w-4" /> Improve next time</p>
+          <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-warning"><Lightbulb className="h-4 w-4" /> {t.pages.career.improveNextTimeLabel}</p>
           <ul className="space-y-1.5">
             {r.improvements.length ? r.improvements.map((s: string) => (
               <li key={s} className="text-sm text-muted">{s}</li>
@@ -367,20 +393,20 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
 
       {/* transcript */}
       <details className="rounded-2xl border border-border bg-surface-2/30 p-4">
-        <summary className="cursor-pointer select-none text-sm font-medium">View full transcript</summary>
+        <summary className="cursor-pointer select-none text-sm font-medium">{t.pages.career.viewTranscript}</summary>
         <div className="mt-3 space-y-4">
-          {data.transcript.map((t: any, i: number) => (
+          {data.transcript.map((qa: any, i: number) => (
             <div key={i} className="space-y-1.5">
-              <p className="text-sm font-medium">Q{i + 1}. {t.question}</p>
-              {t.answer ? (
-                <p className="rounded-lg bg-surface-2/60 px-3 py-2 text-sm text-muted">{t.answer}</p>
+              <p className="text-sm font-medium">{t.pages.career.questionAbbr}{i + 1}. {qa.question}</p>
+              {qa.answer ? (
+                <p className="rounded-lg bg-surface-2/60 px-3 py-2 text-sm text-muted">{qa.answer}</p>
               ) : (
-                <p className="text-xs italic text-muted">— not answered —</p>
+                <p className="text-xs italic text-muted">{t.pages.career.notAnswered}</p>
               )}
-              {typeof t.score === 'number' && (
+              {typeof qa.score === 'number' && (
                 <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="chip border-accent/30 bg-accent/10 text-accent">Score {t.score}</span>
-                  <span className="text-muted">{t.feedback}</span>
+                  <span className="chip border-accent/30 bg-accent/10 text-accent">{t.pages.career.scoreLabel} {qa.score}</span>
+                  <span className="text-muted">{qa.feedback}</span>
                 </div>
               )}
             </div>
@@ -389,8 +415,8 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
       </details>
 
       <div className="flex gap-2">
-        <button className="btn-primary" onClick={onNew}><RotateCcw className="h-4 w-4" /> New interview</button>
-        <button className="btn-ghost" onClick={onNew}><ArrowLeft className="h-4 w-4" /> Back</button>
+        <button className="btn-primary" onClick={onNew}><RotateCcw className="h-4 w-4" /> {t.pages.career.newInterviewButton}</button>
+        <button className="btn-ghost" onClick={onNew}><ArrowLeft className="h-4 w-4" /> {t.pages.career.backButton}</button>
       </div>
     </motion.div>
   );
@@ -398,6 +424,16 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
 
 /* --------------------------- Job Readiness -------------------------- */
 function JobReadiness({ locked }: { locked: boolean }) {
+  const { t } = useI18n();
+  const ROLE_OPTIONS = [
+    { value: 'Frontend Developer', label: t.pages.career.roleFrontendDeveloper },
+    { value: 'Backend Developer', label: t.pages.career.roleBackendDeveloper },
+    { value: 'Product Manager', label: t.pages.career.roleProductManager },
+    { value: 'UI/UX Designer', label: t.pages.career.roleUiUxDesigner },
+    { value: 'Data Analyst', label: t.pages.career.roleDataAnalyst },
+    { value: 'QA Engineer', label: t.pages.career.roleQaEngineer },
+    { value: 'AI Engineer', label: t.pages.career.roleAiEngineer },
+  ];
   const [role, setRole] = useState('Frontend Developer');
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -405,8 +441,8 @@ function JobReadiness({ locked }: { locked: boolean }) {
   if (locked) {
     return (
       <section>
-        <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> Job Readiness <Crown className="h-4 w-4 text-warning" /></h2>
-        <PremiumGate feature="Job readiness score" />
+        <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle} <Crown className="h-4 w-4 text-warning" /></h2>
+        <PremiumGate feature={t.pages.career.jobReadinessFeature} />
       </section>
     );
   }
@@ -420,29 +456,29 @@ function JobReadiness({ locked }: { locked: boolean }) {
   }
 
   const bars = data ? [
-    { label: 'Skills coverage', value: data.breakdown.skillsCoverage },
-    { label: 'Roadmap progress', value: data.breakdown.roadmapProgress },
-    { label: 'Resume score', value: data.breakdown.resumeScore },
-    { label: 'Interview score', value: data.breakdown.interviewScore },
+    { label: t.pages.career.skillsCoverageLabel, value: data.breakdown.skillsCoverage },
+    { label: t.pages.career.roadmapProgressLabel, value: data.breakdown.roadmapProgress },
+    { label: t.pages.career.resumeScoreLabel, value: data.breakdown.resumeScore },
+    { label: t.pages.career.interviewScoreLabel, value: data.breakdown.interviewScore },
   ] : [];
 
   return (
     <section className="card p-6">
-      <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> Job Readiness</h2>
-      <p className="mb-5 text-sm text-muted">A single 0–100 score from your skills, roadmap, resume and interviews.</p>
+      <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle}</h2>
+      <p className="mb-5 text-sm text-muted">{t.pages.career.jobReadinessSubtitle}</p>
       <div className="flex flex-wrap items-end gap-3">
         <select className="input max-w-[220px]" value={role} onChange={(e) => setRole(e.target.value)}>
-          {ROLES.map((r) => <option key={r}>{r}</option>)}
+          {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
         </select>
         <button className="btn-primary" onClick={compute} disabled={loading}>
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Compute score'}
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.computeScoreButton}
         </button>
       </div>
 
       {data && (
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
           <div className="grid place-items-center">
-            <ProgressRing value={data.score} size={150} stroke={12} sublabel="ready" />
+            <ProgressRing value={data.score} size={150} stroke={12} sublabel={t.pages.career.sublabelReady} />
           </div>
           <div className="space-y-3">
             {bars.map((b) => (

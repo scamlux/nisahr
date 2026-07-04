@@ -3,6 +3,8 @@
  * Keys are shared 1:1 across locales — `en` is the canonical shape.
  */
 
+import { pagesEn, pagesRu, pagesUz } from './i18n-pages';
+
 export const LOCALES = ['ru', 'uz', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -98,6 +100,7 @@ const en = {
     darkMode: 'Dark mode',
     language: 'Language',
   },
+  pages: pagesEn,
 };
 
 type Dict = typeof en;
@@ -188,6 +191,7 @@ const ru: Dict = {
     darkMode: 'Тёмная тема',
     language: 'Язык',
   },
+  pages: pagesRu,
 };
 
 const uz: Dict = {
@@ -276,6 +280,7 @@ const uz: Dict = {
     darkMode: 'Qorong‘i rejim',
     language: 'Til',
   },
+  pages: pagesUz,
 };
 
 export const dictionaries: Record<Locale, Dict> = { ru, uz, en };
