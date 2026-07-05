@@ -3,35 +3,36 @@
 @tailwind utilities;
 
 :root {
-  /* Dark theme (default) — refined cool neutrals + indigo/violet accent */
-  --bg: 8 9 14;
-  --surface: 16 18 27;
-  --surface-2: 22 25 38;
-  --border: 40 44 62;
-  --fg: 233 236 245;
-  --muted: 148 154 176;
-  --primary: 124 108 255;
+  /* Dark theme (default) — warm charcoal + terracotta accent (claude.ai-like) */
+  --bg: 30 30 28;
+  --surface: 38 38 35;
+  --surface-2: 47 46 43;
+  --border: 62 60 55;
+  --fg: 236 232 223;
+  --muted: 162 157 146;
+  --primary: 217 119 87;
   --primary-fg: 255 255 255;
-  --accent: 64 214 196;
-  --success: 52 199 123;
-  --warning: 240 176 64;
-  --danger: 244 96 96;
+  --accent: 230 150 110;
+  --success: 106 178 122;
+  --warning: 224 176 92;
+  --danger: 226 110 92;
 
   --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-display: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
 .light {
-  --bg: 247 248 251;
+  /* Light theme — warm paper + terracotta (claude.ai default look) */
+  --bg: 250 249 245;
   --surface: 255 255 255;
-  --surface-2: 244 246 250;
-  --border: 224 228 238;
-  --fg: 18 22 34;
-  --muted: 96 104 128;
-  --primary: 96 80 240;
+  --surface-2: 240 238 230;
+  --border: 232 228 217;
+  --fg: 45 43 38;
+  --muted: 108 106 95;
+  --primary: 190 88 58;
   --primary-fg: 255 255 255;
-  --accent: 20 168 150;
+  --accent: 200 90 58;
 }
 
 * {
@@ -166,58 +167,4 @@ html.lenis body {
 }
 ::-webkit-scrollbar-track {
   background: transparent;
-}
-
-/* ─── Landing surface utilities (quiet, Apple-restrained) ───────────────── */
-
-/* Single soft radial wash behind the hero — barely-there depth, no blobs. */
-.hero-wash {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(48% 42% at 50% 18%, rgb(var(--primary) / 0.14), transparent 72%),
-    radial-gradient(38% 34% at 82% 42%, rgb(var(--accent) / 0.08), transparent 74%);
-}
-
-/* Faint dot-grid texture, masked to fade at the edges. Static, calm. */
-.dot-grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(rgb(var(--muted) / 0.16) 1px, transparent 1px);
-  background-size: 28px 28px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 100%);
-}
-
-/* Hairline top-border used to separate large sections without heavy lines. */
-.hairline {
-  border-top: 1px solid rgb(var(--border) / 0.6);
-}
-
-/* Elevated content card — soft, precise, no glow kitsch. */
-.tile {
-  border-radius: 1.5rem;
-  border: 1px solid rgb(var(--border) / 0.7);
-  background: linear-gradient(180deg, rgb(var(--surface) / 0.9), rgb(var(--surface) / 0.55));
-  transition:
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
-}
-.tile:hover {
-  transform: translateY(-4px);
-  border-color: rgb(var(--primary) / 0.35);
-  box-shadow: 0 24px 60px -32px rgb(0 0 0 / 0.55);
-}
-
-/* Soft tinted square that holds a feature icon. */
-.icon-chip {
-  display: grid;
-  place-items: center;
-  border-radius: 0.9rem;
-  background: linear-gradient(160deg, rgb(var(--primary) / 0.16), rgb(var(--accent) / 0.12));
-  color: rgb(var(--primary));
-  border: 1px solid rgb(var(--border) / 0.6);
 }
