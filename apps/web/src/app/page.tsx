@@ -17,6 +17,7 @@ import { SmoothScroll } from '@/components/smooth-scroll';
 import { LandingNav } from '@/components/marketing/landing-nav';
 import { Reveal, RevealGroup, RevealItem } from '@/components/ui/reveal';
 import { AnimatedNumber } from '@/components/ui/animated-number';
+import { WordsReveal } from '@/components/ui/animated-text';
 import { useI18n } from '@/lib/i18n';
 
 const stepIcons = [MessagesSquare, Map, GraduationCap];
@@ -65,21 +66,23 @@ export default function LandingPage() {
           <Sparkles className="h-3.5 w-3.5 text-primary" /> {t.hero.badge}
         </motion.span>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] sm:text-6xl"
-        >
-          {t.hero.from} <span className="text-muted">{t.hero.titleQuestion}</span>
-          <br />
-          {t.hero.to} <span className="text-primary">{t.hero.titleAnswer}</span>
-        </motion.h1>
+        <h1 className="mx-auto mt-7 font-display text-[2.5rem] font-bold leading-[1.08] tracking-[-0.02em] sm:text-6xl">
+          <WordsReveal
+            trigger="mount"
+            segments={[
+              { text: t.hero.from },
+              { text: t.hero.titleQuestion, className: 'text-muted' },
+              { break: true, text: '' },
+              { text: t.hero.to },
+              { text: t.hero.titleAnswer, className: 'text-primary' },
+            ]}
+          />
+        </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted"
         >
           {t.hero.subtitle}
@@ -88,7 +91,7 @@ export default function LandingPage() {
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
           className="mt-9 flex flex-wrap items-center justify-center gap-3"
         >
           <Link href="/register" className="btn-primary px-6 py-3 text-base">
@@ -108,7 +111,7 @@ export default function LandingPage() {
               key={stat.s}
               className={`px-4 text-center ${i > 0 ? 'md:border-l md:border-border' : ''}`}
             >
-              <div className="font-display text-4xl font-semibold text-fg sm:text-5xl">
+              <div className="font-display text-4xl font-bold text-fg sm:text-5xl">
                 <AnimatedNumber value={stat.n} suffix={stat.suffix} />
               </div>
               <div className="mt-2 text-sm text-muted">{stat.s}</div>
@@ -119,10 +122,14 @@ export default function LandingPage() {
 
       {/* ───────────────── HOW IT WORKS ───────────────── */}
       <section id="how" className="mx-auto mt-16 max-w-5xl border-t border-border px-6 py-24">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">{t.how.title}</h2>
-          <p className="mt-4 text-lg text-muted">{t.how.subtitle}</p>
-        </Reveal>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+            <WordsReveal segments={[{ text: t.how.title }]} />
+          </h2>
+          <Reveal delay={0.1}>
+            <p className="mt-4 text-lg text-muted">{t.how.subtitle}</p>
+          </Reveal>
+        </div>
         <RevealGroup className="mt-14 grid gap-10 md:grid-cols-3">
           {steps.map((step, i) => (
             <RevealItem key={step.title}>
@@ -132,7 +139,7 @@ export default function LandingPage() {
                 </span>
                 <span className="font-mono text-sm text-muted">0{i + 1}</span>
               </div>
-              <h3 className="font-display text-xl font-semibold">{step.title}</h3>
+              <h3 className="font-display text-xl font-bold">{step.title}</h3>
               <p className="mt-2.5 text-[15px] leading-relaxed text-muted">{step.body}</p>
             </RevealItem>
           ))}
@@ -141,12 +148,19 @@ export default function LandingPage() {
 
       {/* ───────────────── FEATURES ───────────────── */}
       <section id="features" className="mx-auto max-w-6xl border-t border-border px-6 py-24">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            {t.features.title} <span className="text-primary">{t.features.titleAccent}</span>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+            <WordsReveal
+              segments={[
+                { text: t.features.title },
+                { text: t.features.titleAccent, className: 'text-primary' },
+              ]}
+            />
           </h2>
-          <p className="mt-4 text-lg text-muted">{t.features.subtitle}</p>
-        </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-4 text-lg text-muted">{t.features.subtitle}</p>
+          </Reveal>
+        </div>
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.features.items.map((f, i) => {
             const Icon = featureIcons[i] ?? Sparkles;
@@ -158,7 +172,7 @@ export default function LandingPage() {
                 <span className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-surface-2 text-primary">
                   <Icon className="h-5 w-5" />
                 </span>
-                <h3 className="font-display text-lg font-semibold">{f.title}</h3>
+                <h3 className="font-display text-lg font-bold">{f.title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-muted">{f.body}</p>
               </RevealItem>
             );
@@ -168,10 +182,14 @@ export default function LandingPage() {
 
       {/* ───────────────── PRICING ───────────────── */}
       <section id="pricing" className="mx-auto max-w-4xl border-t border-border px-6 py-24">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">{t.pricing.title}</h2>
-          <p className="mt-4 text-lg text-muted">{t.pricing.subtitle}</p>
-        </Reveal>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+            <WordsReveal segments={[{ text: t.pricing.title }]} />
+          </h2>
+          <Reveal delay={0.1}>
+            <p className="mt-4 text-lg text-muted">{t.pricing.subtitle}</p>
+          </Reveal>
+        </div>
         <RevealGroup className="mx-auto mt-14 grid max-w-3xl gap-5 md:grid-cols-2">
           {plans.map((plan) => (
             <RevealItem
@@ -187,10 +205,10 @@ export default function LandingPage() {
                   <Sparkles className="h-3 w-3" /> {t.pricing.mostPopular}
                 </span>
               )}
-              <h3 className="font-display text-xl font-semibold">{plan.name}</h3>
+              <h3 className="font-display text-xl font-bold">{plan.name}</h3>
               <p className="mt-1.5 text-sm text-muted">{plan.tagline}</p>
               <div className="mt-6 flex items-end gap-1">
-                <span className="font-display text-5xl font-semibold">{plan.price}</span>
+                <span className="font-display text-5xl font-bold">{plan.price}</span>
                 <span className="mb-1.5 text-muted">{t.pricing.perMonth}</span>
               </div>
               <ul className="mt-7 space-y-3.5">
@@ -213,15 +231,19 @@ export default function LandingPage() {
 
       {/* ───────────────── CLOSING CTA ───────────────── */}
       <section className="mx-auto max-w-5xl border-t border-border px-6 py-28">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-semibold leading-[1.15] tracking-tight sm:text-5xl">
-            {t.ctaBand.title}
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-bold leading-[1.12] tracking-tight sm:text-5xl">
+            <WordsReveal segments={[{ text: t.ctaBand.title }]} />
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-muted">{t.ctaBand.subtitle}</p>
-          <Link href="/register" className="btn-primary mt-8 px-7 py-3.5 text-base">
-            {t.ctaBand.button} <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-muted">{t.ctaBand.subtitle}</p>
+          </Reveal>
+          <Reveal delay={0.18}>
+            <Link href="/register" className="btn-primary mt-8 px-7 py-3.5 text-base">
+              {t.ctaBand.button} <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Reveal>
+        </div>
       </section>
 
       <footer className="border-t border-border px-6 py-12">
