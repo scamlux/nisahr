@@ -59,6 +59,34 @@ enum ProgressEventType {
   SKILL_DONE
   TASK_DONE
   STAGE_DONE
+  NODE_DONE
+}
+
+enum NodeType {
+  TOPIC
+  SUBTOPIC
+  OPTIONAL
+}
+
+enum NodeStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+  SKIPPED
+}
+
+enum EdgeKind {
+  REQUIRED
+  OPTIONAL
+}
+
+enum NodeResourceKind {
+  FREE_VIDEO
+  OFFICIAL_DOC
+  POPULAR
+  PAID_COURSE
+  ARTICLE
+  PRACTICE
 }
 
 enum InterviewType {
@@ -171,7 +199,12 @@ model Roadmap {
   isAiGenerated  Boolean        @default(true)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  /// F4: graph rendering flag — legacy stage model stays in parallel
+  useGraph       Boolean        @default(false)
+  slug           String         @default("")
   stages         RoadmapStage[]
+  nodes          RoadmapNode[]
+  edges          NodeEdge[]
 }
 
 model RoadmapStage {
@@ -187,6 +220,53 @@ model RoadmapStage {
   stageSkills RoadmapStageSkill[]
   resources   LearningResource[]
   tasks       PracticalTask[]
+}
+
+/// F4: roadmap.sh-style flowchart node
+model RoadmapNode {
+  id          String       @id @default(cuid())
+  roadmapId   String
+  roadmap     Roadmap      @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  key         String       @default("")
+  order       Int
+  title       String
+  description String       @default("")
+  x           Float        @default(0)
+  y           Float        @default(0)
+  group       String       @default("")
+  type        NodeType     @default(TOPIC)
+  status      NodeStatus   @default(NOT_STARTED)
+
+  resources NodeResource[]
+  outgoing  NodeEdge[]     @relation("EdgeFrom")
+  incoming  NodeEdge[]     @relation("EdgeTo")
+
+  @@index([roadmapId, order])
+}
+
+model NodeEdge {
+  id        String      @id @default(cuid())
+  roadmapId String
+  roadmap   Roadmap     @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  fromId    String
+  from      RoadmapNode @relation("EdgeFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  toId      String
+  to        RoadmapNode @relation("EdgeTo", fields: [toId], references: [id], onDelete: Cascade)
+  kind      EdgeKind    @default(REQUIRED)
+
+  @@unique([fromId, toId])
+}
+
+model NodeResource {
+  id          String           @id @default(cuid())
+  nodeId      String
+  node        RoadmapNode      @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  kind        NodeResourceKind @default(ARTICLE)
+  provider    String           @default("")
+  url         String
+  title       String
+  durationMin Int              @default(10)
+  lang        String           @default("en")
 }
 
 model Skill {
@@ -308,6 +388,8 @@ model ProgressEvent {
   refId      String?
   hoursSpent Float             @default(1)
   createdAt  DateTime          @default(now())
+
+  @@index([userId, createdAt])
 }
 
 model ResumeReview {

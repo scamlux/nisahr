@@ -58,6 +58,19 @@ export const recommendationsRequestSchema = z.object({
 });
 export type RecommendationsRequestDto = z.infer<typeof recommendationsRequestSchema>;
 
+/* ------------------------ Roadmap graph (F4) --------------------- */
+export const selectRoadmapSchema = z.object({
+  slug: z.string().min(1).max(80),
+  level: z.nativeEnum(ExperienceLevel).optional().default(ExperienceLevel.BEGINNER),
+  weeklyHours: z.number().int().min(1).max(80).optional().default(10),
+});
+export type SelectRoadmapDto = z.infer<typeof selectRoadmapSchema>;
+
+export const updateNodeStatusSchema = z.object({
+  status: z.enum(['NOT_STARTED', 'IN_PROGRESS', 'DONE', 'SKIPPED']),
+});
+export type UpdateNodeStatusDto = z.infer<typeof updateNodeStatusSchema>;
+
 /* --------------------------- Psych test ------------------------- */
 export const submitPsychTestSchema = z.object({
   version: z.string().min(1).max(40),
