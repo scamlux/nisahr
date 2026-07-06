@@ -6,7 +6,13 @@ import {
   ExperienceLevel,
 } from '@careeros/shared';
 import { LLM_PROVIDER, LlmMessage, LlmProvider } from './llm-provider.interface';
+import { AiRegistryService } from './ai-registry.service';
 import { pickTemplate } from './roadmap-templates';
+
+export interface AiCallOptions {
+  provider?: string;
+  model?: string;
+}
 
 interface ProfileLike {
   interests?: string[];
@@ -25,17 +31,51 @@ Be concrete, encouraging and specific. Recommend roles, name concrete skill gaps
 export class AiService {
   private readonly logger = new Logger('AiService');
 
-  constructor(@Inject(LLM_PROVIDER) private readonly llm: LlmProvider) {}
+  constructor(
+    @Inject(LLM_PROVIDER) private readonly llm: LlmProvider,
+    private readonly registry: AiRegistryService,
+  ) {}
 
   get providerName() {
     return this.llm.name;
+  }
+
+  /**
+   * Chat through the registry with per-request provider/model choice.
+   * Unavailable providers fall back to the env default, then mock.
+   */
+  async chatWith(
+    messages: LlmMessage[],
+    opts?: AiCallOptions & { temperature?: number; maxTokens?: number; json?: boolean },
+  ): Promise<{ text: string; provider: string; model: string }> {
+    const provider = this.registry.resolve(opts?.provider);
+    // Only honor the requested model if we actually got the requested provider —
+    // on fallback (missing key) the model must follow the resolved provider.
+    const requestedHonored =
+      !opts?.provider || provider.name === opts.provider.toLowerCase();
+    const model =
+      requestedHonored && opts?.model
+        ? opts.model
+        : this.registry.defaultModelFor(provider.name);
+    const text = await provider.chat(messages, {
+      temperature: opts?.temperature,
+      maxTokens: opts?.maxTokens,
+      json: opts?.json,
+      model,
+    });
+    return { text, provider: provider.name, model };
   }
 
   /** AI-HR chat: natural text + structured recommendations / skill gaps. */
   async consult(
     profile: ProfileLike,
     history: LlmMessage[],
-  ): Promise<{ text: string; structuredPayload: CareerStructuredPayload }> {
+    opts?: AiCallOptions,
+  ): Promise<{
+    text: string;
+    structuredPayload: CareerStructuredPayload;
+    meta: { provider: string; model: string };
+  }> {
     const messages: LlmMessage[] = [
       { role: 'system', content: CONSULTANT_SYSTEM },
       {
@@ -51,8 +91,11 @@ export class AiService {
     ];
 
     let text: string;
+    let meta = { provider: 'mock', model: 'careeros-mock' };
     try {
-      text = await this.llm.chat(messages, { temperature: 0.7 });
+      const result = await this.chatWith(messages, { ...opts, temperature: 0.7 });
+      text = result.text;
+      meta = { provider: result.provider, model: result.model };
     } catch (err) {
       this.logger.warn(`LLM chat failed, using fallback: ${(err as Error).message}`);
       text =
@@ -65,7 +108,7 @@ export class AiService {
       skillGaps: this.skillGaps(profile),
       summary: `Top match: ${recommendations[0]?.title ?? 'Explore roles'}`,
     };
-    return { text, structuredPayload };
+    return { text, structuredPayload, meta };
   }
 
   /** Ranked career recommendations from a profile (deterministic + plausible). */

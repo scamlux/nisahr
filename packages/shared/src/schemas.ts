@@ -44,6 +44,9 @@ export type CreateChatSessionDto = z.infer<typeof createChatSessionSchema>;
 
 export const sendMessageSchema = z.object({
   content: z.string().min(1).max(8000),
+  /** Optional per-request AI provider/model override (model switcher). */
+  provider: z.string().max(40).optional(),
+  model: z.string().max(120).optional(),
 });
 export type SendMessageDto = z.infer<typeof sendMessageSchema>;
 

@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Send, Sparkles, Target, TrendingUp, Compass } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
-import { useAuth } from '@/lib/store';
+import { useAiModel, useAuth } from '@/lib/store';
+import { ModelSwitcher } from '@/components/app/model-switcher';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
@@ -63,7 +64,11 @@ export default function HomePage() {
     setMessages((m) => [...m, userMsg]);
     setTyping(true);
     try {
-      const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, { content: text });
+      const { provider, model } = useAiModel.getState();
+      const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, {
+        content: text,
+        ...(provider && model ? { provider, model } : {}),
+      });
       setMessages((m) => [...m, data]);
     } catch (err) {
       toast.error(apiError(err, t.pages.home.toastMessageFailed));
@@ -81,10 +86,11 @@ export default function HomePage() {
         <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent text-primary-fg">
           <Sparkles className="h-5 w-5" />
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <h1 className="font-display text-lg font-bold leading-tight">{t.pages.home.headerTitle}</h1>
-          <p className="text-xs text-muted">{t.pages.home.headerSubtitle}</p>
+          <p className="truncate text-xs text-muted">{t.pages.home.headerSubtitle}</p>
         </div>
+        <ModelSwitcher />
       </div>
 
       {/* messages */}

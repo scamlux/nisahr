@@ -3,12 +3,19 @@ import { Reflector } from '@nestjs/core';
 import { Plan } from '@careeros/shared';
 import { PLAN_KEY } from '../decorators/plan.decorator';
 
-/** PREMIUM-gates routes. ADMIN always passes. */
+/** True when plan gating is on. CareerOS is free-first: default is OFF. */
+export function billingEnabled(): boolean {
+  return (process.env.BILLING_ENABLED ?? 'false').toLowerCase() === 'true';
+}
+
+/** PREMIUM-gates routes. ADMIN always passes. Inert while BILLING_ENABLED=false. */
 @Injectable()
 export class PlanGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
+    if (!billingEnabled()) return true;
+
     const required = this.reflector.getAllAndOverride<Plan>(PLAN_KEY, [
       context.getHandler(),
       context.getClass(),

@@ -9,6 +9,7 @@ import { LlmChatOptions, LlmMessage, LlmProvider } from '../llm-provider.interfa
 @Injectable()
 export class MockLlmProvider implements LlmProvider {
   readonly name = 'mock';
+  readonly available = true;
   private readonly logger = new Logger('MockLlmProvider');
 
   async chat(messages: LlmMessage[], _options?: LlmChatOptions): Promise<string> {

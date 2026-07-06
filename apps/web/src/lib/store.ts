@@ -30,3 +30,24 @@ export const useAuth = create<AuthState>()(
     { name: 'careeros-auth' },
   ),
 );
+
+interface AiModelState {
+  /** null = follow the server default (env AI_PROVIDER). */
+  provider: string | null;
+  model: string | null;
+  setModel: (provider: string, model: string) => void;
+  reset: () => void;
+}
+
+/** User-selected AI provider/model for chat (model switcher). */
+export const useAiModel = create<AiModelState>()(
+  persist(
+    (set) => ({
+      provider: null,
+      model: null,
+      setModel: (provider, model) => set({ provider, model }),
+      reset: () => set({ provider: null, model: null }),
+    }),
+    { name: 'careeros-ai-model' },
+  ),
+);

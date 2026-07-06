@@ -42,6 +42,9 @@ export class ChatController {
     @Param('id') id: string,
     @Body(new ZodValidationPipe(sendMessageSchema)) dto: SendMessageDto,
   ) {
-    return this.chat.sendMessage(user.userId, id, dto.content);
+    return this.chat.sendMessage(user.userId, id, dto.content, {
+      provider: dto.provider,
+      model: dto.model,
+    });
   }
 }

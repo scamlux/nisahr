@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { changePlanSchema, ChangePlanDto, Plan } from '@careeros/shared';
 import { SubscriptionService } from './subscription.service';
+import { billingEnabled } from '../../common/guards/plan.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { CurrentUser, JwtUser } from '../../common/decorators/current-user.decorator';
@@ -14,8 +15,9 @@ export class SubscriptionController {
   constructor(private readonly subscription: SubscriptionService) {}
 
   @Get()
-  get(@CurrentUser() user: JwtUser) {
-    return this.subscription.get(user.userId);
+  async get(@CurrentUser() user: JwtUser) {
+    const subscription = await this.subscription.get(user.userId);
+    return { ...subscription, billingEnabled: billingEnabled() };
   }
 
   @Post('change')

@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Check, Crown, Loader2, Mail, Shield, Target } from 'lucide-react';
+import { Check, Crown, Loader2, Mail, Shield, Sparkles, Target } from 'lucide-react';
+import { BILLING_ENABLED } from '@/lib/billing';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
 import { PageHeader } from '@/components/app/page-header';
@@ -62,13 +63,40 @@ export default function ProfilePage() {
             <span className="flex items-center gap-1.5"><Mail className="h-3.5 w-3.5" /> {user?.email}</span>
             <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" /> {user?.role}</span>
             <span className="flex items-center gap-1.5">
-              {user?.plan === 'PREMIUM' ? <><Crown className="h-3.5 w-3.5 text-warning" /> {t.pages.profile.premium}</> : t.pages.profile.freePlan}
+              {!BILLING_ENABLED
+                ? <><Sparkles className="h-3.5 w-3.5 text-primary" /> {t.pages.profile.freeChip}</>
+                : user?.plan === 'PREMIUM'
+                  ? <><Crown className="h-3.5 w-3.5 text-warning" /> {t.pages.profile.premium}</>
+                  : t.pages.profile.freePlan}
             </span>
           </div>
         </div>
       </motion.div>
 
-      {/* pricing */}
+      {/* free-first notice (billing disabled) */}
+      {!BILLING_ENABLED && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card relative mb-6 overflow-hidden p-7"
+        >
+          <div className="aurora-blob left-1/2 top-0 h-40 w-40 -translate-x-1/2 bg-primary/20" />
+          <div className="relative flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h3 className="flex items-center gap-2 font-display text-2xl font-bold">
+                <Sparkles className="h-5 w-5 text-primary" /> {t.pages.profile.freeTitle}
+              </h3>
+              <p className="mt-2 max-w-xl text-sm text-muted">{t.pages.profile.freeBody}</p>
+            </div>
+            <span className="chip border-success/30 bg-success/10 text-success">
+              {t.pages.profile.freeChip}
+            </span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* pricing (kept behind the billing flag, not deleted) */}
+      {BILLING_ENABLED && (
       <div className="mb-6 grid gap-5 md:grid-cols-2">
         {PLANS.map((plan) => {
           const current = user?.plan === plan.id;
@@ -109,6 +137,7 @@ export default function ProfilePage() {
           );
         })}
       </div>
+      )}
 
       {/* recommendations */}
       {recs?.length > 0 && (

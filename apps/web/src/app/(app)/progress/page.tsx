@@ -8,6 +8,7 @@ import {
 import { Flame, Clock, GraduationCap, Award, Sparkles, TrendingUp, Brain } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/store';
+import { BILLING_ENABLED } from '@/lib/billing';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { ProgressRing } from '@/components/ui/progress-ring';
@@ -29,7 +30,7 @@ function ChartTooltip({ active, payload, label, unit = 'h' }: any) {
 export default function ProgressPage() {
   const { t } = useI18n();
   const user = useAuth((s) => s.user);
-  const isPremium = user?.plan === 'PREMIUM';
+  const isPremium = !BILLING_ENABLED || user?.plan === 'PREMIUM';
 
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],

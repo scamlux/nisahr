@@ -19,7 +19,9 @@ export const pagesEn = {
     "skillGapsToClose": "Skill gaps to close",
     "matchSuffix": "match",
     "monthsSuffix": "mo",
-    "entryLabel": "Entry:"
+    "entryLabel": "Entry:",
+    "modelLabel": "AI model",
+    "modelUnavailable": "needs API key"
   },
   "career": {
     "pageTitle": "Career Preparation",
@@ -125,6 +127,9 @@ export const pagesEn = {
     "growthZonesTitle": "Growth zones"
   },
   "profile": {
+    "freeTitle": "CareerOS is free",
+    "freeBody": "Every feature — AI chat, roadmaps, assessments and certificates — is included for everyone. No plans, no paywalls.",
+    "freeChip": "All features included",
     "title": "Profile & Plan",
     "subtitle": "Manage your account and subscription.",
     "freePlan": "Free plan",
@@ -304,7 +309,9 @@ export const pagesRu: typeof pagesEn = {
     "skillGapsToClose": "Пробелы в навыках, которые нужно закрыть",
     "matchSuffix": "совпадение",
     "monthsSuffix": "мес",
-    "entryLabel": "Уровень входа:"
+    "entryLabel": "Уровень входа:",
+    "modelLabel": "Модель ИИ",
+    "modelUnavailable": "нужен API-ключ"
   },
   "career": {
     "pageTitle": "Подготовка к карьере",
@@ -410,6 +417,9 @@ export const pagesRu: typeof pagesEn = {
     "growthZonesTitle": "Зоны роста"
   },
   "profile": {
+    "freeTitle": "CareerOS — бесплатно",
+    "freeBody": "Все возможности — AI-чат, роадмапы, тесты и сертификаты — доступны каждому. Без тарифов и пейволов.",
+    "freeChip": "Все функции включены",
     "title": "Профиль и план",
     "subtitle": "Управляйте своим аккаунтом и подпиской.",
     "freePlan": "Бесплатный план",
@@ -589,7 +599,9 @@ export const pagesUz: typeof pagesEn = {
     "skillGapsToClose": "Yopish kerak bo'lgan ko'nikma bo'shliqlari",
     "matchSuffix": "mos kelish",
     "monthsSuffix": "oy",
-    "entryLabel": "Kirish darajasi:"
+    "entryLabel": "Kirish darajasi:",
+    "modelLabel": "AI model",
+    "modelUnavailable": "API kalit kerak"
   },
   "career": {
     "pageTitle": "Karyeraga tayyorgarlik",
@@ -695,6 +707,9 @@ export const pagesUz: typeof pagesEn = {
     "growthZonesTitle": "O'sish zonalari"
   },
   "profile": {
+    "freeTitle": "CareerOS — bepul",
+    "freeBody": "Barcha imkoniyatlar — AI chat, roadmaplar, testlar va sertifikatlar — hamma uchun ochiq. Tariflar va pullik rejalarsiz.",
+    "freeChip": "Barcha funksiyalar kiritilgan",
     "title": "Profil va tarif",
     "subtitle": "Hisobingiz va obunangizni boshqaring.",
     "freePlan": "Bepul tarif",

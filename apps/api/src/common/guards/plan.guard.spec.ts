@@ -18,6 +18,19 @@ describe('PlanGuard', () => {
     return new PlanGuard(reflector);
   };
 
+  // Gating behavior is only active when billing is enabled.
+  beforeEach(() => {
+    process.env.BILLING_ENABLED = 'true';
+  });
+  afterAll(() => {
+    delete process.env.BILLING_ENABLED;
+  });
+
+  it('bypasses all gating when BILLING_ENABLED is false (free-first)', () => {
+    process.env.BILLING_ENABLED = 'false';
+    expect(make(Plan.PREMIUM).canActivate(ctx({ plan: 'FREE', role: 'STUDENT' }))).toBe(true);
+  });
+
   it('allows when no plan is required', () => {
     expect(make(undefined).canActivate(ctx({ plan: 'FREE' }))).toBe(true);
   });
