@@ -12,3 +12,6 @@ coverage
 generated
 prisma/migrations/dev.db*
 uploads
+
+# TS incremental build info
+*.tsbuildinfo

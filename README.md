@@ -2,11 +2,31 @@
 
 From _“I don’t know what to become”_ to _“I got the job.”_
 An AI-HR consultant, personalized career roadmaps, a learning hub, progress tracking and
-interview prep — in one premium platform.
+interview prep — in one platform.
 
 Built as a pnpm monorepo: **NestJS + Prisma + PostgreSQL** backend, **Next.js (App Router) +
-Tailwind + Three.js/R3F + GSAP + Lenis + Framer Motion** frontend, with a fully working
-**Mock AI provider** so the whole app runs with **zero API credentials**.
+Tailwind + Three.js/R3F + GSAP + Lenis + Framer Motion** frontend, **free-first** and
+**zero-key** — every feature runs with mock providers and **no API credentials**.
+
+## PRD v3 features
+
+1. **Psychological test → recommendations (F1)** — a deterministic RIASEC (Holland Codes)
+   assessment; arithmetic scoring maps you to matching professions (no LLM needed).
+2. **Ready-made roadmap catalog (F2)** — pick a curated path (frontend, backend, data, AI, UX, QA).
+3. **AI-HR chat with web-search tools (F3)** — an intent router fires `searchJobs`,
+   `searchResources` and `getInterviewPrep`, returning live job/resource cards. Works zero-key
+   via a mock search provider; Tavily/Brave/SearXNG activate with keys.
+4. **Roadmap as a roadmap.sh-style flowchart (F4)** — an interactive React Flow graph with
+   typed resources per node (free videos, docs, practice) and mark-as-learned progress.
+5. **Profile hub (F5)** — one aggregated view of identity, RIASEC code, roadmaps, certificates and activity.
+6. **Final assessment + verifiable certificate (F6)** — a timed, anti-cheat MCQ exam;
+   passing issues a certificate with a **crypto-random verify token** and a QR code that resolves
+   to a **public, PII-free `/verify/:token`** page (print-to-PDF).
+7. **Google sign-in + email verification (F7)** — real OAuth2 when configured, a safe zero-key
+   mock otherwise (auto-disabled when real credentials are present).
+
+Plus: a **multi-model AI registry** (OpenAI / Gemini / Groq / OpenRouter / Mock) with a
+per-request model switcher, and **UZ / RU / EN** i18n across every screen.
 
 ---
 
@@ -86,17 +106,20 @@ careeros/
 
 ### Backend (NestJS + Prisma)
 
-- **Auth & RBAC** — JWT access + refresh, `passport-jwt`, `@Roles()` + `RolesGuard`,
-  `@RequirePlan(PREMIUM)` + `PlanGuard` for plan gating.
-- **AiModule** — wraps an `LlmProvider` interface. `AI_PROVIDER=mock|openai`:
-  - `MockLlmProvider` — deterministic, no credentials needed (default).
-  - `OpenAiLlmProvider` — OpenAI-compatible Chat Completions (`OPENAI_API_KEY/BASE_URL/MODEL`).
+- **Auth & RBAC** — JWT access + refresh, `passport-jwt`, `@Roles()` + `RolesGuard`.
+  Google OAuth2 + email verification (F7); `PlanGuard` is a no-op while billing is disabled.
+- **AiModule** — a provider **registry** behind an `LlmProvider` interface, selected by
+  `AI_PROVIDER` and overridable per request via the UI model switcher:
+  - `MockLlmProvider` — deterministic, no credentials (default).
+  - OpenAI / Groq / OpenRouter (OpenAI-compatible) + Gemini (native) — activate with their keys.
   - Domain logic (recommendations, roadmap generation, resume scoring, interview eval, insights)
     is template-driven so it always works and degrades gracefully if a live LLM call fails.
-- **Modules** — AI-HR chat (structured payloads), career profile + recommendations + skill gaps,
-  resume review (file upload), roadmap engine (generate/edit/complete + completion %),
-  learning hub (courses, lessons, quizzes, enrollment, certificates), progress & analytics
-  (streaks, hours, heatmap, AI insights), mock interviews, job-readiness scoring, mock subscription.
+- **SearchModule (F3)** — a search-provider registry mirroring the AI one (`SEARCH_PROVIDER`):
+  mock (default) + Tavily / Brave / SearXNG. Powers the AI-HR tools with a `JobSearchCache`.
+- **Modules** — AI-HR chat (intent router + job/resource cards), psych test (F1, RIASEC),
+  career profile + recommendations + skill gaps, roadmap engine + roadmap.sh graph (F4),
+  final assessment + verifiable certificate (F6) with a public `/verify/:token`, profile hub (F5),
+  resume review, learning hub, progress & analytics, mock interviews, job-readiness, mock subscription.
 - **Quality** — global exception filter, request-logging interceptor, zod + class-validator,
   Swagger at `/api/docs`, unit tests for roadmap completion %, streak calc, plan gating and
   job-readiness scoring.
@@ -153,12 +176,27 @@ intended run path.
 
 ---
 
+## Free-first & zero-key configuration
+
+Everything runs with no credentials. Providers upgrade in place when keys are supplied:
+
+| Variable | Default | Effect |
+| --- | --- | --- |
+| `AI_PROVIDER` | `mock` | LLM provider (`mock` \| `openai` \| `gemini` \| `groq` \| `openrouter`) |
+| `SEARCH_PROVIDER` | `mock` | Web search (`mock` \| `tavily` \| `brave` \| `searxng`) |
+| `BILLING_ENABLED` | `false` | Premium gates + `PlanGuard` are off; all features free |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | _unset_ | Enables real Google OAuth2 |
+| `AUTH_DEV_BYPASS` | `false` | The zero-key mock Google login (auto-on when Google is unconfigured, **forced off** when it is — unless set `true`) |
+| `MAIL_ENABLED` | `false` | When off, registrations auto-verify email so login is never blocked |
+
+Provider/search keys (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`,
+`TAVILY_API_KEY`, `BRAVE_API_KEY`, `SEARXNG_URL`) are all optional.
+
 ## Intentionally left as future work
 
 - Real payment gateway (billing is mocked by design).
 - LinkedIn / GitHub profile analysis for auto-skill detection.
 - Voice-based mock interviews (speech-to-text).
-- Cryptographically verifiable certificates (current certs are issued + serialized in-app).
 - PDF/DOCX deep parsing (resume text extraction is best-effort without native parser deps).
-- Real-time token streaming for chat (responses are returned per-message today).
+- True server-side token streaming (chat currently streams client-side; the mock returns full text).
 ```

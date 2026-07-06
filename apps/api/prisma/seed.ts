@@ -150,6 +150,7 @@ async function main() {
       email: 'admin@careeros.dev',
       name: 'Ada Admin',
       passwordHash: hash('password123'),
+      emailVerified: true,
       role: 'ADMIN',
       plan: 'PREMIUM',
       careerProfile: { create: { onboardingCompleted: true } },
@@ -162,6 +163,7 @@ async function main() {
       email: 'instructor@careeros.dev',
       name: 'Ivan Instructor',
       passwordHash: hash('password123'),
+      emailVerified: true,
       role: 'INSTRUCTOR',
       plan: 'PREMIUM',
       careerProfile: { create: { onboardingCompleted: true } },
@@ -174,6 +176,7 @@ async function main() {
       email: 'student@careeros.dev',
       name: 'Sam Student',
       passwordHash: hash('password123'),
+      emailVerified: true,
       role: 'STUDENT',
       plan: 'FREE',
       careerProfile: {
@@ -197,6 +200,7 @@ async function main() {
       email: 'premium@careeros.dev',
       name: 'Pia Premium',
       passwordHash: hash('password123'),
+      emailVerified: true,
       role: 'STUDENT',
       plan: 'PREMIUM',
       careerProfile: {
@@ -212,6 +216,23 @@ async function main() {
         },
       },
       subscription: { create: { plan: 'PREMIUM' } },
+    },
+  });
+
+  // F7: an OAuth-only account (no password) to exercise Google sign-in.
+  await prisma.user.create({
+    data: {
+      email: 'google.demo@careeros.dev',
+      name: 'Google Demo',
+      passwordHash: null,
+      provider: 'google',
+      providerId: 'seed-google-demo',
+      avatarUrl: null,
+      emailVerified: true,
+      role: 'STUDENT',
+      plan: 'FREE',
+      careerProfile: { create: { onboardingCompleted: false } },
+      subscription: { create: {} },
     },
   });
 
