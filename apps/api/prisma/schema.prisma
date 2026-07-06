@@ -102,14 +102,20 @@ enum SubscriptionStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  role         Role     @default(STUDENT)
-  plan         Plan     @default(FREE)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(cuid())
+  email         String   @unique
+  /// Null for OAuth-only accounts (F7). Local accounts always set it.
+  passwordHash  String?
+  name          String
+  role          Role     @default(STUDENT)
+  plan          Plan     @default(FREE)
+  /// F7: "local" | "google". Which identity provider created/owns the login.
+  provider      String   @default("local")
+  providerId    String?
+  avatarUrl     String?
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   careerProfile       CareerProfile?
   chatSessions        ChatSession[]

@@ -24,6 +24,27 @@ export const refreshSchema = z.object({
 });
 export type RefreshDto = z.infer<typeof refreshSchema>;
 
+/* ----------------------- OAuth + email verify (F7) -------------- */
+/** Dev/zero-key "Sign in with Google" bypass — mints a session for a Google identity. */
+export const googleMockSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(80).optional(),
+  avatarUrl: z.string().url().optional(),
+});
+export type GoogleMockDto = z.infer<typeof googleMockSchema>;
+
+/** Real Google OAuth2 authorization-code exchange (gated on GOOGLE_CLIENT_ID). */
+export const googleCallbackSchema = z.object({
+  code: z.string().min(1),
+  redirectUri: z.string().url().optional(),
+});
+export type GoogleCallbackDto = z.infer<typeof googleCallbackSchema>;
+
+export const verifyEmailSchema = z.object({
+  token: z.string().min(10),
+});
+export type VerifyEmailDto = z.infer<typeof verifyEmailSchema>;
+
 /* ------------------------- Career Profile ----------------------- */
 export const careerProfileSchema = z.object({
   interests: z.array(z.string()).default([]),

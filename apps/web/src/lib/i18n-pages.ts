@@ -246,6 +246,8 @@ export const pagesEn = {
     "finalAssessment": "Final assessment"
   },
   "auth": {
+    "continueWithGoogle": "Continue with Google",
+    "orDivider": "or",
     "emailLabel": "Email",
     "passwordLabel": "Password",
     "fullNameLabel": "Full name",
@@ -639,6 +641,8 @@ export const pagesRu: typeof pagesEn = {
     "finalAssessment": "Финальный экзамен"
   },
   "auth": {
+    "continueWithGoogle": "Продолжить с Google",
+    "orDivider": "или",
     "emailLabel": "Email",
     "passwordLabel": "Пароль",
     "fullNameLabel": "Полное имя",
@@ -1032,6 +1036,8 @@ export const pagesUz: typeof pagesEn = {
     "finalAssessment": "Yakuniy imtihon"
   },
   "auth": {
+    "continueWithGoogle": "Google bilan davom etish",
+    "orDivider": "yoki",
     "emailLabel": "Email",
     "passwordLabel": "Parol",
     "fullNameLabel": "To'liq ism",

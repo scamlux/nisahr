@@ -14,6 +14,10 @@ export interface PublicUser {
   role: Role;
   plan: Plan;
   createdAt: string;
+  /** F7: identity provider ("local" | "google"), verification + avatar. */
+  provider?: string;
+  emailVerified?: boolean;
+  avatarUrl?: string | null;
 }
 
 export interface AuthTokens {
