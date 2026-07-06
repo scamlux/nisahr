@@ -52,9 +52,10 @@ export class CareerController {
   @Post('recommendations')
   generateRecommendations(
     @CurrentUser() user: JwtUser,
-    @Body(new ZodValidationPipe(recommendationsRequestSchema)) dto: { limit: number },
+    @Body(new ZodValidationPipe(recommendationsRequestSchema))
+    dto: { limit: number; locale: 'en' | 'ru' | 'uz' },
   ) {
-    return this.career.generateRecommendations(user.userId, dto.limit);
+    return this.career.generateRecommendations(user.userId, dto.limit, dto.locale);
   }
 
   @Get('skill-gaps')

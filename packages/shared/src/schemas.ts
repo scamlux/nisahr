@@ -53,8 +53,25 @@ export type SendMessageDto = z.infer<typeof sendMessageSchema>;
 /* --------------------------- Recommendations -------------------- */
 export const recommendationsRequestSchema = z.object({
   limit: z.number().int().min(1).max(10).optional().default(5),
+  /** Locale for generated reason texts (psych-based recommendations). */
+  locale: z.enum(['en', 'ru', 'uz']).optional().default('en'),
 });
 export type RecommendationsRequestDto = z.infer<typeof recommendationsRequestSchema>;
+
+/* --------------------------- Psych test ------------------------- */
+export const submitPsychTestSchema = z.object({
+  version: z.string().min(1).max(40),
+  answers: z
+    .array(
+      z.object({
+        questionId: z.string().min(1).max(24),
+        value: z.number().int().min(1).max(5),
+      }),
+    )
+    .min(1)
+    .max(200),
+});
+export type SubmitPsychTestDto = z.infer<typeof submitPsychTestSchema>;
 
 /* ------------------------------ Roadmap ------------------------- */
 export const generateRoadmapSchema = z.object({
