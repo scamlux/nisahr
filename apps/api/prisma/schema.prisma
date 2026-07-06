@@ -111,18 +111,18 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  careerProfile   CareerProfile?
-  chatSessions    ChatSession[]
-  recommendations CareerRecommendation[]
-  roadmaps        Roadmap[]
-  enrollments     Enrollment[]
-  certificates    Certificate[]
-  progressEvents  ProgressEvent[]
-  resumeReviews   ResumeReview[]
-  mockInterviews  MockInterview[]
-  jobReadiness    JobReadiness[]
-  subscription    Subscription?
-  coursesTaught   Course[]               @relation("InstructorCourses")
+  careerProfile    CareerProfile?
+  chatSessions     ChatSession[]
+  recommendations  CareerRecommendation[]
+  roadmaps         Roadmap[]
+  enrollments      Enrollment[]
+  certificates     Certificate[]
+  progressEvents   ProgressEvent[]
+  resumeReviews    ResumeReview[]
+  mockInterviews   MockInterview[]
+  jobReadiness     JobReadiness[]
+  subscription     Subscription?
+  coursesTaught    Course[]               @relation("InstructorCourses")
   psychTestResults PsychTestResult[]
 }
 
@@ -188,20 +188,20 @@ model CareerRecommendation {
 }
 
 model Roadmap {
-  id             String         @id @default(cuid())
+  id             String          @id @default(cuid())
   userId         String
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   targetRole     String
   level          ExperienceLevel @default(BEGINNER)
-  weeklyHours    Int            @default(10)
-  status         RoadmapStatus  @default(ACTIVE)
-  estimatedWeeks Int            @default(12)
-  isAiGenerated  Boolean        @default(true)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  weeklyHours    Int             @default(10)
+  status         RoadmapStatus   @default(ACTIVE)
+  estimatedWeeks Int             @default(12)
+  isAiGenerated  Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   /// F4: graph rendering flag — legacy stage model stays in parallel
-  useGraph       Boolean        @default(false)
-  slug           String         @default("")
+  useGraph       Boolean         @default(false)
+  slug           String          @default("")
   stages         RoadmapStage[]
   nodes          RoadmapNode[]
   edges          NodeEdge[]
@@ -224,18 +224,18 @@ model RoadmapStage {
 
 /// F4: roadmap.sh-style flowchart node
 model RoadmapNode {
-  id          String       @id @default(cuid())
+  id          String     @id @default(cuid())
   roadmapId   String
-  roadmap     Roadmap      @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
-  key         String       @default("")
+  roadmap     Roadmap    @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  key         String     @default("")
   order       Int
   title       String
-  description String       @default("")
-  x           Float        @default(0)
-  y           Float        @default(0)
-  group       String       @default("")
-  type        NodeType     @default(TOPIC)
-  status      NodeStatus   @default(NOT_STARTED)
+  description String     @default("")
+  x           Float      @default(0)
+  y           Float      @default(0)
+  group       String     @default("")
+  type        NodeType   @default(TOPIC)
+  status      NodeStatus @default(NOT_STARTED)
 
   resources NodeResource[]
   outgoing  NodeEdge[]     @relation("EdgeFrom")
@@ -278,7 +278,7 @@ model Skill {
 }
 
 model RoadmapStageSkill {
-  id      String      @id @default(cuid())
+  id      String       @id @default(cuid())
   stageId String
   stage   RoadmapStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
   skillId String
@@ -289,14 +289,14 @@ model RoadmapStageSkill {
 }
 
 model LearningResource {
-  id          String       @id @default(cuid())
+  id          String        @id @default(cuid())
   title       String
-  type        ResourceType @default(ARTICLE)
+  type        ResourceType  @default(ARTICLE)
   url         String
-  provider    String       @default("Internal")
-  durationMin Int          @default(15)
+  provider    String        @default("Internal")
+  durationMin Int           @default(15)
   skillId     String?
-  skill       Skill?       @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  skill       Skill?        @relation(fields: [skillId], references: [id], onDelete: SetNull)
   stageId     String?
   stage       RoadmapStage? @relation(fields: [stageId], references: [id], onDelete: SetNull)
 }
@@ -312,15 +312,15 @@ model PracticalTask {
 }
 
 model Course {
-  id           String       @id @default(cuid())
+  id           String        @id @default(cuid())
   instructorId String
-  instructor   User         @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
+  instructor   User          @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
   title        String
-  description  String       @default("")
-  coverColor   String       @default("#6d5efc")
-  price        Float        @default(0)
-  published    Boolean      @default(false)
-  createdAt    DateTime     @default(now())
+  description  String        @default("")
+  coverColor   String        @default("#6d5efc")
+  price        Float         @default(0)
+  published    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
   lessons      Lesson[]
   quizzes      Quiz[]
   enrollments  Enrollment[]
@@ -328,13 +328,13 @@ model Course {
 }
 
 model Lesson {
-  id        String   @id @default(cuid())
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  title     String
-  videoUrl  String   @default("")
-  content   String   @default("")
-  order     Int      @default(0)
+  id          String @id @default(cuid())
+  courseId    String
+  course      Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  videoUrl    String @default("")
+  content     String @default("")
+  order       Int    @default(0)
   durationMin Int    @default(10)
 }
 
@@ -356,26 +356,26 @@ model QuizQuestion {
 }
 
 model Enrollment {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId    String
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  progressPct Float    @default(0)
-  completedLessonIds Json @default("[]")
-  createdAt   DateTime @default(now())
+  id                 String   @id @default(cuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId           String
+  course             Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progressPct        Float    @default(0)
+  completedLessonIds Json     @default("[]")
+  createdAt          DateTime @default(now())
 
   @@unique([userId, courseId])
 }
 
 model Certificate {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  issuedAt  DateTime @default(now())
-  serial    String   @unique @default(cuid())
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  issuedAt DateTime @default(now())
+  serial   String   @unique @default(cuid())
 
   @@unique([userId, courseId])
 }
@@ -436,4 +436,19 @@ model Subscription {
   status    SubscriptionStatus @default(ACTIVE)
   startedAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
+}
+
+/// Cache for web-search tool results (F3). Keyed by tool+provider+normalized
+/// query so repeat AI-HR lookups are instant and provider-quota-friendly.
+model JobSearchCache {
+  id        String   @id @default(cuid())
+  tool      String
+  provider  String
+  query     String
+  results   Json
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@unique([tool, provider, query])
+  @@index([expiresAt])
 }
