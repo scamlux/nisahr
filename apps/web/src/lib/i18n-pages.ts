@@ -242,7 +242,8 @@ export const pagesEn = {
     "legendRequired": "Required",
     "legendOptional": "Optional",
     "graphHint": "Click any node to see curated videos, docs and practice.",
-    "minutesShort": "min"
+    "minutesShort": "min",
+    "finalAssessment": "Final assessment"
   },
   "auth": {
     "emailLabel": "Email",
@@ -347,6 +348,49 @@ export const pagesEn = {
     "doneTitle": "You’re all set!",
     "doneSubtitle": "Building your personalized dashboard…",
     "saveError": "Could not save profile"
+  },
+  "assessment": {
+    "backToRoadmap": "Back to roadmap",
+    "introTitle": "Final assessment",
+    "introSubtitle": "Prove your skills and earn a verifiable certificate for this roadmap.",
+    "introRuleTime": "15 minutes, timed",
+    "introRulePass": "Score 70% or higher to pass",
+    "introRuleCert": "Pass to unlock a shareable certificate",
+    "startButton": "Start assessment",
+    "questionLabel": "Question",
+    "prev": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "answered": "answered",
+    "passedTitle": "Congratulations! 🎉",
+    "failedTitle": "Not quite yet",
+    "retry": "Retake assessment",
+    "toastPassed": "Passed — certificate unlocked!",
+    "toastExpired": "Time is up — attempt submitted",
+    "certTitle": "Certificate of Completion",
+    "certPresentedTo": "This certifies that",
+    "certCompleted": "has completed the CareerOS roadmap for",
+    "certScore": "with a score of",
+    "certSerial": "Serial",
+    "certIssued": "Issued",
+    "certVerifyHint": "Scan to verify authenticity",
+    "certDownload": "Download PDF",
+    "certVerified": "Verified by CareerOS"
+  },
+  "verify": {
+    "certTitle": "Certificate of Completion",
+    "certPresentedTo": "This certifies that",
+    "certCompleted": "has completed the CareerOS roadmap for",
+    "certScore": "with a score of",
+    "certSerial": "Serial",
+    "certIssued": "Issued",
+    "certVerifyHint": "Scan to verify authenticity",
+    "certDownload": "Download PDF",
+    "certVerified": "Verified by CareerOS",
+    "validBanner": "This certificate is authentic and verified.",
+    "invalidTitle": "Certificate not found",
+    "invalidSubtitle": "This verification link is invalid or has been tampered with.",
+    "backHome": "Go home"
   }
 };
 
@@ -591,7 +635,8 @@ export const pagesRu: typeof pagesEn = {
     "legendRequired": "Обязательно",
     "legendOptional": "Опционально",
     "graphHint": "Нажмите на узел, чтобы увидеть видео, документацию и практику.",
-    "minutesShort": "мин"
+    "minutesShort": "мин",
+    "finalAssessment": "Финальный экзамен"
   },
   "auth": {
     "emailLabel": "Email",
@@ -696,6 +741,49 @@ export const pagesRu: typeof pagesEn = {
     "doneTitle": "Всё готово!",
     "doneSubtitle": "Собираем вашу персональную панель…",
     "saveError": "Не удалось сохранить профиль"
+  },
+  "assessment": {
+    "backToRoadmap": "Назад к роадмапу",
+    "introTitle": "Финальный экзамен",
+    "introSubtitle": "Подтвердите свои навыки и получите проверяемый сертификат по этому роадмапу.",
+    "introRuleTime": "15 минут, с таймером",
+    "introRulePass": "Наберите 70% и выше, чтобы пройти",
+    "introRuleCert": "Сдайте, чтобы получить сертификат",
+    "startButton": "Начать экзамен",
+    "questionLabel": "Вопрос",
+    "prev": "Назад",
+    "next": "Далее",
+    "submit": "Отправить",
+    "answered": "отвечено",
+    "passedTitle": "Поздравляем! 🎉",
+    "failedTitle": "Почти получилось",
+    "retry": "Пересдать экзамен",
+    "toastPassed": "Сдано — сертификат открыт!",
+    "toastExpired": "Время вышло — ответы отправлены",
+    "certTitle": "Сертификат о прохождении",
+    "certPresentedTo": "Настоящим подтверждается, что",
+    "certCompleted": "прошёл(-ла) роадмап CareerOS по направлению",
+    "certScore": "с результатом",
+    "certSerial": "Серийный номер",
+    "certIssued": "Выдан",
+    "certVerifyHint": "Отсканируйте для проверки подлинности",
+    "certDownload": "Скачать PDF",
+    "certVerified": "Проверено CareerOS"
+  },
+  "verify": {
+    "certTitle": "Сертификат о прохождении",
+    "certPresentedTo": "Настоящим подтверждается, что",
+    "certCompleted": "прошёл(-ла) роадмап CareerOS по направлению",
+    "certScore": "с результатом",
+    "certSerial": "Серийный номер",
+    "certIssued": "Выдан",
+    "certVerifyHint": "Отсканируйте для проверки подлинности",
+    "certDownload": "Скачать PDF",
+    "certVerified": "Проверено CareerOS",
+    "validBanner": "Этот сертификат подлинный и подтверждён.",
+    "invalidTitle": "Сертификат не найден",
+    "invalidSubtitle": "Эта ссылка для проверки недействительна или была изменена.",
+    "backHome": "На главную"
   }
 };
 
@@ -940,7 +1028,8 @@ export const pagesUz: typeof pagesEn = {
     "legendRequired": "Majburiy",
     "legendOptional": "Ixtiyoriy",
     "graphHint": "Videolar, hujjatlar va amaliyotni ko'rish uchun tugunni bosing.",
-    "minutesShort": "daq"
+    "minutesShort": "daq",
+    "finalAssessment": "Yakuniy imtihon"
   },
   "auth": {
     "emailLabel": "Email",
@@ -1045,5 +1134,48 @@ export const pagesUz: typeof pagesEn = {
     "doneTitle": "Hammasi tayyor!",
     "doneSubtitle": "Shaxsiy boshqaruv panelingiz tayyorlanmoqda…",
     "saveError": "Profilni saqlab bo'lmadi"
+  },
+  "assessment": {
+    "backToRoadmap": "Roadmapga qaytish",
+    "introTitle": "Yakuniy imtihon",
+    "introSubtitle": "Ko'nikmalaringizni tasdiqlang va ushbu roadmap uchun tekshiriladigan sertifikat oling.",
+    "introRuleTime": "15 daqiqa, vaqt bilan",
+    "introRulePass": "O'tish uchun 70% va undan yuqori to'plang",
+    "introRuleCert": "O'tsangiz sertifikat ochiladi",
+    "startButton": "Imtihonni boshlash",
+    "questionLabel": "Savol",
+    "prev": "Orqaga",
+    "next": "Keyingi",
+    "submit": "Yuborish",
+    "answered": "javob berildi",
+    "passedTitle": "Tabriklaymiz! 🎉",
+    "failedTitle": "Deyarli bo'ldi",
+    "retry": "Qayta topshirish",
+    "toastPassed": "O'tdingiz — sertifikat ochildi!",
+    "toastExpired": "Vaqt tugadi — javoblar yuborildi",
+    "certTitle": "Tamomlash sertifikati",
+    "certPresentedTo": "Ushbu hujjat tasdiqlaydiki,",
+    "certCompleted": "CareerOS roadmapini tamomladi:",
+    "certScore": "natija bilan",
+    "certSerial": "Seriya raqami",
+    "certIssued": "Berilgan sana",
+    "certVerifyHint": "Haqiqiyligini tekshirish uchun skanerlang",
+    "certDownload": "PDF yuklab olish",
+    "certVerified": "CareerOS tomonidan tasdiqlangan"
+  },
+  "verify": {
+    "certTitle": "Tamomlash sertifikati",
+    "certPresentedTo": "Ushbu hujjat tasdiqlaydiki,",
+    "certCompleted": "CareerOS roadmapini tamomladi:",
+    "certScore": "natija bilan",
+    "certSerial": "Seriya raqami",
+    "certIssued": "Berilgan sana",
+    "certVerifyHint": "Haqiqiyligini tekshirish uchun skanerlang",
+    "certDownload": "PDF yuklab olish",
+    "certVerified": "CareerOS tomonidan tasdiqlangan",
+    "validBanner": "Ushbu sertifikat haqiqiy va tasdiqlangan.",
+    "invalidTitle": "Sertifikat topilmadi",
+    "invalidSubtitle": "Ushbu tekshirish havolasi yaroqsiz yoki o'zgartirilgan.",
+    "backHome": "Bosh sahifa"
   }
 };

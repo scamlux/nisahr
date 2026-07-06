@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 import {
-  Plus, Sparkles, Flag, Check, Circle, CircleDot, LibraryBig, Loader2, Map, Trophy, X,
+  Plus, Sparkles, Flag, Check, Circle, CircleDot, GraduationCap, LibraryBig, Loader2, Map, Trophy, X,
 } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { PageHeader } from '@/components/app/page-header';
@@ -228,7 +229,7 @@ function GraphSection({ roadmap, onChanged }: { roadmap: any; onChanged: () => v
               />
             </div>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-muted">
+          <div className="hidden items-center gap-3 text-[11px] text-muted md:flex">
             <span className="flex items-center gap-1.5">
               <span className="inline-block h-0.5 w-5 bg-[rgb(var(--muted)/0.45)]" /> {tr.legendRequired}
             </span>
@@ -236,6 +237,9 @@ function GraphSection({ roadmap, onChanged }: { roadmap: any; onChanged: () => v
               <span className="inline-block h-0.5 w-5 border-t-2 border-dashed border-[rgb(var(--muted)/0.6)]" /> {tr.legendOptional}
             </span>
           </div>
+          <Link href={`/assessment/${roadmap.id}`} className="btn-primary !py-2 text-sm">
+            <GraduationCap className="h-4 w-4" /> {tr.finalAssessment}
+          </Link>
         </div>
       </div>
 

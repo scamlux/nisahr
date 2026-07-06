@@ -111,19 +111,21 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  careerProfile    CareerProfile?
-  chatSessions     ChatSession[]
-  recommendations  CareerRecommendation[]
-  roadmaps         Roadmap[]
-  enrollments      Enrollment[]
-  certificates     Certificate[]
-  progressEvents   ProgressEvent[]
-  resumeReviews    ResumeReview[]
-  mockInterviews   MockInterview[]
-  jobReadiness     JobReadiness[]
-  subscription     Subscription?
-  coursesTaught    Course[]               @relation("InstructorCourses")
-  psychTestResults PsychTestResult[]
+  careerProfile       CareerProfile?
+  chatSessions        ChatSession[]
+  recommendations     CareerRecommendation[]
+  roadmaps            Roadmap[]
+  enrollments         Enrollment[]
+  certificates        Certificate[]
+  progressEvents      ProgressEvent[]
+  resumeReviews       ResumeReview[]
+  mockInterviews      MockInterview[]
+  jobReadiness        JobReadiness[]
+  subscription        Subscription?
+  coursesTaught       Course[]                 @relation("InstructorCourses")
+  psychTestResults    PsychTestResult[]
+  assessments         FinalAssessmentAttempt[]
+  roadmapCertificates RoadmapCertificate[]
 }
 
 /// F1: deterministic RIASEC result. Question bank ships versioned in code.
@@ -188,23 +190,25 @@ model CareerRecommendation {
 }
 
 model Roadmap {
-  id             String          @id @default(cuid())
+  id             String                   @id @default(cuid())
   userId         String
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   targetRole     String
-  level          ExperienceLevel @default(BEGINNER)
-  weeklyHours    Int             @default(10)
-  status         RoadmapStatus   @default(ACTIVE)
-  estimatedWeeks Int             @default(12)
-  isAiGenerated  Boolean         @default(true)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  level          ExperienceLevel          @default(BEGINNER)
+  weeklyHours    Int                      @default(10)
+  status         RoadmapStatus            @default(ACTIVE)
+  estimatedWeeks Int                      @default(12)
+  isAiGenerated  Boolean                  @default(true)
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
   /// F4: graph rendering flag — legacy stage model stays in parallel
-  useGraph       Boolean         @default(false)
-  slug           String          @default("")
+  useGraph       Boolean                  @default(false)
+  slug           String                   @default("")
   stages         RoadmapStage[]
   nodes          RoadmapNode[]
   edges          NodeEdge[]
+  assessments    FinalAssessmentAttempt[]
+  certificate    RoadmapCertificate?
 }
 
 model RoadmapStage {
@@ -451,4 +455,57 @@ model JobSearchCache {
 
   @@unique([tool, provider, query])
   @@index([expiresAt])
+}
+
+/// F6: final-assessment attempt. Question bank ships versioned in code (like
+/// PsychTestResult); only attempts + scores live in the DB. Anti-cheat state
+/// (served question order, start time, time limit) is server-authoritative.
+enum AssessmentStatus {
+  IN_PROGRESS
+  PASSED
+  FAILED
+  EXPIRED
+}
+
+model FinalAssessmentAttempt {
+  id            String              @id @default(cuid())
+  userId        String
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roadmapId     String
+  roadmap       Roadmap             @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  role          String
+  version       String
+  /// Ordered questionIds exactly as served (shuffled per attempt).
+  questionOrder Json
+  answers       Json                @default("[]")
+  score         Float               @default(0)
+  passThreshold Int                 @default(70)
+  status        AssessmentStatus    @default(IN_PROGRESS)
+  timeLimitSec  Int                 @default(900)
+  startedAt     DateTime            @default(now())
+  submittedAt   DateTime?
+  certificate   RoadmapCertificate?
+
+  @@index([userId, roadmapId])
+}
+
+/// F6: verifiable completion certificate. `serial` is human-readable; `verifyToken`
+/// is crypto-random (set in code, never a cuid) and is the sole public gate for
+/// authenticity. One certificate per (user, roadmap).
+model RoadmapCertificate {
+  id          String                 @id @default(cuid())
+  userId      String
+  user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roadmapId   String                 @unique
+  roadmap     Roadmap                @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  attemptId   String                 @unique
+  attempt     FinalAssessmentAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  role        String
+  recipient   String
+  score       Float
+  serial      String                 @unique
+  verifyToken String                 @unique
+  issuedAt    DateTime               @default(now())
+
+  @@index([userId])
 }

@@ -4,6 +4,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { SearchModule } from './modules/search/search.module';
+import { AssessmentModule } from './modules/assessment/assessment.module';
 import { AiModule } from './modules/ai/ai.module';
 import { CareerModule } from './modules/career/career.module';
 import { ChatModule } from './modules/chat/chat.module';
@@ -21,6 +22,7 @@ import { HealthController } from './health.controller';
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
     SearchModule,
+    AssessmentModule,
     AiModule,
     AuthModule,
     UsersModule,

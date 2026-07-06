@@ -71,6 +71,25 @@ export const updateNodeStatusSchema = z.object({
 });
 export type UpdateNodeStatusDto = z.infer<typeof updateNodeStatusSchema>;
 
+/* ----------------------- Final assessment (F6) ------------------ */
+export const startAssessmentSchema = z.object({
+  roadmapId: z.string().cuid(),
+});
+export type StartAssessmentDto = z.infer<typeof startAssessmentSchema>;
+
+export const submitAssessmentSchema = z.object({
+  answers: z
+    .array(
+      z.object({
+        questionId: z.string().min(1).max(24),
+        selectedIndex: z.number().int().min(0).max(9),
+      }),
+    )
+    .min(1)
+    .max(50),
+});
+export type SubmitAssessmentDto = z.infer<typeof submitAssessmentSchema>;
+
 /* --------------------------- Psych test ------------------------- */
 export const submitPsychTestSchema = z.object({
   version: z.string().min(1).max(40),
