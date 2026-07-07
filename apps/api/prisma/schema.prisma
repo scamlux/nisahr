@@ -1,11 +1,18 @@
 // CareerOS — Prisma schema (PostgreSQL)
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // "native" for local/Docker; rhel target for the Vercel (AWS Lambda) runtime.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // Serverless (Vercel) uses the Supabase transaction pooler for DATABASE_URL
+  // (port 6543, ?pgbouncer=true&connection_limit=1). DIRECT_URL is the direct
+  // 5432 connection used only by `prisma migrate`. Locally set DIRECT_URL to the
+  // same value as DATABASE_URL (see .env.example / docker-compose).
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
