@@ -28,6 +28,8 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://careeros:careeros@postgres:5432/careeros?schema=public
+      # Direct connection for `prisma migrate` (matches DATABASE_URL locally — no pooler in Docker).
+      DIRECT_URL: postgresql://careeros:careeros@postgres:5432/careeros?schema=public
       PORT: '4000'
       NODE_ENV: production
       CORS_ORIGIN: http://localhost:3000

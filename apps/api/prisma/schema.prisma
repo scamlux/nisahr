@@ -1,11 +1,16 @@
 // CareerOS — Prisma schema (PostgreSQL)
 generator client {
   provider = "prisma-client-js"
+  // "native" for local dev; "rhel-openssl-3.0.x" for Vercel's Node 20 Lambda runtime.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // Runtime: Supabase transaction pooler (port 6543, ?pgbouncer=true&connection_limit=1).
+  url       = env("DATABASE_URL")
+  // Migrations: direct/session connection (port 5432) — pooler can't run DDL.
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
