@@ -166,6 +166,25 @@ plan-gating guard behavior, and weighted job-readiness scoring.
 
 ---
 
+## Deployment
+
+Production runs on **Vercel + Supabase** (Render is no longer used):
+
+| Component | Host | Notes |
+| --- | --- | --- |
+| Web (Next.js) | **Vercel** — project `nisahr-web`, root `apps/web` | auto-deploy on push, PR previews |
+| API (NestJS) | **Vercel** — project `nisahr-api`, root `apps/api` | serverless via `apps/api/api/index.ts` + `vercel.json`; Fluid Compute keeps it warm |
+| Database | **Supabase** Postgres (eu-central-1) | pooler (`:6543`) for runtime `DATABASE_URL`, direct (`:5432`) for `DIRECT_URL` / migrations |
+
+The NestJS app is served as a single serverless function: all requests are rewritten
+to `apps/api/api/index.ts`, which forwards them into a cached Nest/Express instance
+(`src/app.factory.ts`) so only cold requests pay the bootstrap cost. Migrations run via
+`prisma migrate deploy` (build or manual step), never at request time.
+
+**Full setup + cutover runbook:** [`docs/DEPLOY_VERCEL.md`](docs/DEPLOY_VERCEL.md).
+
+---
+
 ## Notes on this build environment
 
 The app was verified end-to-end locally (auth → roadmap generation → chat → analytics →
