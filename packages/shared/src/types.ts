@@ -14,6 +14,10 @@ export interface PublicUser {
   role: Role;
   plan: Plan;
   createdAt: string;
+  /** F7: identity provider ("local" | "google"), verification + avatar. */
+  provider?: string;
+  emailVerified?: boolean;
+  avatarUrl?: string | null;
 }
 
 export interface AuthTokens {
@@ -31,6 +35,43 @@ export interface CareerStructuredPayload {
   recommendations?: AiCareerRecommendation[];
   skillGaps?: string[];
   summary?: string;
+  /** Live web-search results surfaced by the AI-HR tools (F3). */
+  jobs?: JobResult[];
+  resources?: WebResource[];
+  interviewPrep?: InterviewPrep;
+  /** Which tool the intent-router fired for this turn, if any. */
+  tool?: 'searchJobs' | 'searchResources' | 'getInterviewPrep';
+}
+
+/** A job opening surfaced by the searchJobs tool. */
+export interface JobResult {
+  title: string;
+  company: string;
+  location: string;
+  /** e.g. "Remote", "Hybrid", "On-site". */
+  workMode?: string;
+  salary?: string;
+  tags: string[];
+  url: string;
+  source: string;
+  postedAt?: string;
+}
+
+/** A learning resource surfaced by the searchResources tool. */
+export interface WebResource {
+  title: string;
+  url: string;
+  source: string;
+  snippet: string;
+  kind: 'ARTICLE' | 'VIDEO' | 'COURSE' | 'DOC';
+}
+
+/** Interview prep bundle surfaced by the getInterviewPrep tool. */
+export interface InterviewPrep {
+  role: string;
+  questions: string[];
+  focusAreas: string[];
+  resources: WebResource[];
 }
 
 export interface AiCareerRecommendation {

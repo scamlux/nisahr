@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CareerProfileDto, ExperienceLevel } from '@careeros/shared';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AiService } from '../ai/ai.service';
+import { matchProfessions, PsychAxes } from '../psych-test/psych-test.util';
+import { AXIS_LABELS, REASON_TEMPLATES, RiasecAxis } from '../psych-test/riasec.data';
+
+type Locale = 'en' | 'ru' | 'uz';
 
 @Injectable()
 export class CareerService {
@@ -65,9 +69,22 @@ export class CareerService {
     };
   }
 
-  async generateRecommendations(userId: string, limit = 5) {
-    const profile = await this.getProfile(userId);
-    const recs = this.ai.recommendations(this.profileForAi(profile), limit);
+  private readonly logger = new Logger('CareerService');
+
+  /**
+   * F1: when a psych-test result exists, recommendations come from the
+   * deterministic axis→profession map (identical profile → identical list),
+   * with reasons enriched by the LLM when one is configured (mock-safe).
+   */
+  async generateRecommendations(userId: string, limit = 5, locale: Locale = 'en') {
+    const psych = await this.prisma.psychTestResult.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const recs = psych
+      ? await this.psychRecommendations(psych.axes as PsychAxes, psych.profileCode, limit, locale)
+      : this.ai.recommendations(this.profileForAi(await this.getProfile(userId)), limit);
 
     await this.prisma.careerRecommendation.deleteMany({ where: { userId } });
     await this.prisma.careerRecommendation.createMany({
@@ -84,6 +101,60 @@ export class CareerService {
       where: { userId },
       orderBy: { score: 'desc' },
     });
+  }
+
+  private async psychRecommendations(
+    axes: PsychAxes,
+    profileCode: string,
+    limit: number,
+    locale: Locale,
+  ) {
+    const matches = matchProfessions(axes, limit);
+    const axisNames = profileCode
+      .split('')
+      .map((letter) => AXIS_LABELS[letter as RiasecAxis]?.[locale] ?? letter)
+      .join(' + ');
+    const base = matches.map((m) => ({
+      title: m.title,
+      reason: REASON_TEMPLATES[locale](axisNames, m.blurb[locale]),
+      entryDifficulty: m.entryDifficulty,
+      estimatedMonths: m.estimatedMonths,
+      score: m.matchScore,
+    }));
+
+    // LLM enrichment of the reason texts only — ranking stays deterministic.
+    if (this.ai.providerName !== 'mock') {
+      try {
+        const { text } = await this.ai.chatWith(
+          [
+            {
+              role: 'system',
+              content: `You improve career recommendation explanations. Reply ONLY with JSON: {"reasons": string[]} — one vivid, personal sentence per profession, in locale "${locale}". Keep the same order.`,
+            },
+            {
+              role: 'user',
+              content: JSON.stringify({
+                riasecProfile: profileCode,
+                axes,
+                professions: base.map((r) => ({ title: r.title, draft: r.reason })),
+              }),
+            },
+          ],
+          { json: true, temperature: 0.4 },
+        );
+        const parsed = JSON.parse(text) as { reasons?: unknown };
+        if (Array.isArray(parsed.reasons) && parsed.reasons.length === base.length) {
+          return base.map((r, i) =>
+            typeof parsed.reasons![i] === 'string' && (parsed.reasons![i] as string).length > 20
+              ? { ...r, reason: parsed.reasons![i] as string }
+              : r,
+          );
+        }
+      } catch (err) {
+        this.logger.debug(`LLM reason enrichment skipped: ${(err as Error).message}`);
+      }
+    }
+    return base;
   }
 
   async listRecommendations(userId: string) {

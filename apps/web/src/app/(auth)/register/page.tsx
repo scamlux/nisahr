@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { AuthShell } from '@/components/auth/auth-shell';
+import { GoogleButton } from '@/components/auth/google-button';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
 import { toast } from '@/components/ui/toast';
@@ -47,6 +48,7 @@ export default function RegisterPage() {
         </>
       }
     >
+      <GoogleButton />
       <form onSubmit={submit} className="space-y-4">
         <div>
           <label className="mb-1.5 block text-sm font-medium">{t.pages.auth.fullNameLabel}</label>

@@ -59,6 +59,34 @@ enum ProgressEventType {
   SKILL_DONE
   TASK_DONE
   STAGE_DONE
+  NODE_DONE
+}
+
+enum NodeType {
+  TOPIC
+  SUBTOPIC
+  OPTIONAL
+}
+
+enum NodeStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+  SKIPPED
+}
+
+enum EdgeKind {
+  REQUIRED
+  OPTIONAL
+}
+
+enum NodeResourceKind {
+  FREE_VIDEO
+  OFFICIAL_DOC
+  POPULAR
+  PAID_COURSE
+  ARTICLE
+  PRACTICE
 }
 
 enum InterviewType {
@@ -74,27 +102,50 @@ enum SubscriptionStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  role         Role     @default(STUDENT)
-  plan         Plan     @default(FREE)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(cuid())
+  email         String   @unique
+  /// Null for OAuth-only accounts (F7). Local accounts always set it.
+  passwordHash  String?
+  name          String
+  role          Role     @default(STUDENT)
+  plan          Plan     @default(FREE)
+  /// F7: "local" | "google". Which identity provider created/owns the login.
+  provider      String   @default("local")
+  providerId    String?
+  avatarUrl     String?
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  careerProfile   CareerProfile?
-  chatSessions    ChatSession[]
-  recommendations CareerRecommendation[]
-  roadmaps        Roadmap[]
-  enrollments     Enrollment[]
-  certificates    Certificate[]
-  progressEvents  ProgressEvent[]
-  resumeReviews   ResumeReview[]
-  mockInterviews  MockInterview[]
-  jobReadiness    JobReadiness[]
-  subscription    Subscription?
-  coursesTaught   Course[]               @relation("InstructorCourses")
+  careerProfile       CareerProfile?
+  chatSessions        ChatSession[]
+  recommendations     CareerRecommendation[]
+  roadmaps            Roadmap[]
+  enrollments         Enrollment[]
+  certificates        Certificate[]
+  progressEvents      ProgressEvent[]
+  resumeReviews       ResumeReview[]
+  mockInterviews      MockInterview[]
+  jobReadiness        JobReadiness[]
+  subscription        Subscription?
+  coursesTaught       Course[]                 @relation("InstructorCourses")
+  psychTestResults    PsychTestResult[]
+  assessments         FinalAssessmentAttempt[]
+  roadmapCertificates RoadmapCertificate[]
+}
+
+/// F1: deterministic RIASEC result. Question bank ships versioned in code.
+model PsychTestResult {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  version     String
+  answers     Json
+  axes        Json
+  profileCode String
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 model CareerProfile {
@@ -145,18 +196,25 @@ model CareerRecommendation {
 }
 
 model Roadmap {
-  id             String         @id @default(cuid())
+  id             String                   @id @default(cuid())
   userId         String
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   targetRole     String
-  level          ExperienceLevel @default(BEGINNER)
-  weeklyHours    Int            @default(10)
-  status         RoadmapStatus  @default(ACTIVE)
-  estimatedWeeks Int            @default(12)
-  isAiGenerated  Boolean        @default(true)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  level          ExperienceLevel          @default(BEGINNER)
+  weeklyHours    Int                      @default(10)
+  status         RoadmapStatus            @default(ACTIVE)
+  estimatedWeeks Int                      @default(12)
+  isAiGenerated  Boolean                  @default(true)
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+  /// F4: graph rendering flag — legacy stage model stays in parallel
+  useGraph       Boolean                  @default(false)
+  slug           String                   @default("")
   stages         RoadmapStage[]
+  nodes          RoadmapNode[]
+  edges          NodeEdge[]
+  assessments    FinalAssessmentAttempt[]
+  certificate    RoadmapCertificate?
 }
 
 model RoadmapStage {
@@ -174,6 +232,53 @@ model RoadmapStage {
   tasks       PracticalTask[]
 }
 
+/// F4: roadmap.sh-style flowchart node
+model RoadmapNode {
+  id          String     @id @default(cuid())
+  roadmapId   String
+  roadmap     Roadmap    @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  key         String     @default("")
+  order       Int
+  title       String
+  description String     @default("")
+  x           Float      @default(0)
+  y           Float      @default(0)
+  group       String     @default("")
+  type        NodeType   @default(TOPIC)
+  status      NodeStatus @default(NOT_STARTED)
+
+  resources NodeResource[]
+  outgoing  NodeEdge[]     @relation("EdgeFrom")
+  incoming  NodeEdge[]     @relation("EdgeTo")
+
+  @@index([roadmapId, order])
+}
+
+model NodeEdge {
+  id        String      @id @default(cuid())
+  roadmapId String
+  roadmap   Roadmap     @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  fromId    String
+  from      RoadmapNode @relation("EdgeFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  toId      String
+  to        RoadmapNode @relation("EdgeTo", fields: [toId], references: [id], onDelete: Cascade)
+  kind      EdgeKind    @default(REQUIRED)
+
+  @@unique([fromId, toId])
+}
+
+model NodeResource {
+  id          String           @id @default(cuid())
+  nodeId      String
+  node        RoadmapNode      @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  kind        NodeResourceKind @default(ARTICLE)
+  provider    String           @default("")
+  url         String
+  title       String
+  durationMin Int              @default(10)
+  lang        String           @default("en")
+}
+
 model Skill {
   id          String              @id @default(cuid())
   name        String              @unique
@@ -183,7 +288,7 @@ model Skill {
 }
 
 model RoadmapStageSkill {
-  id      String      @id @default(cuid())
+  id      String       @id @default(cuid())
   stageId String
   stage   RoadmapStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
   skillId String
@@ -194,14 +299,14 @@ model RoadmapStageSkill {
 }
 
 model LearningResource {
-  id          String       @id @default(cuid())
+  id          String        @id @default(cuid())
   title       String
-  type        ResourceType @default(ARTICLE)
+  type        ResourceType  @default(ARTICLE)
   url         String
-  provider    String       @default("Internal")
-  durationMin Int          @default(15)
+  provider    String        @default("Internal")
+  durationMin Int           @default(15)
   skillId     String?
-  skill       Skill?       @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  skill       Skill?        @relation(fields: [skillId], references: [id], onDelete: SetNull)
   stageId     String?
   stage       RoadmapStage? @relation(fields: [stageId], references: [id], onDelete: SetNull)
 }
@@ -217,15 +322,15 @@ model PracticalTask {
 }
 
 model Course {
-  id           String       @id @default(cuid())
+  id           String        @id @default(cuid())
   instructorId String
-  instructor   User         @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
+  instructor   User          @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
   title        String
-  description  String       @default("")
-  coverColor   String       @default("#6d5efc")
-  price        Float        @default(0)
-  published    Boolean      @default(false)
-  createdAt    DateTime     @default(now())
+  description  String        @default("")
+  coverColor   String        @default("#6d5efc")
+  price        Float         @default(0)
+  published    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
   lessons      Lesson[]
   quizzes      Quiz[]
   enrollments  Enrollment[]
@@ -233,13 +338,13 @@ model Course {
 }
 
 model Lesson {
-  id        String   @id @default(cuid())
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  title     String
-  videoUrl  String   @default("")
-  content   String   @default("")
-  order     Int      @default(0)
+  id          String @id @default(cuid())
+  courseId    String
+  course      Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  videoUrl    String @default("")
+  content     String @default("")
+  order       Int    @default(0)
   durationMin Int    @default(10)
 }
 
@@ -261,26 +366,26 @@ model QuizQuestion {
 }
 
 model Enrollment {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId    String
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  progressPct Float    @default(0)
-  completedLessonIds Json @default("[]")
-  createdAt   DateTime @default(now())
+  id                 String   @id @default(cuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId           String
+  course             Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progressPct        Float    @default(0)
+  completedLessonIds Json     @default("[]")
+  createdAt          DateTime @default(now())
 
   @@unique([userId, courseId])
 }
 
 model Certificate {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  issuedAt  DateTime @default(now())
-  serial    String   @unique @default(cuid())
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  issuedAt DateTime @default(now())
+  serial   String   @unique @default(cuid())
 
   @@unique([userId, courseId])
 }
@@ -293,6 +398,8 @@ model ProgressEvent {
   refId      String?
   hoursSpent Float             @default(1)
   createdAt  DateTime          @default(now())
+
+  @@index([userId, createdAt])
 }
 
 model ResumeReview {
@@ -339,4 +446,72 @@ model Subscription {
   status    SubscriptionStatus @default(ACTIVE)
   startedAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
+}
+
+/// Cache for web-search tool results (F3). Keyed by tool+provider+normalized
+/// query so repeat AI-HR lookups are instant and provider-quota-friendly.
+model JobSearchCache {
+  id        String   @id @default(cuid())
+  tool      String
+  provider  String
+  query     String
+  results   Json
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@unique([tool, provider, query])
+  @@index([expiresAt])
+}
+
+/// F6: final-assessment attempt. Question bank ships versioned in code (like
+/// PsychTestResult); only attempts + scores live in the DB. Anti-cheat state
+/// (served question order, start time, time limit) is server-authoritative.
+enum AssessmentStatus {
+  IN_PROGRESS
+  PASSED
+  FAILED
+  EXPIRED
+}
+
+model FinalAssessmentAttempt {
+  id            String              @id @default(cuid())
+  userId        String
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roadmapId     String
+  roadmap       Roadmap             @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  role          String
+  version       String
+  /// Ordered questionIds exactly as served (shuffled per attempt).
+  questionOrder Json
+  answers       Json                @default("[]")
+  score         Float               @default(0)
+  passThreshold Int                 @default(70)
+  status        AssessmentStatus    @default(IN_PROGRESS)
+  timeLimitSec  Int                 @default(900)
+  startedAt     DateTime            @default(now())
+  submittedAt   DateTime?
+  certificate   RoadmapCertificate?
+
+  @@index([userId, roadmapId])
+}
+
+/// F6: verifiable completion certificate. `serial` is human-readable; `verifyToken`
+/// is crypto-random (set in code, never a cuid) and is the sole public gate for
+/// authenticity. One certificate per (user, roadmap).
+model RoadmapCertificate {
+  id          String                 @id @default(cuid())
+  userId      String
+  user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roadmapId   String                 @unique
+  roadmap     Roadmap                @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  attemptId   String                 @unique
+  attempt     FinalAssessmentAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  role        String
+  recipient   String
+  score       Float
+  serial      String                 @unique
+  verifyToken String                 @unique
+  issuedAt    DateTime               @default(now())
+
+  @@index([userId])
 }

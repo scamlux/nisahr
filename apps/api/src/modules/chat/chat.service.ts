@@ -40,7 +40,12 @@ export class ChatService {
     });
   }
 
-  async sendMessage(userId: string, sessionId: string, content: string) {
+  async sendMessage(
+    userId: string,
+    sessionId: string,
+    content: string,
+    ai?: { provider?: string; model?: string },
+  ) {
     await this.ownedSession(userId, sessionId);
 
     await this.prisma.chatMessage.create({
@@ -58,7 +63,7 @@ export class ChatService {
       content: m.content,
     }));
 
-    const { text, structuredPayload } = await this.ai.consult(
+    const { text, structuredPayload, meta } = await this.ai.consult(
       {
         interests: profile?.interests ?? [],
         goals: profile?.goals ?? '',
@@ -70,6 +75,7 @@ export class ChatService {
         weaknesses: profile?.weaknesses ?? '',
       },
       llmHistory,
+      ai,
     );
 
     const assistant = await this.prisma.chatMessage.create({
@@ -77,7 +83,7 @@ export class ChatService {
         sessionId,
         role: 'assistant',
         content: text,
-        structuredPayload: structuredPayload as object,
+        structuredPayload: { ...structuredPayload, ai: meta } as object,
       },
     });
 

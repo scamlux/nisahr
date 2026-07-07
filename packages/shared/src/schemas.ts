@@ -24,6 +24,27 @@ export const refreshSchema = z.object({
 });
 export type RefreshDto = z.infer<typeof refreshSchema>;
 
+/* ----------------------- OAuth + email verify (F7) -------------- */
+/** Dev/zero-key "Sign in with Google" bypass — mints a session for a Google identity. */
+export const googleMockSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(80).optional(),
+  avatarUrl: z.string().url().optional(),
+});
+export type GoogleMockDto = z.infer<typeof googleMockSchema>;
+
+/** Real Google OAuth2 authorization-code exchange (gated on GOOGLE_CLIENT_ID). */
+export const googleCallbackSchema = z.object({
+  code: z.string().min(1),
+  redirectUri: z.string().url().optional(),
+});
+export type GoogleCallbackDto = z.infer<typeof googleCallbackSchema>;
+
+export const verifyEmailSchema = z.object({
+  token: z.string().min(10),
+});
+export type VerifyEmailDto = z.infer<typeof verifyEmailSchema>;
+
 /* ------------------------- Career Profile ----------------------- */
 export const careerProfileSchema = z.object({
   interests: z.array(z.string()).default([]),
@@ -44,14 +65,66 @@ export type CreateChatSessionDto = z.infer<typeof createChatSessionSchema>;
 
 export const sendMessageSchema = z.object({
   content: z.string().min(1).max(8000),
+  /** Optional per-request AI provider/model override (model switcher). */
+  provider: z.string().max(40).optional(),
+  model: z.string().max(120).optional(),
 });
 export type SendMessageDto = z.infer<typeof sendMessageSchema>;
 
 /* --------------------------- Recommendations -------------------- */
 export const recommendationsRequestSchema = z.object({
   limit: z.number().int().min(1).max(10).optional().default(5),
+  /** Locale for generated reason texts (psych-based recommendations). */
+  locale: z.enum(['en', 'ru', 'uz']).optional().default('en'),
 });
 export type RecommendationsRequestDto = z.infer<typeof recommendationsRequestSchema>;
+
+/* ------------------------ Roadmap graph (F4) --------------------- */
+export const selectRoadmapSchema = z.object({
+  slug: z.string().min(1).max(80),
+  level: z.nativeEnum(ExperienceLevel).optional().default(ExperienceLevel.BEGINNER),
+  weeklyHours: z.number().int().min(1).max(80).optional().default(10),
+});
+export type SelectRoadmapDto = z.infer<typeof selectRoadmapSchema>;
+
+export const updateNodeStatusSchema = z.object({
+  status: z.enum(['NOT_STARTED', 'IN_PROGRESS', 'DONE', 'SKIPPED']),
+});
+export type UpdateNodeStatusDto = z.infer<typeof updateNodeStatusSchema>;
+
+/* ----------------------- Final assessment (F6) ------------------ */
+export const startAssessmentSchema = z.object({
+  roadmapId: z.string().cuid(),
+});
+export type StartAssessmentDto = z.infer<typeof startAssessmentSchema>;
+
+export const submitAssessmentSchema = z.object({
+  answers: z
+    .array(
+      z.object({
+        questionId: z.string().min(1).max(24),
+        selectedIndex: z.number().int().min(0).max(9),
+      }),
+    )
+    .min(1)
+    .max(50),
+});
+export type SubmitAssessmentDto = z.infer<typeof submitAssessmentSchema>;
+
+/* --------------------------- Psych test ------------------------- */
+export const submitPsychTestSchema = z.object({
+  version: z.string().min(1).max(40),
+  answers: z
+    .array(
+      z.object({
+        questionId: z.string().min(1).max(24),
+        value: z.number().int().min(1).max(5),
+      }),
+    )
+    .min(1)
+    .max(200),
+});
+export type SubmitPsychTestDto = z.infer<typeof submitPsychTestSchema>;
 
 /* ------------------------------ Roadmap ------------------------- */
 export const generateRoadmapSchema = z.object({

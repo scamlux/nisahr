@@ -5,8 +5,52 @@ import {
   CareerStructuredPayload,
   ExperienceLevel,
 } from '@careeros/shared';
+
+/** Intent detected by the AI-HR router → which web-search tool to fire. */
+type ToolIntent =
+  | { tool: 'searchJobs'; role: string; location?: string }
+  | { tool: 'searchResources'; topic: string }
+  | { tool: 'getInterviewPrep'; role: string }
+  | null;
+
+const ROLE_KEYWORDS: Record<string, string> = {
+  frontend: 'Frontend Developer',
+  'front-end': 'Frontend Developer',
+  'front end': 'Frontend Developer',
+  backend: 'Backend Developer',
+  'back-end': 'Backend Developer',
+  'back end': 'Backend Developer',
+  fullstack: 'Full-Stack Developer',
+  'full-stack': 'Full-Stack Developer',
+  'full stack': 'Full-Stack Developer',
+  'data analyst': 'Data Analyst',
+  'data scientist': 'Data Scientist',
+  'data engineer': 'Data Engineer',
+  'ai engineer': 'AI Engineer',
+  'ml engineer': 'ML Engineer',
+  'machine learning': 'ML Engineer',
+  'ui/ux': 'UI/UX Designer',
+  'ux designer': 'UI/UX Designer',
+  'ui designer': 'UI/UX Designer',
+  designer: 'UI/UX Designer',
+  'qa engineer': 'QA Engineer',
+  'qa ': 'QA Engineer',
+  tester: 'QA Engineer',
+  'product manager': 'Product Manager',
+  devops: 'DevOps Engineer',
+  mobile: 'Mobile Developer',
+  developer: 'Software Developer',
+  engineer: 'Software Engineer',
+};
 import { LLM_PROVIDER, LlmMessage, LlmProvider } from './llm-provider.interface';
+import { AiRegistryService } from './ai-registry.service';
 import { pickTemplate } from './roadmap-templates';
+import { SearchToolsService } from '../search/search-tools.service';
+
+export interface AiCallOptions {
+  provider?: string;
+  model?: string;
+}
 
 interface ProfileLike {
   interests?: string[];
@@ -25,17 +69,59 @@ Be concrete, encouraging and specific. Recommend roles, name concrete skill gaps
 export class AiService {
   private readonly logger = new Logger('AiService');
 
-  constructor(@Inject(LLM_PROVIDER) private readonly llm: LlmProvider) {}
+  constructor(
+    @Inject(LLM_PROVIDER) private readonly llm: LlmProvider,
+    private readonly registry: AiRegistryService,
+    private readonly searchTools: SearchToolsService,
+  ) {}
 
   get providerName() {
     return this.llm.name;
   }
 
-  /** AI-HR chat: natural text + structured recommendations / skill gaps. */
+  /**
+   * Chat through the registry with per-request provider/model choice.
+   * Unavailable providers fall back to the env default, then mock.
+   */
+  async chatWith(
+    messages: LlmMessage[],
+    opts?: AiCallOptions & { temperature?: number; maxTokens?: number; json?: boolean },
+  ): Promise<{ text: string; provider: string; model: string }> {
+    const provider = this.registry.resolve(opts?.provider);
+    // Only honor the requested model if we actually got the requested provider —
+    // on fallback (missing key) the model must follow the resolved provider.
+    const requestedHonored =
+      !opts?.provider || provider.name === opts.provider.toLowerCase();
+    const model =
+      requestedHonored && opts?.model
+        ? opts.model
+        : this.registry.defaultModelFor(provider.name);
+    const text = await provider.chat(messages, {
+      temperature: opts?.temperature,
+      maxTokens: opts?.maxTokens,
+      json: opts?.json,
+      model,
+    });
+    return { text, provider: provider.name, model };
+  }
+
+  /** AI-HR chat: natural text + structured recommendations / skill gaps + live tool results. */
   async consult(
     profile: ProfileLike,
     history: LlmMessage[],
-  ): Promise<{ text: string; structuredPayload: CareerStructuredPayload }> {
+    opts?: AiCallOptions,
+  ): Promise<{
+    text: string;
+    structuredPayload: CareerStructuredPayload;
+    meta: { provider: string; model: string };
+  }> {
+    const lastUser = [...history].reverse().find((m) => m.role === 'user')?.content ?? '';
+    // Intent router: fire a web-search tool when the user asks for jobs,
+    // learning resources, or interview prep. Works on every provider (incl.
+    // the zero-key mock) because detection + tool calls are provider-agnostic.
+    const intent = this.detectIntent(lastUser, profile);
+    const toolPayload = intent ? await this.runTool(intent) : {};
+
     const messages: LlmMessage[] = [
       { role: 'system', content: CONSULTANT_SYSTEM },
       {
@@ -47,16 +133,26 @@ export class AiService {
           goals: profile.goals ?? '',
         })}`,
       },
-      ...history,
     ];
+    if (intent) {
+      messages.push({
+        role: 'system',
+        content: `You just used the "${intent.tool}" web-search tool. Ground your reply in these live results and reference them naturally (do not invent others):\n${JSON.stringify(
+          toolPayload,
+        ).slice(0, 3500)}`,
+      });
+    }
+    messages.push(...history);
 
     let text: string;
+    let meta = { provider: 'mock', model: 'careeros-mock' };
     try {
-      text = await this.llm.chat(messages, { temperature: 0.7 });
+      const result = await this.chatWith(messages, { ...opts, temperature: 0.7 });
+      text = result.text;
+      meta = { provider: result.provider, model: result.model };
     } catch (err) {
       this.logger.warn(`LLM chat failed, using fallback: ${(err as Error).message}`);
-      text =
-        "Here's how I'd approach your next step: pick one target role, close your two biggest skill gaps with hands-on projects, and practice interviews weekly.";
+      text = this.toolFallbackText(intent, toolPayload);
     }
 
     const recommendations = this.recommendations(profile, 3);
@@ -64,8 +160,82 @@ export class AiService {
       recommendations,
       skillGaps: this.skillGaps(profile),
       summary: `Top match: ${recommendations[0]?.title ?? 'Explore roles'}`,
+      ...toolPayload,
     };
-    return { text, structuredPayload };
+    return { text, structuredPayload, meta };
+  }
+
+  /** Detect a web-search tool intent from the latest user message. */
+  detectIntent(message: string, profile?: ProfileLike): ToolIntent {
+    const t = message.toLowerCase();
+    if (!t.trim()) return null;
+
+    const jobRe = /\b(job|jobs|hiring|vacanc|opening|position|apply|роль|работ|ваканси|ish\b|ishga)\b/;
+    const interviewRe = /\b(interview|интервью|собеседован|suhbat|intervyu)\b/;
+    const resourceRe = /\b(learn|study|resource|course|tutorial|how do i|how to|guide|roadmap to|выучить|изучить|курс|материал|o'rgan|o‘rgan)\b/;
+
+    const role = this.extractRole(message) ?? this.profileRole(profile);
+
+    if (interviewRe.test(t)) return { tool: 'getInterviewPrep', role };
+    if (jobRe.test(t)) return { tool: 'searchJobs', role, location: this.extractLocation(message) };
+    if (resourceRe.test(t)) return { tool: 'searchResources', topic: this.extractTopic(message, role) };
+    return null;
+  }
+
+  private async runTool(intent: NonNullable<ToolIntent>): Promise<CareerStructuredPayload> {
+    try {
+      if (intent.tool === 'searchJobs') {
+        return { tool: 'searchJobs', jobs: await this.searchTools.searchJobs(intent.role, intent.location) };
+      }
+      if (intent.tool === 'searchResources') {
+        return { tool: 'searchResources', resources: await this.searchTools.searchResources(intent.topic) };
+      }
+      const questions = this.interviewQuestions('HR', intent.role);
+      return { tool: 'getInterviewPrep', interviewPrep: await this.searchTools.getInterviewPrep(intent.role, questions) };
+    } catch (err) {
+      this.logger.warn(`tool ${intent.tool} failed: ${(err as Error).message}`);
+      return {};
+    }
+  }
+
+  private extractRole(message: string): string | undefined {
+    const t = message.toLowerCase();
+    for (const [kw, role] of Object.entries(ROLE_KEYWORDS)) {
+      if (t.includes(kw)) return role;
+    }
+    // "as a X" / "for a X" / "become a X"
+    const m = t.match(/\b(?:as|for|become|a)\s+(?:an?\s+)?([a-z][a-z /+-]{2,30}?)\s*(?:role|job|position|developer|engineer|designer|analyst)?\b/);
+    if (m?.[1]) return m[1].replace(/\b\w/g, (c) => c.toUpperCase()).trim();
+    return undefined;
+  }
+
+  private profileRole(profile?: ProfileLike): string {
+    return this.recommendations(profile ?? {}, 1)[0]?.title ?? 'Software Developer';
+  }
+
+  private extractLocation(message: string): string | undefined {
+    const m = message.match(/\b(?:in|near|around)\s+([A-Z][a-zA-Z]+(?:[ ,]+[A-Z][a-zA-Z]+)?)/);
+    if (m?.[1]) return m[1].trim();
+    if (/\bremote\b/i.test(message)) return 'Remote';
+    return undefined;
+  }
+
+  private extractTopic(message: string, role: string): string {
+    const m = message
+      .toLowerCase()
+      .match(/\b(?:learn|study|about|master|understand)\s+([a-z][a-z0-9 .+/#-]{2,40})/);
+    if (m?.[1]) return m[1].replace(/\b(please|now|today|quickly)\b/g, '').trim();
+    return role;
+  }
+
+  private toolFallbackText(intent: ToolIntent, payload: CareerStructuredPayload): string {
+    if (intent?.tool === 'searchJobs' && payload.jobs?.length)
+      return `I found ${payload.jobs.length} openings for ${intent.role}. Here are the top matches — open any card to apply. Tailor your resume to each before applying.`;
+    if (intent?.tool === 'searchResources' && payload.resources?.length)
+      return `Here are ${payload.resources.length} strong resources to learn ${intent.topic}. Start with the first, then build a small project to lock it in.`;
+    if (intent?.tool === 'getInterviewPrep' && payload.interviewPrep)
+      return `Here's your interview prep for ${intent.role}: practice these questions out loud, focus on the listed areas, and review the linked resources.`;
+    return "Here's how I'd approach your next step: pick one target role, close your two biggest skill gaps with hands-on projects, and practice interviews weekly.";
   }
 
   /** Ranked career recommendations from a profile (deterministic + plausible). */

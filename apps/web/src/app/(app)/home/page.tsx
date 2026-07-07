@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Send, Sparkles, Target, TrendingUp, Compass } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
-import { useAuth } from '@/lib/store';
+import { useAiModel, useAuth } from '@/lib/store';
+import { ModelSwitcher } from '@/components/app/model-switcher';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
+import { JobCards, ResourceCards, InterviewPrepCard } from '@/components/app/career-cards';
+import { Typewriter } from '@/components/app/typewriter';
 import type { CareerStructuredPayload } from '@careeros/shared';
 
 interface Msg {
@@ -24,6 +27,7 @@ export default function HomePage() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
+  const [streamingId, setStreamingId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const suggestions = [
@@ -63,8 +67,13 @@ export default function HomePage() {
     setMessages((m) => [...m, userMsg]);
     setTyping(true);
     try {
-      const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, { content: text });
+      const { provider, model } = useAiModel.getState();
+      const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, {
+        content: text,
+        ...(provider && model ? { provider, model } : {}),
+      });
       setMessages((m) => [...m, data]);
+      setStreamingId(data.id); // client-side reveal for the fresh reply only
     } catch (err) {
       toast.error(apiError(err, t.pages.home.toastMessageFailed));
     } finally {
@@ -81,10 +90,11 @@ export default function HomePage() {
         <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent text-primary-fg">
           <Sparkles className="h-5 w-5" />
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <h1 className="font-display text-lg font-bold leading-tight">{t.pages.home.headerTitle}</h1>
-          <p className="text-xs text-muted">{t.pages.home.headerSubtitle}</p>
+          <p className="truncate text-xs text-muted">{t.pages.home.headerSubtitle}</p>
         </div>
+        <ModelSwitcher />
       </div>
 
       {/* messages */}
@@ -135,9 +145,19 @@ export default function HomePage() {
                       : 'border border-border bg-surface-2/60',
                   )}
                 >
-                  {m.content}
+                  {m.role === 'assistant' ? (
+                    <Typewriter
+                      text={m.content}
+                      stream={m.id === streamingId}
+                      onDone={() => setStreamingId((id) => (id === m.id ? null : id))}
+                    />
+                  ) : (
+                    m.content
+                  )}
                 </div>
-                {m.structuredPayload && <StructuredPanel payload={m.structuredPayload} />}
+                {m.structuredPayload && m.id !== streamingId && (
+                  <StructuredPanel payload={m.structuredPayload} />
+                )}
               </div>
             </motion.div>
           ))}
@@ -187,6 +207,9 @@ function StructuredPanel({ payload }: { payload: CareerStructuredPayload }) {
   // message is loaded from history rather than mounted live.
   return (
     <div className="mt-3 space-y-3 animate-fade-up">
+      {payload.jobs && payload.jobs.length > 0 && <JobCards jobs={payload.jobs} />}
+      {payload.resources && payload.resources.length > 0 && <ResourceCards resources={payload.resources} />}
+      {payload.interviewPrep && <InterviewPrepCard prep={payload.interviewPrep} />}
       {payload.recommendations && payload.recommendations.length > 0 && (
         <div className="space-y-2">
           <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted">

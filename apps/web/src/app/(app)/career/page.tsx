@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
+import { BILLING_ENABLED } from '@/lib/billing';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { ProgressRing } from '@/components/ui/progress-ring';
@@ -18,7 +19,7 @@ import { cn } from '@/lib/utils';
 
 export default function CareerPage() {
   const { t } = useI18n();
-  const isPremium = useAuth((s) => s.user?.plan) === 'PREMIUM';
+  const isPremium = !BILLING_ENABLED || useAuth((s) => s.user?.plan) === 'PREMIUM';
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 lg:px-8">
       <PageHeader title={t.pages.career.pageTitle} subtitle={t.pages.career.pageSubtitle} />

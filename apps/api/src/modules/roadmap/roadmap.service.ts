@@ -13,6 +13,9 @@ import {
 } from '@careeros/shared';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AiService } from '../ai/ai.service';
+import { billingEnabled } from '../../common/guards/plan.guard';
+import { RoadmapGraphService } from './roadmap-graph.service';
+import { computeGraphCompletion } from './roadmap-graph.service';
 import {
   computeRoadmapCompletion,
   computeStageCompletion,
@@ -25,6 +28,7 @@ export class RoadmapService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly ai: AiService,
+    private readonly graph: RoadmapGraphService,
   ) {}
 
   private fullInclude = {
@@ -36,11 +40,16 @@ export class RoadmapService {
         tasks: true,
       },
     },
+    nodes: {
+      orderBy: { order: 'asc' as const },
+      include: { resources: true },
+    },
+    edges: true,
   };
 
   async generate(userId: string, dto: GenerateRoadmapDto, plan: string, role: string) {
-    // Plan gating: FREE users may keep only 1 roadmap.
-    if (plan !== Plan.PREMIUM && role !== 'ADMIN') {
+    // Plan gating: FREE users may keep only 1 roadmap (inert while billing is off).
+    if (billingEnabled() && plan !== Plan.PREMIUM && role !== 'ADMIN') {
       const count = await this.prisma.roadmap.count({ where: { userId } });
       if (count >= 1) {
         throw new ForbiddenException({
@@ -118,6 +127,13 @@ export class RoadmapService {
       }
     }
 
+    // F4: when a graph template matches the role, attach a flowchart too.
+    try {
+      await this.graph.attachGraphForRole(userId, roadmap.id, dto.targetRole);
+    } catch {
+      // graph attach is best-effort; the stage roadmap remains fully usable
+    }
+
     return this.get(userId, roadmap.id);
   }
 
@@ -162,7 +178,9 @@ export class RoadmapService {
     return {
       ...roadmap,
       stages,
-      completion: computeRoadmapCompletion(roadmap.stages),
+      completion: roadmap.useGraph
+        ? computeGraphCompletion(roadmap.nodes ?? [])
+        : computeRoadmapCompletion(roadmap.stages),
     };
   }
 
