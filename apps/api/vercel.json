@@ -4,6 +4,7 @@
   "installCommand": "pnpm install --frozen-lockfile=false",
   "buildCommand": "pnpm --filter @careeros/shared build && pnpm --filter @careeros/api prisma:generate && pnpm --filter @careeros/api build",
   "outputDirectory": "public",
+  "regions": ["fra1"],
   "functions": {
     "api/index.ts": {
       "memory": 1024,
