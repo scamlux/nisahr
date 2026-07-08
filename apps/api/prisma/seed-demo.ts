@@ -10,6 +10,7 @@
  * exactly what the real read paths expect (psych scoring, graph layout,
  * assessment scoring, certificate serial/token).
  */
+import { randomBytes } from 'crypto';
 import { PrismaClient, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 
@@ -541,7 +542,10 @@ async function main() {
     data: {
       email: INSTRUCTOR_EMAIL,
       name: 'Demo Instructor',
-      passwordHash: hash(process.env.DEMO_INSTRUCTOR_PASSWORD || DEMO_PASSWORD),
+      // Privileged role (can publish public course content) — no one ever logs
+      // in as the instructor (it only owns courses via FK), so give it an
+      // unknowable random password rather than the shared student demo one.
+      passwordHash: hash(randomBytes(18).toString('base64url')),
       emailVerified: true,
       role: 'INSTRUCTOR',
       plan: 'PREMIUM',
