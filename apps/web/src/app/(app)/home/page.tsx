@@ -84,7 +84,7 @@ export default function HomePage() {
   const empty = messages.length === 0;
 
   return (
-    <div className="mx-auto flex h-screen max-w-3xl flex-col px-4 py-6 lg:px-8">
+    <div className="mx-auto flex h-[calc(100dvh-5rem)] max-w-3xl flex-col px-4 py-6 lg:h-screen lg:px-8">
       {/* header */}
       <div className="mb-4 flex items-center gap-3">
         <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent text-primary-fg">

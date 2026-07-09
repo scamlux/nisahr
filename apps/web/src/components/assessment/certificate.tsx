@@ -88,7 +88,7 @@ export function Certificate({
 
           <div className="mt-8 flex w-full items-end justify-between gap-6">
             <div className="text-left text-[11px] text-[#6b6558]">
-              <p>{labels.serial}: <span className="font-mono">{cert.serial}</span></p>
+              <p>{labels.serial}: <span className="font-mono break-all">{cert.serial}</span></p>
               <p className="mt-1">{labels.issued}: {date}</p>
               <p className="mt-2 flex items-center gap-1 text-[#a9822f]">
                 <ShieldCheck className="h-3.5 w-3.5" /> {labels.verifyHint}
