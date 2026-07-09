@@ -10,7 +10,7 @@ import { api, apiError } from '@/lib/api';
 import { PageHeader } from '@/components/app/page-header';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/toast';
-import { cn } from '@/lib/utils';
+import { cn, youtubeId, youtubeEmbedUrl } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
 
 export default function LearningPage() {
@@ -191,9 +191,27 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
                 </div>
                 {/* lesson player */}
                 <div className="flex-1 overflow-y-auto p-6">
-                  <div className="mb-4 grid aspect-video place-items-center rounded-2xl bg-black/40">
-                    <PlayCircle className="h-16 w-16 text-white/40" />
-                  </div>
+                  {(() => {
+                    const vid = lesson?.videoUrl ? youtubeId(lesson.videoUrl) : null;
+                    return vid ? (
+                      <div className="mb-4 aspect-video overflow-hidden rounded-2xl bg-black">
+                        <iframe
+                          key={vid}
+                          src={youtubeEmbedUrl(vid)}
+                          title={lesson?.title ?? 'Lesson'}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          className="h-full w-full border-0"
+                        />
+                      </div>
+                    ) : (
+                      <div className="mb-4 grid aspect-video place-items-center rounded-2xl bg-black/40">
+                        <PlayCircle className="h-16 w-16 text-white/40" />
+                      </div>
+                    );
+                  })()}
                   <h3 className="font-display text-lg font-semibold">{lesson?.title}</h3>
                   <p className="mt-2 text-sm text-muted">{lesson?.content}</p>
                   <button

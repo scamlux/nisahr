@@ -57,6 +57,21 @@ export const careerProfileSchema = z.object({
 });
 export type CareerProfileDto = z.infer<typeof careerProfileSchema>;
 
+/* ------------------------- Profile (F5 edit) -------------------- */
+/** Editable identity + a short professional summary ("resume"). All optional
+ *  so the client can patch a single field at a time. */
+export const updateProfileSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters').max(80).optional(),
+    // Empty string clears the avatar; otherwise must be a URL.
+    avatarUrl: z.union([z.string().url(), z.literal('')]).optional(),
+    // Short professional summary / mini-resume (stored on the career profile).
+    bio: z.string().max(2000).optional(),
+    interests: z.array(z.string().max(60)).max(30).optional(),
+  })
+  .refine((v) => Object.keys(v).length > 0, { message: 'Nothing to update' });
+export type UpdateProfileDto = z.infer<typeof updateProfileSchema>;
+
 /* ------------------------------ Chat ---------------------------- */
 export const createChatSessionSchema = z.object({
   title: z.string().max(160).optional(),

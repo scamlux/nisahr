@@ -344,7 +344,7 @@ async function main() {
             title: l.title,
             order: i,
             durationMin: l.durationMin,
-            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            videoUrl: 'https://www.youtube.com/embed/PkZNo7MFNFg',
             content: `Lesson content for "${l.title}".`,
           })),
         },

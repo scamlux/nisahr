@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Loader2, X } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
 import { toast } from '@/components/ui/toast';
@@ -26,30 +27,45 @@ function GoogleIcon() {
   );
 }
 
-/** F7: "Continue with Google". Real OAuth redirect when configured, else the
- *  zero-key mock sign-in for the demo. */
+/**
+ * F7: "Continue with Google".
+ *  - Real OAuth2 redirect when GOOGLE_CLIENT_ID/SECRET are configured.
+ *  - Otherwise a zero-key demo that asks for a name + email so EACH person gets
+ *    their OWN persistent account. (Previously every demo sign-in shared one
+ *    hardcoded "Google Demo" identity, so users saw each other's data — fixed.)
+ */
 export function GoogleButton() {
   const router = useRouter();
   const setAuth = useAuth((s) => s.setAuth);
   const { t } = useI18n();
+  const tr = t.pages.auth;
   const [cfg, setCfg] = useState<GoogleConfig | null>(null);
   const [loading, setLoading] = useState(false);
+  const [askDemo, setAskDemo] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     api.get<GoogleConfig>('/auth/google/config').then((r) => setCfg(r.data)).catch(() => setCfg(null));
   }, []);
 
-  async function onClick() {
+  function onClick() {
     if (cfg?.configured && cfg.authUrl) {
+      // Real Google — hand off to the OAuth consent screen.
       window.location.href = cfg.authUrl;
       return;
     }
-    // Zero-key demo: mint a session for a demo Google identity.
+    // Zero-key demo: collect a per-person identity so accounts don't collide.
+    setAskDemo(true);
+  }
+
+  async function submitDemo(e: React.FormEvent) {
+    e.preventDefault();
     setLoading(true);
     try {
       const { data } = await api.post('/auth/google/mock', {
-        email: 'google.demo@careeros.dev',
-        name: 'Google Demo',
+        email: email.trim().toLowerCase(),
+        name: name.trim() || email.split('@')[0],
       });
       setAuth(data.user, data.tokens.accessToken, data.tokens.refreshToken);
       const me = await api.get('/auth/me');
@@ -70,11 +86,50 @@ export function GoogleButton() {
         className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-surface py-3 text-sm font-medium transition-all hover:border-primary/40 hover:bg-surface-2 disabled:opacity-60"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
-        {t.pages.auth.continueWithGoogle}
+        {tr.continueWithGoogle}
       </button>
       <div className="flex items-center gap-3 text-[11px] uppercase tracking-wide text-muted">
-        <span className="h-px flex-1 bg-border" /> {t.pages.auth.orDivider} <span className="h-px flex-1 bg-border" />
+        <span className="h-px flex-1 bg-border" /> {tr.orDivider} <span className="h-px flex-1 bg-border" />
       </div>
+
+      <AnimatePresence>
+        {askDemo && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[90] grid place-items-center bg-black/60 p-4 backdrop-blur-sm"
+            onClick={() => !loading && setAskDemo(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="glass w-full max-w-sm rounded-3xl p-6"
+            >
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <h2 className="flex items-center gap-2 font-display text-lg font-bold">
+                  <GoogleIcon /> {tr.googleDemoTitle}
+                </h2>
+                <button type="button" onClick={() => setAskDemo(false)} className="text-muted hover:text-fg">
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <p className="mb-4 text-sm text-muted">{tr.googleDemoBody}</p>
+              <form onSubmit={submitDemo} className="space-y-3">
+                <input
+                  className="input" value={name} onChange={(e) => setName(e.target.value)}
+                  placeholder={tr.googleDemoName} autoFocus
+                />
+                <input
+                  className="input" type="email" required value={email}
+                  onChange={(e) => setEmail(e.target.value)} placeholder={tr.googleDemoEmail}
+                />
+                <button className="btn-primary w-full py-3" disabled={loading}>
+                  {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : tr.googleDemoContinue}
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

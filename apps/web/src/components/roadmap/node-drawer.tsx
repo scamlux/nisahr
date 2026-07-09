@@ -7,7 +7,7 @@ import {
   PlayCircle, RotateCcw, SkipForward, Wrench, X,
 } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
-import { cn } from '@/lib/utils';
+import { cn, youtubeId, youtubeEmbedUrl } from '@/lib/utils';
 
 export interface DrawerResource {
   id: string;
@@ -89,17 +89,26 @@ export function NodeDrawer({
   }[node.status];
 
   return (
-    <motion.aside
-      role="dialog"
-      aria-label={node.title}
-      initial={{ x: '105%' }}
-      animate={{ x: 0 }}
-      exit={{ x: '105%' }}
-      transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-      className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-md flex-col border-l border-border bg-surface shadow-soft"
-    >
+    <>
+      {/* backdrop — tap to close (esp. on mobile) */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 z-[65] bg-black/50 backdrop-blur-sm lg:bg-black/30"
+      />
+      <motion.aside
+        role="dialog"
+        aria-label={node.title}
+        initial={{ x: '105%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '105%' }}
+        transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+        className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-md flex-col border-l border-border bg-surface shadow-soft"
+      >
       {/* header */}
-      <div className="border-b border-border/60 p-5">
+      <div className="border-b border-border/60 p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <div>
             {node.group && (
@@ -176,14 +185,14 @@ export function NodeDrawer({
         </div>
       </div>
 
-      {/* tabs */}
-      <div className="flex gap-1 border-b border-border/60 px-4 pt-3">
+      {/* tabs — horizontally scrollable so they never clip on narrow screens */}
+      <div className="flex gap-1 overflow-x-auto border-b border-border/60 px-3 pt-3 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-4 [&::-webkit-scrollbar]:hidden">
         {tabs.map((x) => (
           <button
             key={x.key}
             onClick={() => setTab(x.key)}
             className={cn(
-              'relative rounded-t-lg px-3 py-2 text-xs font-medium transition-colors',
+              'relative shrink-0 rounded-t-lg px-3 py-2 text-xs font-medium transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50',
               tab === x.key ? 'text-primary' : 'text-muted hover:text-fg',
             )}
@@ -201,11 +210,63 @@ export function NodeDrawer({
       </div>
 
       {/* resource list */}
-      <div className="flex-1 space-y-2 overflow-y-auto p-4">
+      <div className="flex-1 space-y-2 overflow-y-auto p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:p-4">
         {active.items.length === 0 ? (
           <p className="p-6 text-center text-sm text-muted">{tr.emptyResources}</p>
         ) : (
           active.items.map((r, i) => {
+            // In the Videos tab, embed playable YouTube videos right here so the
+            // course can be watched on our site (channel links stay as cards).
+            const vid = tab === 'videos' ? youtubeId(r.url) : null;
+            if (vid) {
+              return (
+                <motion.div
+                  key={r.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.03, duration: 0.2 }}
+                  className="overflow-hidden rounded-xl border border-border bg-surface-2/40"
+                >
+                  <div className="aspect-video w-full bg-black">
+                    <iframe
+                      src={youtubeEmbedUrl(vid)}
+                      title={r.title}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      className="h-full w-full border-0"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 p-3">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                      <PlayCircle className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">{r.title}</p>
+                      <p className="mt-0.5 flex items-center gap-2 text-[11px] text-muted">
+                        <span className="truncate">{r.provider}</span>
+                        <span className="flex shrink-0 items-center gap-0.5">
+                          <Clock className="h-3 w-3" /> {r.durationMin} {tr.minutesShort}
+                        </span>
+                        <span className="shrink-0 rounded border border-border px-1 uppercase">
+                          {r.lang}
+                        </span>
+                      </p>
+                    </div>
+                    <a
+                      href={r.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Open on YouTube"
+                      className="shrink-0 rounded-lg p-1.5 text-muted transition-colors hover:bg-surface-2 hover:text-fg"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </motion.div>
+              );
+            }
             const Icon = KIND_ICON[r.kind];
             return (
               <motion.a
@@ -241,6 +302,7 @@ export function NodeDrawer({
           })
         )}
       </div>
-    </motion.aside>
+      </motion.aside>
+    </>
   );
 }
