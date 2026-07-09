@@ -64,9 +64,13 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       group: 'Foundations',
       type: 'TOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'freeCodeCamp.org channel', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=iYM2zFP3Zn0', title: 'HTTP Crash Course & Exploration (Traversy Media)', durationMin: 52, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/How_does_the_Internet_work', title: 'How does the Internet work?', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works', title: 'How the web works', durationMin: 20, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/frontend', title: 'Frontend Developer Roadmap', durationMin: 15, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', title: 'Responsive Web Design Certification', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-web-developer-bootcamp/', title: 'The Web Developer Bootcamp', durationMin: 3900, lang: 'en' },
       ],
     },
     {
@@ -77,9 +81,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/HTML', title: 'HTML: Structuring the web', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TraversyMedia', title: 'Traversy Media channel', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element', title: 'HTML elements reference', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=UB1O30fR-EE', title: 'HTML Crash Course For Absolute Beginners (Traversy Media)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pQN-pnXPaVg', title: 'HTML Full Course - Build a Website Tutorial (freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'doka.guide', url: 'https://doka.guide/html/', title: 'HTML — справочник Доки', durationMin: 25, lang: 'ru' },
         { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', title: 'Responsive Web Design Certification', durationMin: 300, lang: 'en' },
-        { kind: 'ARTICLE', provider: 'learn.javascript.ru', url: 'https://learn.javascript.ru/dom-nodes', title: 'DOM: узлы документа', durationMin: 20, lang: 'ru' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-web-developer-bootcamp/', title: 'The Web Developer Bootcamp', durationMin: 3900, lang: 'en' },
       ],
     },
     {
@@ -90,7 +97,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/Forms', title: 'MDN: Web forms', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation', title: 'Client-side form validation', durationMin: 25, lang: 'en' },
         { kind: 'ARTICLE', provider: 'web.dev', url: 'https://web.dev/learn/forms/', title: 'Learn Forms', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=UB1O30fR-EE', title: 'HTML Crash Course For Absolute Beginners (forms section)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pQN-pnXPaVg', title: 'HTML Full Course - Build a Website Tutorial (freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Frontend Mentor — form challenges', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-web-developer-bootcamp/', title: 'The Web Developer Bootcamp (forms module)', durationMin: 3900, lang: 'en' },
       ],
     },
     {
@@ -101,9 +113,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS', title: 'CSS: Cascading Style Sheets', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@KevinPowell', title: 'Kevin Powell channel', durationMin: 60, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'web.dev', url: 'https://web.dev/learn/css/', title: 'Learn CSS', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=OXGznpKZ_sA', title: 'CSS Tutorial – Full Course for Beginners (freeCodeCamp)', durationMin: 660, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=yfoY53QXEnI', title: 'CSS Crash Course For Absolute Beginners (Traversy Media)', durationMin: 85, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'doka.guide', url: 'https://doka.guide/css/', title: 'CSS — справочник Доки', durationMin: 25, lang: 'ru' },
         { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Frontend Mentor challenges', durationMin: 240, lang: 'en' },
-        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/css/', title: 'CSS courses on Udemy', durationMin: 1200, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/advanced-css-and-sass/', title: 'Advanced CSS and Sass', durationMin: 1680, lang: 'en' },
       ],
     },
     {
@@ -113,8 +128,14 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       group: 'Foundations',
       type: 'SUBTOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@Wesbos', title: 'Wes Bos channel', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=fYq5PXgSsbE', title: 'Learn Flexbox in 15 Minutes (Web Dev Simplified)', durationMin: 15, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=EFafSYg-PkI', title: 'Learn CSS Grid in 20 Minutes (Web Dev Simplified)', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox', title: 'Basic concepts of flexbox', durationMin: 25, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout', title: 'CSS grid layout', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'CSS-Tricks', url: 'https://css-tricks.com/snippets/css/a-guide-to-flexbox/', title: 'A Complete Guide to Flexbox', durationMin: 25, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Codewars', url: 'https://flexboxfroggy.com/', title: 'Flexbox Froggy', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Codewars', url: 'https://cssgridgarden.com/', title: 'Grid Garden', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/advanced-css-and-sass/', title: 'Advanced CSS and Sass', durationMin: 1680, lang: 'en' },
       ],
     },
     {
@@ -125,6 +146,11 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Sass', url: 'https://sass-lang.com/documentation/', title: 'Sass documentation', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Sass', url: 'https://sass-lang.com/guide/', title: 'Sass Basics guide', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=OXGznpKZ_sA', title: 'CSS Tutorial – Full Course (foundation for Sass, freeCodeCamp)', durationMin: 660, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=yfoY53QXEnI', title: 'CSS Crash Course (Traversy Media)', durationMin: 85, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Frontend Mentor — build with Sass', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/advanced-css-and-sass/', title: 'Advanced CSS and Sass', durationMin: 1680, lang: 'en' },
       ],
     },
     {
@@ -135,10 +161,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript', title: 'JavaScript guide', durationMin: 40, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'JavaScript Full Course', durationMin: 180, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg', title: 'Learn JavaScript - Full Course for Beginners (freeCodeCamp)', durationMin: 200, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=hdI2bqOjy3c', title: 'JavaScript Crash Course For Beginners (Traversy Media)', durationMin: 100, lang: 'en' },
         { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', title: 'JS Algorithms and Data Structures', durationMin: 600, lang: 'en' },
         { kind: 'POPULAR', provider: 'javascript.info', url: 'https://javascript.info/', title: 'The Modern JavaScript Tutorial', durationMin: 300, lang: 'en' },
         { kind: 'ARTICLE', provider: 'learn.javascript.ru', url: 'https://learn.javascript.ru/', title: 'Современный учебник JavaScript', durationMin: 300, lang: 'ru' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-javascript-course/', title: 'The Complete JavaScript Course', durationMin: 4020, lang: 'en' },
       ],
     },
     {
@@ -149,7 +177,11 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model', title: 'Introduction to the DOM', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=y17RuWkWdn8', title: 'Learn DOM Manipulation In 18 Minutes (Web Dev Simplified)', durationMin: 18, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg', title: 'Learn JavaScript - Full Course (DOM section, freeCodeCamp)', durationMin: 200, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'learn.javascript.ru', url: 'https://learn.javascript.ru/document', title: 'Документ и объекты страницы', durationMin: 30, lang: 'ru' },
         { kind: 'PRACTICE', provider: 'JavaScript30', url: 'https://javascript30.com/', title: '30 Day Vanilla JS Challenge', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-javascript-course/', title: 'The Complete JavaScript Course (DOM section)', durationMin: 4020, lang: 'en' },
       ],
     },
     {
@@ -160,7 +192,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous', title: 'Asynchronous JavaScript', durationMin: 40, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@akshaymarch7', title: 'Akshay Saini - Namaste JavaScript', durationMin: 90, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises', title: 'Using promises', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pN6jk0uUrD8', title: 'Namaste JavaScript Ep.01 - How JS Works (Akshay Saini)', durationMin: 27, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=lkIFF4maKMU', title: '100+ JavaScript Concepts you Need to Know (Fireship)', durationMin: 12, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'learn.javascript.ru', url: 'https://learn.javascript.ru/async', title: 'Промисы, async/await', durationMin: 40, lang: 'ru' },
+        { kind: 'PRACTICE', provider: 'Exercism', url: 'https://exercism.org/tracks/javascript', title: 'JavaScript track', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-javascript-course/', title: 'The Complete JavaScript Course (async section)', durationMin: 4020, lang: 'en' },
       ],
     },
     {
@@ -171,8 +208,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'TypeScript', url: 'https://www.typescriptlang.org/docs/handbook/intro.html', title: 'TypeScript Handbook', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@ProgrammingwithMosh', title: 'TypeScript Tutorial for Beginners', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'TypeScript', url: 'https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html', title: 'TypeScript for JavaScript Programmers', durationMin: 15, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=d56mG7DezGs', title: 'TypeScript Tutorial for Beginners (Programming with Mosh)', durationMin: 52, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=zQnBQ2tB_YM', title: 'TypeScript in 100 Seconds (Fireship)', durationMin: 3, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'TypeScript Deep Dive', url: 'https://basarat.gitbook.io/typescript/', title: 'TypeScript Deep Dive', durationMin: 120, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Exercism', url: 'https://exercism.org/tracks/typescript', title: 'TypeScript track', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/understanding-typescript/', title: 'Understanding TypeScript', durationMin: 900, lang: 'en' },
       ],
     },
     {
@@ -183,8 +224,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Git', url: 'https://git-scm.com/doc', title: 'Git documentation', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Git and GitHub for Beginners', durationMin: 70, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'GitHub', url: 'https://docs.github.com/en/get-started/quickstart/hello-world', title: 'GitHub Hello World', durationMin: 20, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=RGOj5yH7evk', title: 'Git and GitHub for Beginners - Crash Course (freeCodeCamp)', durationMin: 70, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=8JJ101D3knE', title: 'Git Tutorial for Beginners: Learn Git in 1 Hour (Mosh)', durationMin: 69, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Atlassian', url: 'https://www.atlassian.com/git/tutorials', title: 'Atlassian Git tutorials', durationMin: 40, lang: 'en' },
         { kind: 'PRACTICE', provider: 'GitHub', url: 'https://skills.github.com/', title: 'GitHub Skills', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/git-complete/', title: 'Git Complete: The definitive guide', durationMin: 360, lang: 'en' },
       ],
     },
     {
@@ -195,6 +240,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'npm', url: 'https://docs.npmjs.com/', title: 'npm docs', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'pnpm', url: 'https://pnpm.io/motivation', title: 'pnpm — Motivation', durationMin: 15, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (npm usage, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'npm', url: 'https://docs.npmjs.com/about-packages-and-modules', title: 'About packages and modules', durationMin: 15, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/', title: 'Back End Development and APIs', durationMin: 400, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-web-developer-bootcamp/', title: 'The Web Developer Bootcamp (npm module)', durationMin: 3900, lang: 'en' },
       ],
     },
     {
@@ -205,10 +256,11 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'React', url: 'https://react.dev/learn', title: 'React official docs — Learn', durationMin: 90, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@codevolution', title: 'Codevolution React Course', durationMin: 180, lang: 'en' },
-        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/react/', title: 'React courses on Udemy', durationMin: 1500, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', title: 'React Course - Beginner\'s Tutorial (freeCodeCamp)', durationMin: 690, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=SqcY0GlETPk', title: 'React Tutorial for Beginners (Programming with Mosh)', durationMin: 78, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'React', url: 'https://ru.react.dev/learn', title: 'React — документация на русском', durationMin: 90, lang: 'ru' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/react-redux/', title: 'Modern React with Redux', durationMin: 4200, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges?technologies=React', title: 'React challenges', durationMin: 300, lang: 'en' },
-        { kind: 'ARTICLE', provider: 'HexletUniversity', url: 'https://www.youtube.com/@Hexlet', title: 'Hexlet — React на русском', durationMin: 120, lang: 'ru' },
       ],
     },
     {
@@ -219,6 +271,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'React', url: 'https://react.dev/reference/react', title: 'React Hooks reference', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'React', url: 'https://react.dev/reference/react/useState', title: 'useState reference', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'React', url: 'https://react.dev/reference/react/useEffect', title: 'useEffect reference', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', title: 'React Course - hooks section (freeCodeCamp)', durationMin: 690, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=SqcY0GlETPk', title: 'React Tutorial for Beginners - hooks (Mosh)', durationMin: 78, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges?technologies=React', title: 'React hooks challenges', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/react-redux/', title: 'Modern React with Redux', durationMin: 4200, lang: 'en' },
       ],
     },
     {
@@ -229,6 +287,11 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'React Router', url: 'https://reactrouter.com/en/main', title: 'React Router documentation', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'React Router', url: 'https://reactrouter.com/en/main/start/tutorial', title: 'React Router — Tutorial', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', title: 'React Course - routing section (freeCodeCamp)', durationMin: 690, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Tn6-PIqc4UM', title: 'React in 100 Seconds (Fireship)', durationMin: 2, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges?technologies=React', title: 'Build a multi-page React app', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/react-redux/', title: 'Modern React with Redux (routing)', durationMin: 4200, lang: 'en' },
       ],
     },
     {
@@ -239,8 +302,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Redux', url: 'https://redux.js.org/introduction/getting-started', title: 'Redux Toolkit — Getting Started', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'React', url: 'https://react.dev/learn/managing-state', title: 'React — Managing State', durationMin: 40, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Zustand', url: 'https://github.com/pmndrs/zustand', title: 'Zustand — a small state manager', durationMin: 20, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@codevolution', title: 'Redux Toolkit Tutorial', durationMin: 90, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', title: 'React Course - state management (freeCodeCamp)', durationMin: 690, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=SqcY0GlETPk', title: 'React Tutorial - state (Programming with Mosh)', durationMin: 78, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges?technologies=React', title: 'Build a stateful React app', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/react-redux/', title: 'Modern React with Redux', durationMin: 4200, lang: 'en' },
       ],
     },
     {
@@ -251,7 +318,11 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Next.js', url: 'https://nextjs.org/learn', title: 'Next.js — Learn', durationMin: 120, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@vercel', title: 'Vercel channel', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Next.js', url: 'https://nextjs.org/docs/app', title: 'Next.js App Router docs', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Sklc_fQBmcs', title: 'Next.js in 100 Seconds (Fireship)', durationMin: 12, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', title: 'React Course (Next.js prerequisite, freeCodeCamp)', durationMin: 690, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Next.js', url: 'https://nextjs.org/learn/dashboard-app', title: 'Next.js Learn — Dashboard App', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nextjs-react-the-complete-guide/', title: 'Next.js & React - The Complete Guide', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -262,8 +333,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Vite', url: 'https://vitejs.dev/guide/', title: 'Vite Guide', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Webpack', url: 'https://webpack.js.org/concepts/', title: 'Webpack concepts', durationMin: 30, lang: 'en' },
         { kind: 'ARTICLE', provider: 'web.dev', url: 'https://web.dev/learn/', title: 'web.dev learning paths', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TraversyMedia', title: 'Vite Crash Course', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (bundlers, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=bMknfKXIFA8', title: 'React Course - scaffolds with Vite (freeCodeCamp)', durationMin: 690, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Build a project with Vite', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/webpack-from-beginner-to-advanced/', title: 'Webpack 5: The Complete Guide', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -275,7 +350,11 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Testing Library', url: 'https://testing-library.com/docs/', title: 'Testing Library docs', durationMin: 40, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Jest', url: 'https://jestjs.io/docs/getting-started', title: 'Jest — Getting Started', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TraversyMedia', title: 'Jest Crash Course', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=lkIFF4maKMU', title: '100+ JavaScript Concepts (testing context, Fireship)', durationMin: 12, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg', title: 'Learn JavaScript - Full Course (freeCodeCamp)', durationMin: 200, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Kent C. Dodds', url: 'https://kentcdodds.com/blog/common-mistakes-with-react-testing-library', title: 'Common mistakes with React Testing Library', durationMin: 20, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Testing Library', url: 'https://testing-library.com/docs/react-testing-library/example-intro', title: 'React Testing Library example', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/', title: 'JavaScript Unit Testing - The Practical Guide', durationMin: 780, lang: 'en' },
       ],
     },
     {
@@ -286,7 +365,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'web.dev', url: 'https://web.dev/learn/accessibility/', title: 'Learn Accessibility', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'web.dev', url: 'https://web.dev/learn/performance', title: 'Learn Performance', durationMin: 40, lang: 'en' },
         { kind: 'ARTICLE', provider: 'web.dev', url: 'https://web.dev/explore/learn-core-web-vitals', title: 'Core Web Vitals', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (performance, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=OXGznpKZ_sA', title: 'CSS Full Course (responsive design, freeCodeCamp)', durationMin: 660, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'web.dev', url: 'https://pagespeed.web.dev/', title: 'Audit your site with PageSpeed Insights', durationMin: 45, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/web-performance/', title: 'Web Performance courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -299,6 +383,10 @@ const frontendDeveloper: RoadmapGraphTemplate = {
         { kind: 'OFFICIAL_DOC', provider: 'Vercel', url: 'https://vercel.com/docs', title: 'Vercel documentation', durationMin: 30, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Netlify', url: 'https://docs.netlify.com/', title: 'Netlify documentation', durationMin: 30, lang: 'en' },
         { kind: 'ARTICLE', provider: 'GitHub', url: 'https://docs.github.com/en/actions', title: 'GitHub Actions documentation', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=R8_veQiYBjI', title: 'GitHub Actions Tutorial - CI/CD Pipeline (TechWorld with Nana)', durationMin: 35, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Sklc_fQBmcs', title: 'Next.js in 100 Seconds - deploy to Vercel (Fireship)', durationMin: 12, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Vercel', url: 'https://vercel.com/new', title: 'Deploy a project on Vercel', durationMin: 30, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/continuous-integration/', title: 'CI/CD courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -309,7 +397,12 @@ const frontendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'The Odin Project', url: 'https://www.theodinproject.com/paths/full-stack-javascript', title: 'The Odin Project — Full Stack path', durationMin: 60, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Tech Interview Handbook', url: 'https://www.techinterviewhandbook.org/', title: 'Tech Interview Handbook', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pQN-pnXPaVg', title: 'HTML Full Course - build a portfolio site (freeCodeCamp)', durationMin: 120, lang: 'en' },
         { kind: 'PRACTICE', provider: 'LeetCode', url: 'https://leetcode.com/', title: 'LeetCode practice', durationMin: 600, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Build portfolio projects', durationMin: 480, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-web-developer-bootcamp/', title: 'The Web Developer Bootcamp', durationMin: 3900, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/frontend', title: 'Frontend Developer Roadmap', durationMin: 20, lang: 'en' },
       ],
     },
@@ -363,8 +456,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP', title: 'HTTP — MDN', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'HTTP Crash Course', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview', title: 'An overview of HTTP', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=iYM2zFP3Zn0', title: 'HTTP Crash Course & Exploration (Traversy Media)', durationMin: 52, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/backend', title: 'Backend Developer Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Postman', url: 'https://learning.postman.com/', title: 'Explore HTTP requests in Postman', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-web-developer-bootcamp/', title: 'The Web Developer Bootcamp', durationMin: 3900, lang: 'en' },
       ],
     },
     {
@@ -375,9 +472,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'POPULAR', provider: 'javascript.info', url: 'https://javascript.info/', title: 'The Modern JavaScript Tutorial', durationMin: 300, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'JavaScript Full Course', durationMin: 180, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide', title: 'MDN JavaScript Guide', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg', title: 'Learn JavaScript - Full Course for Beginners (freeCodeCamp)', durationMin: 200, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=hdI2bqOjy3c', title: 'JavaScript Crash Course For Beginners (Traversy Media)', durationMin: 100, lang: 'en' },
         { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', title: 'JS Algorithms and Data Structures', durationMin: 600, lang: 'en' },
         { kind: 'ARTICLE', provider: 'learn.javascript.ru', url: 'https://learn.javascript.ru/', title: 'Современный учебник JavaScript', durationMin: 300, lang: 'ru' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-javascript-course/', title: 'The Complete JavaScript Course', durationMin: 4020, lang: 'en' },
       ],
     },
     {
@@ -388,7 +488,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'TypeScript', url: 'https://www.typescriptlang.org/docs/handbook/intro.html', title: 'TypeScript Handbook', durationMin: 60, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'TypeScript Deep Dive', url: 'https://basarat.gitbook.io/typescript/', title: 'TypeScript Deep Dive', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=d56mG7DezGs', title: 'TypeScript Tutorial for Beginners (Programming with Mosh)', durationMin: 52, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=zQnBQ2tB_YM', title: 'TypeScript in 100 Seconds (Fireship)', durationMin: 3, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Exercism', url: 'https://exercism.org/tracks/typescript', title: 'TypeScript track', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/understanding-typescript/', title: 'Understanding TypeScript', durationMin: 900, lang: 'en' },
       ],
     },
     {
@@ -399,8 +503,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Git', url: 'https://git-scm.com/doc', title: 'Git documentation', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Git and GitHub for Beginners', durationMin: 70, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'GitHub', url: 'https://docs.github.com/en/get-started/quickstart/hello-world', title: 'GitHub Hello World', durationMin: 20, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=RGOj5yH7evk', title: 'Git and GitHub for Beginners - Crash Course (freeCodeCamp)', durationMin: 70, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=8JJ101D3knE', title: 'Git Tutorial for Beginners: Learn Git in 1 Hour (Mosh)', durationMin: 69, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Atlassian', url: 'https://www.atlassian.com/git/tutorials', title: 'Atlassian Git tutorials', durationMin: 40, lang: 'en' },
         { kind: 'PRACTICE', provider: 'GitHub', url: 'https://skills.github.com/', title: 'GitHub Skills', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/git-complete/', title: 'Git Complete: The definitive guide', durationMin: 360, lang: 'en' },
       ],
     },
     {
@@ -411,9 +519,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Node.js', url: 'https://nodejs.org/en/learn/getting-started/introduction-to-nodejs', title: 'Node.js — Learn', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Node.js Full Course', durationMin: 180, lang: 'en' },
-        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/nodejs/', title: 'Node.js courses on Udemy', durationMin: 1500, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js - Full Course (freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=TlB_eWDSMt4', title: 'Node.js Tutorial for Beginners (Programming with Mosh)', durationMin: 78, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp', durationMin: 2400, lang: 'en' },
         { kind: 'ARTICLE', provider: 'metanit.com', url: 'https://metanit.com/web/nodejs/', title: 'Node.js — учебник на русском', durationMin: 200, lang: 'ru' },
+        { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/', title: 'Back End Development and APIs', durationMin: 400, lang: 'en' },
       ],
     },
     {
@@ -424,6 +534,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'npm', url: 'https://docs.npmjs.com/', title: 'npm docs', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'pnpm', url: 'https://pnpm.io/motivation', title: 'pnpm — Motivation', durationMin: 15, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (npm usage, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'npm', url: 'https://docs.npmjs.com/about-packages-and-modules', title: 'About packages and modules', durationMin: 15, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/', title: 'Back End Development and APIs', durationMin: 400, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -434,8 +550,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Express', url: 'https://expressjs.com/en/starter/installing.html', title: 'Express.js Getting Started', durationMin: 40, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TraversyMedia', title: 'Express Crash Course', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Express', url: 'https://expressjs.com/en/guide/routing.html', title: 'Express routing guide', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=L72fhGm1tfE', title: 'Express JS Crash Course (Traversy Media)', durationMin: 68, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js - Full Course (freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs', title: 'Express/Node introduction (MDN)', durationMin: 40, lang: 'en' },
         { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/', title: 'Back End Development and APIs', durationMin: 400, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -446,6 +566,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'NestJS', url: 'https://docs.nestjs.com/', title: 'NestJS documentation', durationMin: 90, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'NestJS', url: 'https://docs.nestjs.com/first-steps', title: 'NestJS — First steps', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (Nest foundations, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=L72fhGm1tfE', title: 'Express JS Crash Course (Nest is built on it, Traversy)', durationMin: 68, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/', title: 'Build a REST API', durationMin: 400, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nestjs-the-complete-developers-guide/', title: 'NestJS: The Complete Developer\'s Guide', durationMin: 1500, lang: 'en' },
       ],
     },
     {
@@ -457,6 +582,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       resources: [
         { kind: 'ARTICLE', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Glossary/REST', title: 'REST — MDN Glossary', durationMin: 15, lang: 'en' },
         { kind: 'ARTICLE', provider: 'restfulapi.net', url: 'https://restfulapi.net/', title: 'REST API Tutorial', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Swagger', url: 'https://swagger.io/specification/', title: 'OpenAPI Specification', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=iYM2zFP3Zn0', title: 'HTTP Crash Course & Exploration (Traversy Media)', durationMin: 52, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js - Full Course (REST APIs, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Postman', url: 'https://www.postman.com/api-platform/api-testing/', title: 'Design and test a REST API', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/rest-api/', title: 'REST API courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -468,8 +598,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'PostgreSQL', url: 'https://www.postgresql.org/docs/current/tutorial.html', title: 'PostgreSQL Tutorial', durationMin: 60, lang: 'en' },
         { kind: 'PRACTICE', provider: 'SQLZoo', url: 'https://sqlzoo.net/', title: 'SQLZoo interactive practice', durationMin: 180, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'SQL Full Course', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=HXV3zeQKqGY', title: 'SQL Tutorial - Full Database Course for Beginners (freeCodeCamp)', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=qw--VYLpxG4', title: 'Learn PostgreSQL Tutorial - Full Course (freeCodeCamp)', durationMin: 250, lang: 'en' },
         { kind: 'ARTICLE', provider: 'metanit.com', url: 'https://metanit.com/sql/postgresql/', title: 'PostgreSQL — учебник на русском', durationMin: 200, lang: 'ru' },
+        { kind: 'PRACTICE', provider: 'LeetCode', url: 'https://leetcode.com/studyplan/top-sql-50/', title: 'LeetCode Top SQL 50', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-sql-bootcamp/', title: 'The Complete SQL Bootcamp', durationMin: 540, lang: 'en' },
       ],
     },
     {
@@ -480,6 +613,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Prisma', url: 'https://www.prisma.io/docs', title: 'Prisma documentation', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Prisma', url: 'https://www.prisma.io/docs/getting-started', title: 'Prisma — Getting started', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'TypeORM', url: 'https://typeorm.io/', title: 'TypeORM documentation', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (databases, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Prisma', url: 'https://github.com/prisma/prisma-examples', title: 'Prisma examples', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -490,6 +629,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'MongoDB', url: 'https://www.mongodb.com/docs/manual/', title: 'MongoDB Manual', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MongoDB', url: 'https://www.mongodb.com/docs/manual/crud/', title: 'MongoDB CRUD operations', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=-bt_y4Loofg', title: 'MongoDB in 100 Seconds (Fireship)', durationMin: 2, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (MongoDB, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'MongoDB', url: 'https://www.mongodb.com/docs/manual/data-modeling/', title: 'Data modeling', durationMin: 25, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'MongoDB', url: 'https://learn.mongodb.com/', title: 'MongoDB University', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/mongodb-the-complete-developers-guide/', title: 'MongoDB - The Complete Developer\'s Guide', durationMin: 1080, lang: 'en' },
       ],
     },
     {
@@ -500,6 +645,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Redis', url: 'https://redis.io/docs/latest/', title: 'Redis documentation', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Redis', url: 'https://redis.io/docs/latest/develop/data-types/', title: 'Redis data types', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=G1rOthIU-uo', title: 'Redis in 100 Seconds (Fireship)', durationMin: 2, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (caching, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Redis', url: 'https://redis.io/learn/howtos/solutions/microservices/caching', title: 'Caching patterns with Redis', durationMin: 25, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Redis', url: 'https://redis.io/learn', title: 'Try Redis interactively', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/redis/', title: 'Redis courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -511,7 +662,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       resources: [
         { kind: 'ARTICLE', provider: 'JWT.io', url: 'https://jwt.io/introduction', title: 'Introduction to JWT', durationMin: 20, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Passport.js', url: 'https://www.passportjs.org/concepts/authentication/', title: 'Passport.js authentication concepts', durationMin: 30, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@webdevsimplified', title: 'Web Dev Simplified — Auth', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'OAuth', url: 'https://oauth.net/2/', title: 'OAuth 2.0', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=7Q17ubqLfaM', title: 'JWT Authentication Tutorial (Web Dev Simplified)', durationMin: 22, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (auth, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'freeCodeCamp', url: 'https://www.freecodecamp.org/learn/back-end-development-and-apis/', title: 'Build authentication into an API', durationMin: 400, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp (auth)', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -522,6 +677,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'OWASP', url: 'https://owasp.org/www-project-top-ten/', title: 'OWASP Top Ten', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'OWASP', url: 'https://cheatsheetseries.owasp.org/', title: 'OWASP Cheat Sheet Series', durationMin: 40, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Website_security', title: 'Website security (MDN)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (security, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (security, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'OWASP', url: 'https://owasp.org/www-project-juice-shop/', title: 'OWASP Juice Shop', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/web-security/', title: 'Web Security courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -533,7 +694,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Jest', url: 'https://jestjs.io/docs/getting-started', title: 'Jest — Getting Started', durationMin: 30, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Supertest', url: 'https://github.com/ladjs/supertest', title: 'Supertest — HTTP assertions', durationMin: 20, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TraversyMedia', title: 'Jest Crash Course', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (testing, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=lkIFF4maKMU', title: '100+ JavaScript Concepts (testing context, Fireship)', durationMin: 12, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Jest', url: 'https://jestjs.io/docs/testing-frameworks', title: 'Testing Node.js with Jest', durationMin: 25, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Exercism', url: 'https://exercism.org/tracks/javascript', title: 'JavaScript track — write tests', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/', title: 'JavaScript Unit Testing - The Practical Guide', durationMin: 780, lang: 'en' },
       ],
     },
     {
@@ -544,8 +709,12 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Docker', url: 'https://docs.docker.com/get-started/', title: 'Docker Get Started', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TechWorldwithNana', title: 'Docker Tutorial for Beginners', durationMin: 120, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Docker', url: 'https://docs.docker.com/engine/reference/builder/', title: 'Dockerfile reference', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=3c-iBn73dDE', title: 'Docker Tutorial for Beginners (TechWorld with Nana)', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gjnup-PuquQ', title: 'Docker in 100 Seconds (Fireship)', durationMin: 2, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Docker', url: 'https://docs.docker.com/guides/', title: 'Docker guides', durationMin: 30, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Docker', url: 'https://docs.docker.com/get-started/workshop/', title: 'Docker workshop', durationMin: 90, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/docker-mastery/', title: 'Docker Mastery', durationMin: 1200, lang: 'en' },
       ],
     },
     {
@@ -556,6 +725,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'GitHub', url: 'https://docs.github.com/en/actions', title: 'GitHub Actions documentation', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'GitHub', url: 'https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions', title: 'Understanding GitHub Actions', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=R8_veQiYBjI', title: 'GitHub Actions Tutorial - CI/CD Pipeline (TechWorld with Nana)', durationMin: 35, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (CI/CD, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'GitHub', url: 'https://docs.github.com/en/actions/quickstart', title: 'GitHub Actions quickstart', durationMin: 45, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/github/', title: 'GitHub Actions courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -568,6 +742,10 @@ const backendDeveloper: RoadmapGraphTemplate = {
         { kind: 'OFFICIAL_DOC', provider: 'Render', url: 'https://render.com/docs', title: 'Render documentation', durationMin: 30, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Railway', url: 'https://docs.railway.com/', title: 'Railway documentation', durationMin: 30, lang: 'en' },
         { kind: 'ARTICLE', provider: 'GitHub', url: 'https://docs.github.com/en/actions', title: 'GitHub Actions documentation', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=R8_veQiYBjI', title: 'GitHub Actions Tutorial - CI/CD Pipeline (TechWorld with Nana)', durationMin: 35, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js Full Course (deployment, freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Render', url: 'https://render.com/docs/deploy-node-express-app', title: 'Deploy a Node/Express app to Render', durationMin: 45, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp (deployment)', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -578,6 +756,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'ARTICLE', provider: 'GitHub', url: 'https://github.com/donnemartin/system-design-primer', title: 'System Design Primer', durationMin: 180, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'ByteByteGo', url: 'https://bytebytego.com/', title: 'ByteByteGo — system design', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (architecture, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=3c-iBn73dDE', title: 'Docker Tutorial (scaling context, TechWorld with Nana)', durationMin: 120, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'InterviewBit', url: 'https://www.interviewbit.com/courses/system-design/', title: 'System Design course & exercises', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Educative', url: 'https://www.educative.io/courses/grokking-the-system-design-interview', title: 'Grokking the System Design Interview', durationMin: 900, lang: 'en' },
       ],
     },
     {
@@ -589,7 +772,11 @@ const backendDeveloper: RoadmapGraphTemplate = {
       resources: [
         { kind: 'PRACTICE', provider: 'LeetCode', url: 'https://leetcode.com/', title: 'LeetCode practice', durationMin: 600, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/backend', title: 'Backend Developer Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Tech Interview Handbook', url: 'https://www.techinterviewhandbook.org/', title: 'Tech Interview Handbook', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE', title: 'Node.js and Express.js - Full Course (freeCodeCamp)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things you Should Know (Fireship)', durationMin: 13, lang: 'en' },
         { kind: 'PRACTICE', provider: 'GitHub', url: 'https://github.com/topics/nodejs', title: 'Open-source Node.js projects', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/', title: 'Node.js, Express, MongoDB Bootcamp', durationMin: 2400, lang: 'en' },
       ],
     },
   ],
@@ -640,8 +827,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       group: 'Foundations',
       type: 'TOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Excel Full Course', durationMin: 180, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Vl0H-qTclOg', title: 'Microsoft Excel Tutorial for Beginners - Full Course (freeCodeCamp)', durationMin: 150, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=cyWVzAQF9YU', title: 'Power BI / spreadsheets — data foundations overview', durationMin: 60, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Microsoft', url: 'https://support.microsoft.com/en-us/excel', title: 'Excel support & training', durationMin: 40, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'GCFGlobal', url: 'https://edu.gcfglobal.org/en/excel/', title: 'Excel tutorial (GCFGlobal)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Excel Practice Online', url: 'https://excel-practice-online.com/', title: 'Excel practice exercises', durationMin: 120, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/excel', title: 'Excel Skills for Business (Coursera)', durationMin: 1200, lang: 'en' },
       ],
     },
@@ -653,8 +843,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'PAID_COURSE', provider: 'Khan Academy', url: 'https://www.khanacademy.org/math/statistics-probability', title: 'Statistics and Probability', durationMin: 600, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@statquest', title: 'StatQuest with Josh Starmer', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gv9_4yMHFhI', title: 'A Gentle Introduction to Machine Learning & Stats (StatQuest)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody (stats foundations, freeCodeCamp)', durationMin: 120, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/intro-to-statistics', title: 'Kaggle Learn: Intro to Statistics', durationMin: 120, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Seeing Theory', url: 'https://seeing-theory.brown.edu/', title: 'Seeing Theory — interactive statistics', durationMin: 90, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Think Stats', url: 'https://greenteapress.com/wp/think-stats-2e/', title: 'Think Stats (free book)', durationMin: 240, lang: 'en' },
       ],
     },
     {
@@ -666,8 +859,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       resources: [
         { kind: 'PRACTICE', provider: 'SQLZoo', url: 'https://sqlzoo.net/', title: 'SQLZoo interactive practice', durationMin: 180, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'PostgreSQL', url: 'https://www.postgresql.org/docs/current/tutorial.html', title: 'PostgreSQL Tutorial', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'SQL Full Course', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=HXV3zeQKqGY', title: 'SQL Tutorial - Full Database Course for Beginners (freeCodeCamp)', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=qw--VYLpxG4', title: 'Learn PostgreSQL Tutorial - Full Course (freeCodeCamp)', durationMin: 250, lang: 'en' },
         { kind: 'ARTICLE', provider: 'metanit.com', url: 'https://metanit.com/sql/postgresql/', title: 'PostgreSQL — учебник на русском', durationMin: 200, lang: 'ru' },
+        { kind: 'PRACTICE', provider: 'LeetCode', url: 'https://leetcode.com/studyplan/top-sql-50/', title: 'LeetCode Top SQL 50', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-sql-bootcamp/', title: 'The Complete SQL Bootcamp', durationMin: 540, lang: 'en' },
       ],
     },
     {
@@ -678,6 +874,12 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'PostgreSQL', url: 'https://www.postgresql.org/docs/current/tutorial-window.html', title: 'Window Functions Tutorial', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'PostgreSQL', url: 'https://www.postgresql.org/docs/current/queries-with.html', title: 'WITH Queries (CTEs)', durationMin: 25, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Mode', url: 'https://mode.com/sql-tutorial/sql-window-functions/', title: 'SQL Window Functions (Mode)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=HXV3zeQKqGY', title: 'SQL Full Course — advanced queries (freeCodeCamp)', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=qw--VYLpxG4', title: 'Learn PostgreSQL Tutorial (freeCodeCamp)', durationMin: 250, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'HackerRank', url: 'https://www.hackerrank.com/domains/sql', title: 'HackerRank SQL challenges', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-sql-bootcamp/', title: 'The Complete SQL Bootcamp (advanced)', durationMin: 540, lang: 'en' },
       ],
     },
     {
@@ -688,8 +890,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Python', url: 'https://docs.python.org/3/tutorial/', title: 'The Python Tutorial', durationMin: 90, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Python for Beginners', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=rfscVS0vtbw', title: 'Learn Python - Full Course for Beginners (freeCodeCamp)', durationMin: 270, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc', title: 'Python Full Course for Beginners (Programming with Mosh)', durationMin: 360, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Automate the Boring Stuff', url: 'https://automatetheboringstuff.com/', title: 'Automate the Boring Stuff with Python', durationMin: 240, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/python', title: 'Kaggle Learn: Python', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/python', title: 'Python for Everybody (Coursera)', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -700,8 +905,12 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'pandas', url: 'https://pandas.pydata.org/docs/getting_started/index.html', title: 'pandas — Getting started', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'NumPy', url: 'https://numpy.org/doc/stable/user/quickstart.html', title: 'NumPy quickstart', durationMin: 40, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/pandas', title: 'Kaggle Learn: Pandas', durationMin: 240, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@KeithGalli', title: 'Keith Galli — Pandas tutorial', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vmEHCJofslg', title: 'Complete Python Pandas Data Science Tutorial (Keith Galli)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=ZyhVh-qRZPA', title: 'Python Pandas Tutorial (Part 1) (Corey Schafer)', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'pandas', url: 'https://pandas.pydata.org/docs/user_guide/10min.html', title: '10 minutes to pandas', durationMin: 25, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/data-analysis-with-pandas/', title: 'Data Analysis with Pandas and Python', durationMin: 1140, lang: 'en' },
       ],
     },
     {
@@ -712,6 +921,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/data-cleaning', title: 'Kaggle Learn: Data Cleaning', durationMin: 180, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'pandas', url: 'https://pandas.pydata.org/docs/user_guide/missing_data.html', title: 'Working with missing data', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Hadley Wickham', url: 'https://vita.had.co.nz/papers/tidy-data.pdf', title: 'Tidy Data (paper)', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vmEHCJofslg', title: 'Pandas Data Science Tutorial (cleaning, Keith Galli)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=ZyhVh-qRZPA', title: 'Python Pandas Tutorial (Corey Schafer)', durationMin: 30, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'DataCamp', url: 'https://www.datacamp.com/courses/cleaning-data-in-python', title: 'Cleaning Data in Python (DataCamp)', durationMin: 240, lang: 'en' },
       ],
     },
     {
@@ -722,6 +936,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Microsoft', url: 'https://learn.microsoft.com/en-us/power-query/', title: 'Power Query documentation', durationMin: 40, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Microsoft', url: 'https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query', title: 'What is Power Query?', durationMin: 20, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Vl0H-qTclOg', title: 'Microsoft Excel Full Course (Power Query context, freeCodeCamp)', durationMin: 150, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=e6QD8lP-m6E', title: 'Power BI Full Course (Power Query engine)', durationMin: 480, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Excel Practice Online', url: 'https://excel-practice-online.com/', title: 'Excel & Power Query exercises', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/microsoft-power-query/', title: 'Power Query courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -732,8 +951,12 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Matplotlib', url: 'https://matplotlib.org/stable/tutorials/index.html', title: 'Matplotlib tutorials', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'seaborn', url: 'https://seaborn.pydata.org/tutorial.html', title: 'seaborn tutorial', durationMin: 40, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/data-visualization', title: 'Kaggle Learn: Data Visualization', durationMin: 180, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@coreyms', title: 'Corey Schafer — Matplotlib tutorials', durationMin: 90, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=UO98lJQ3QGI', title: 'Matplotlib Tutorial (Part 1) (Corey Schafer)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vmEHCJofslg', title: 'Pandas Data Science Tutorial (visualization, Keith Galli)', durationMin: 60, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Storytelling with Data', url: 'https://www.storytellingwithdata.com/blog', title: 'Storytelling with Data — blog', durationMin: 30, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/data-visualization/', title: 'Data Visualization courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -745,6 +968,9 @@ const dataAnalyst: RoadmapGraphTemplate = {
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Tableau', url: 'https://www.tableau.com/learn/training', title: 'Tableau training resources', durationMin: 60, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Microsoft', url: 'https://learn.microsoft.com/en-us/power-bi/', title: 'Power BI documentation', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=hODSe9c5r18', title: 'Tableau Full Course for Beginners (Simplilearn)', durationMin: 480, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=e6QD8lP-m6E', title: 'Power BI Full Course Tutorial (8+ Hours)', durationMin: 480, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Makeover Monday', url: 'https://www.makeovermonday.co.uk/', title: 'Makeover Monday — Tableau practice', durationMin: 180, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/data-visualization', title: 'Data Visualization Specialization', durationMin: 1200, lang: 'en' },
       ],
     },
@@ -756,6 +982,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'ARTICLE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/intro-to-ab-testing', title: 'Kaggle Learn: Intro to A/B Testing', durationMin: 120, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Exp-Platform', url: 'https://www.exp-platform.com/', title: 'Trustworthy Online Controlled Experiments', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gv9_4yMHFhI', title: 'A Gentle Introduction to Statistics (StatQuest)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody (experiments, freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/search?q=ab+testing', title: 'A/B testing notebooks on Kaggle', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udacity', url: 'https://www.udacity.com/course/ab-testing--ud257', title: 'A/B Testing (Udacity)', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -766,6 +997,11 @@ const dataAnalyst: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/data-analyst', title: 'Data Analyst Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Storytelling with Data', url: 'https://www.storytellingwithdata.com/', title: 'Storytelling with Data', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=UO98lJQ3QGI', title: 'Matplotlib Tutorial - presenting data (Corey Schafer)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vmEHCJofslg', title: 'Pandas Data Science Tutorial (Keith Galli)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/datasets', title: 'Build a dashboard from Kaggle data', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/learn/analytics-tableau', title: 'Data Visualization & Communication (Coursera)', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -777,6 +1013,10 @@ const dataAnalyst: RoadmapGraphTemplate = {
       resources: [
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/datasets', title: 'Kaggle datasets', durationMin: 300, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/data-analyst', title: 'Data Analyst Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'DataCamp', url: 'https://www.datacamp.com/blog/data-analyst-portfolio', title: 'How to build a data analyst portfolio', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=rfscVS0vtbw', title: 'Learn Python - Full Course (project work, freeCodeCamp)', durationMin: 270, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vmEHCJofslg', title: 'Pandas Data Science Tutorial (portfolio projects, Keith Galli)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Maven Analytics', url: 'https://www.mavenanalytics.io/data-playground', title: 'Maven Analytics data playground', durationMin: 240, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-data-analytics', title: 'Google Data Analytics Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
@@ -821,8 +1061,11 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Python', url: 'https://docs.python.org/3/tutorial/', title: 'The Python Tutorial', durationMin: 90, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Python for Beginners', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=rfscVS0vtbw', title: 'Learn Python - Full Course for Beginners (freeCodeCamp)', durationMin: 270, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc', title: 'Python Full Course for Beginners (Programming with Mosh)', durationMin: 360, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Automate the Boring Stuff', url: 'https://automatetheboringstuff.com/', title: 'Automate the Boring Stuff with Python', durationMin: 240, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/python', title: 'Kaggle Learn: Python', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/python', title: 'Python for Everybody (Coursera)', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -832,9 +1075,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       group: 'Foundations',
       type: 'TOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@3blue1brown', title: '3Blue1Brown — Essence of Linear Algebra', durationMin: 180, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=fNk_zzaMoSs', title: 'Vectors | Essence of Linear Algebra (3Blue1Brown)', durationMin: 10, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=WUvTyaaNkzM', title: 'The Essence of Calculus (3Blue1Brown)', durationMin: 17, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Khan Academy', url: 'https://www.khanacademy.org/math/linear-algebra', title: 'Khan Academy — Linear Algebra', durationMin: 600, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Khan Academy', url: 'https://www.khanacademy.org/math/calculus-1', title: 'Khan Academy — Calculus 1', durationMin: 600, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'MML Book', url: 'https://mml-book.github.io/', title: 'Mathematics for Machine Learning (free book)', durationMin: 240, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Khan Academy', url: 'https://www.khanacademy.org/math/linear-algebra', title: 'Linear Algebra exercises', durationMin: 300, lang: 'en' },
       ],
     },
     {
@@ -844,7 +1090,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       group: 'Foundations',
       type: 'SUBTOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@statquest', title: 'StatQuest with Josh Starmer', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gv9_4yMHFhI', title: 'A Gentle Introduction to Machine Learning & Stats (StatQuest)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody (probability & stats, freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/intro-to-statistics', title: 'Kaggle Learn: Intro to Statistics', durationMin: 120, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Think Stats', url: 'https://greenteapress.com/wp/think-stats-2e/', title: 'Think Stats (free book)', durationMin: 240, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Seeing Theory', url: 'https://seeing-theory.brown.edu/', title: 'Seeing Theory — interactive statistics', durationMin: 90, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/statistics-with-python', title: 'Statistics with Python (Coursera)', durationMin: 1200, lang: 'en' },
       ],
     },
     {
@@ -855,7 +1106,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'NumPy', url: 'https://numpy.org/doc/stable/user/quickstart.html', title: 'NumPy quickstart', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'pandas', url: 'https://pandas.pydata.org/docs/getting_started/index.html', title: 'pandas — Getting started', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vmEHCJofslg', title: 'Complete Python Pandas Data Science Tutorial (Keith Galli)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=ZyhVh-qRZPA', title: 'Python Pandas Tutorial (Part 1) (Corey Schafer)', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'NumPy', url: 'https://numpy.org/doc/stable/user/absolute_beginners.html', title: 'NumPy: the absolute basics for beginners', durationMin: 30, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/pandas', title: 'Kaggle Learn: Pandas', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/data-analysis-with-pandas/', title: 'Data Analysis with Pandas and Python', durationMin: 1140, lang: 'en' },
       ],
     },
     {
@@ -867,7 +1123,10 @@ const aiEngineer: RoadmapGraphTemplate = {
       resources: [
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/intro-to-machine-learning', title: 'Kaggle Learn: Intro to Machine Learning', durationMin: 180, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/machine-learning-introduction', title: 'Machine Learning Specialization (Andrew Ng)', durationMin: 2400, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@statquest', title: 'StatQuest — ML playlist', durationMin: 150, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gv9_4yMHFhI', title: 'A Gentle Introduction to Machine Learning (StatQuest)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody – Full Course (freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'scikit-learn', url: 'https://scikit-learn.org/stable/user_guide.html', title: 'scikit-learn User Guide', durationMin: 60, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Google', url: 'https://developers.google.com/machine-learning/crash-course', title: 'Google Machine Learning Crash Course', durationMin: 180, lang: 'en' },
       ],
     },
     {
@@ -878,7 +1137,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'scikit-learn', url: 'https://scikit-learn.org/stable/user_guide.html', title: 'scikit-learn User Guide', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'scikit-learn', url: 'https://scikit-learn.org/stable/getting_started.html', title: 'scikit-learn — Getting Started', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody (scikit-learn, freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gv9_4yMHFhI', title: 'A Gentle Introduction to Machine Learning (StatQuest)', durationMin: 13, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'scikit-learn', url: 'https://scikit-learn.org/stable/tutorial/index.html', title: 'scikit-learn tutorials', durationMin: 45, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/intermediate-machine-learning', title: 'Kaggle Learn: Intermediate ML', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/machinelearning/', title: 'Machine Learning A-Z', durationMin: 2580, lang: 'en' },
       ],
     },
     {
@@ -889,6 +1153,11 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/feature-engineering', title: 'Kaggle Learn: Feature Engineering', durationMin: 180, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/preprocessing.html', title: 'scikit-learn preprocessing', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/feature-engineering', title: 'Feature Engineering guide (Kaggle)', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gv9_4yMHFhI', title: 'A Gentle Introduction to Machine Learning (StatQuest)', durationMin: 13, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody (features, freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/feature-engineering/', title: 'Feature Engineering courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -899,8 +1168,11 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'PyTorch', url: 'https://pytorch.org/tutorials/', title: 'PyTorch tutorials', durationMin: 120, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'PyTorch', url: 'https://pytorch.org/tutorials/beginner/basics/intro.html', title: 'PyTorch — Learn the Basics', durationMin: 60, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/deep-learning', title: 'Deep Learning Specialization (Andrew Ng)', durationMin: 2400, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@3blue1brown', title: '3Blue1Brown — Neural Networks', durationMin: 90, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=aircAruvnKk', title: 'But what is a Neural Network? (3Blue1Brown)', durationMin: 19, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=V_xro1bcAuA', title: 'PyTorch for Deep Learning & Machine Learning – Full Course (freeCodeCamp)', durationMin: 1500, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/intro-to-deep-learning', title: 'Kaggle Learn: Intro to Deep Learning', durationMin: 240, lang: 'en' },
       ],
     },
     {
@@ -911,6 +1183,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'PyTorch', url: 'https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html', title: 'Training a classifier (CNN tutorial)', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'PyTorch', url: 'https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html', title: 'Neural Networks (PyTorch)', durationMin: 40, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Stanford CS231n', url: 'https://cs231n.github.io/convolutional-networks/', title: 'CS231n — Convolutional Networks notes', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=aircAruvnKk', title: 'But what is a Neural Network? (3Blue1Brown)', durationMin: 19, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=V_xro1bcAuA', title: 'PyTorch for Deep Learning – Full Course (freeCodeCamp)', durationMin: 1500, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/learn/computer-vision', title: 'Kaggle Learn: Computer Vision', durationMin: 240, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/deep-learning', title: 'Deep Learning Specialization (Andrew Ng)', durationMin: 2400, lang: 'en' },
       ],
     },
     {
@@ -922,8 +1200,11 @@ const aiEngineer: RoadmapGraphTemplate = {
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Anthropic', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', title: 'Anthropic — Prompt engineering overview', durationMin: 60, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'OpenAI', url: 'https://platform.openai.com/docs/guides/prompt-engineering', title: 'OpenAI prompt engineering guide', durationMin: 45, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@AndrejKarpathy', title: 'Andrej Karpathy — LLM lectures', durationMin: 180, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=zjkBMFhNj_g', title: '[1hr Talk] Intro to Large Language Models (Andrej Karpathy)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', title: 'Let\'s build GPT: from scratch (Andrej Karpathy)', durationMin: 116, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Jay Alammar', url: 'https://jalammar.github.io/illustrated-transformer/', title: 'The Illustrated Transformer', durationMin: 40, lang: 'en' },
         { kind: 'PRACTICE', provider: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/', title: 'DeepLearning.AI short courses', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/learn/generative-ai-with-llms', title: 'Generative AI with LLMs (Coursera)', durationMin: 960, lang: 'en' },
       ],
     },
     {
@@ -934,6 +1215,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Anthropic', url: 'https://docs.anthropic.com/en/docs/build-with-claude/embeddings', title: 'Anthropic — Embeddings', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'LangChain', url: 'https://python.langchain.com/docs/tutorials/rag/', title: 'LangChain — Build a RAG app', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Pinecone', url: 'https://www.pinecone.io/learn/vector-database/', title: 'What is a Vector Database?', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=zjkBMFhNj_g', title: 'Intro to Large Language Models (RAG context, Karpathy)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', title: 'Let\'s build GPT: from scratch (Karpathy)', durationMin: 116, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/', title: 'LangChain: Chat with Your Data', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/learn/generative-ai-with-llms', title: 'Generative AI with LLMs (Coursera)', durationMin: 960, lang: 'en' },
       ],
     },
     {
@@ -944,6 +1231,12 @@ const aiEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Anthropic', url: 'https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview', title: 'Anthropic — Tool use overview', durationMin: 40, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Anthropic', url: 'https://www.anthropic.com/research/building-effective-agents', title: 'Anthropic — Building effective agents', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'OpenAI', url: 'https://platform.openai.com/docs/guides/function-calling', title: 'OpenAI — Function calling', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=zjkBMFhNj_g', title: 'Intro to Large Language Models (agents context, Karpathy)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', title: 'Let\'s build GPT: from scratch (Karpathy)', durationMin: 116, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/', title: 'Functions, Tools and Agents with LangChain', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/learn/generative-ai-with-llms', title: 'Generative AI with LLMs (Coursera)', durationMin: 960, lang: 'en' },
       ],
     },
     {
@@ -955,6 +1248,10 @@ const aiEngineer: RoadmapGraphTemplate = {
       resources: [
         { kind: 'ARTICLE', provider: 'Google Cloud', url: 'https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning', title: 'MLOps: Continuous delivery and automation pipelines', durationMin: 45, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'Docker', url: 'https://docs.docker.com/get-started/', title: 'Docker Get Started', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'MLflow', url: 'https://mlflow.org/docs/latest/index.html', title: 'MLflow documentation', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=3c-iBn73dDE', title: 'Docker Tutorial for Beginners (TechWorld with Nana)', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=Gjnup-PuquQ', title: 'Docker in 100 Seconds (Fireship)', durationMin: 2, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Made With ML', url: 'https://madewithml.com/', title: 'Made With ML — MLOps course', durationMin: 300, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops', title: 'Machine Learning Engineering for Production (MLOps)', durationMin: 1800, lang: 'en' },
       ],
     },
@@ -967,7 +1264,11 @@ const aiEngineer: RoadmapGraphTemplate = {
       resources: [
         { kind: 'PRACTICE', provider: 'Kaggle', url: 'https://www.kaggle.com/competitions', title: 'Kaggle competitions', durationMin: 600, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/ai-engineer', title: 'AI Engineer Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Made With ML', url: 'https://madewithml.com/', title: 'Made With ML — MLOps & projects', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=i_LwzRVP7bg', title: 'Machine Learning for Everybody – Full Course (freeCodeCamp)', durationMin: 120, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=zjkBMFhNj_g', title: 'Intro to Large Language Models (Karpathy)', durationMin: 60, lang: 'en' },
         { kind: 'PRACTICE', provider: 'GitHub', url: 'https://github.com/topics/machine-learning', title: 'Open-source ML/AI projects', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/machine-learning-introduction', title: 'Machine Learning Specialization (Andrew Ng)', durationMin: 2400, lang: 'en' },
       ],
     },
   ],
@@ -1011,8 +1312,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       group: 'Foundations',
       type: 'TOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@CharliMarieTV', title: 'CharliMarieTV — design channel', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design [7 Fundamentals] - Full Course (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial for UI Design - Course for Beginners (freeCodeCamp)', durationMin: 600, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Interaction Design Foundation', url: 'https://www.interaction-design.org/literature/topics/visual-design', title: 'Visual Design — IxDF', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Refactoring UI', url: 'https://www.refactoringui.com/', title: 'Refactoring UI — design tips', durationMin: 40, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Design & build UI challenges', durationMin: 240, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
@@ -1024,6 +1328,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'web.dev', url: 'https://web.dev/learn/accessibility/color-contrast', title: 'Color and contrast accessibility', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Material Design', url: 'https://m3.material.io/styles/color/system/overview', title: 'Material Design — color system', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design - color & typography (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial for UI Design - type & color (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Coolors', url: 'https://coolors.co/', title: 'Build accessible color palettes', durationMin: 45, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -1034,8 +1343,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Nielsen Norman Group', url: 'https://www.nngroup.com/articles/ten-usability-heuristics/', title: 'Ten Usability Heuristics', durationMin: 20, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@AJ%26Smart', title: 'AJ&Smart channel', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=I0-vBdh4sZ8', title: 'UX Design Tutorial for Beginners', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design [7 Fundamentals] - Full Course (DesignCourse)', durationMin: 60, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Interaction Design Foundation', url: 'https://www.interaction-design.org/literature/topics/ux-design', title: 'What is UX Design?', durationMin: 20, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Frontend Mentor', url: 'https://www.frontendmentor.io/challenges', title: 'Apply UX heuristics to a build', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -1046,8 +1358,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Nielsen Norman Group', url: 'https://www.nngroup.com/articles/which-ux-research-methods/', title: 'Which UX Research Methods?', durationMin: 25, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Interaction Design Foundation', url: 'https://www.interaction-design.org/literature/topics/user-research', title: 'User Research — IxDF', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=I0-vBdh4sZ8', title: 'UX Design Tutorial for Beginners (research methods)', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI/UX Design - research fundamentals (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Maze', url: 'https://maze.co/', title: 'Run a usability test with Maze', durationMin: 90, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/learn/user-research', title: 'UX Research at Scale (Coursera)', durationMin: 600, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@CharliMarieTV', title: 'UX Research basics', durationMin: 40, lang: 'en' },
       ],
     },
     {
@@ -1058,6 +1373,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Interaction Design Foundation', url: 'https://www.interaction-design.org/literature/topics/personas', title: 'Personas — IxDF', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Nielsen Norman Group', url: 'https://www.nngroup.com/articles/customer-journey-mapping/', title: 'Journey Mapping 101 (NN/g)', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=I0-vBdh4sZ8', title: 'UX Design Tutorial - personas & journeys', durationMin: 45, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI/UX Design fundamentals (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Persona & journey map templates', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -1067,9 +1387,12 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       group: 'Core',
       type: 'TOPIC',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@DesignCourse', title: 'DesignCourse channel', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial for UI Design - wireframe & prototype (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design [7 Fundamentals] - Full Course (DesignCourse)', durationMin: 60, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Figma', url: 'https://www.figma.com/resource-library/what-is-wireframing/', title: 'What is wireframing?', durationMin: 15, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Figma', url: 'https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma', title: 'Guide to prototyping in Figma', durationMin: 30, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/prototyping/', title: 'Prototype in Figma', durationMin: 45, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -1080,8 +1403,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Figma', url: 'https://help.figma.com/hc/en-us/categories/360002051613-Figma-Design', title: 'Figma Design help center', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@Figma', title: 'Figma official channel', durationMin: 90, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Figma', url: 'https://help.figma.com/hc/en-us/articles/360040451373-Create-and-use-Auto-layout', title: 'Create and use Auto layout', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial for UI Design - Course for Beginners (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design [7 Fundamentals] - Full Course (DesignCourse)', durationMin: 60, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Figma Community files', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/figma/', title: 'Figma courses on Udemy', durationMin: 900, lang: 'en' },
       ],
     },
     {
@@ -1092,6 +1418,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Figma', url: 'https://www.figma.com/resource-library/design-systems-101/', title: 'Design Systems 101', durationMin: 25, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Figma', url: 'https://help.figma.com/hc/en-us/articles/360038662654-Guide-to-components-in-Figma', title: 'Guide to components in Figma', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial - components & libraries (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design - design systems (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Study open design systems', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/design-system/', title: 'Design Systems courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -1101,7 +1432,12 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       group: 'Core',
       type: 'OPTIONAL',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@DesignCourse', title: 'Micro-interactions in Figma', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial - interactions & prototyping (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design - motion & interaction (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Nielsen Norman Group', url: 'https://www.nngroup.com/articles/microinteractions/', title: 'Microinteractions (NN/g)', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Figma', url: 'https://help.figma.com/hc/en-us/articles/360039818914-Create-advanced-animations-with-Smart-Animate', title: 'Smart Animate in Figma', durationMin: 25, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Recreate micro-interactions', durationMin: 90, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/figma/', title: 'Figma & interaction design on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -1112,6 +1448,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'W3C', url: 'https://www.w3.org/WAI/fundamentals/accessibility-principles/', title: 'Accessibility Principles — W3C', durationMin: 25, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'web.dev', url: 'https://web.dev/learn/accessibility/', title: 'Learn Accessibility (web.dev)', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design - accessibility fundamentals (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial - accessible UI (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'web.dev', url: 'https://pagespeed.web.dev/', title: 'Run an accessibility audit', durationMin: 45, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate (a11y)', durationMin: 1800, lang: 'en' },
       ],
     },
     {
@@ -1122,6 +1463,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Figma', url: 'https://www.figma.com/dev-mode/', title: 'Figma Dev Mode', durationMin: 20, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Figma', url: 'https://help.figma.com/hc/en-us/articles/15023124644247-Guide-to-Dev-Mode', title: 'Guide to Dev Mode', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=jwCmIBJ8Jtc', title: 'Figma Tutorial - developer handoff (freeCodeCamp)', durationMin: 600, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design - specs & handoff (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Prepare a design for handoff', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/figma/', title: 'Figma & handoff on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -1132,8 +1478,11 @@ const uiUxDesigner: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/ux-design', title: 'UX Design Roadmap', durationMin: 20, lang: 'en' },
-        { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Figma Community — inspiration', durationMin: 120, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Bestfolios', url: 'https://www.bestfolios.com/casestudy', title: 'UX case study examples', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=vD3B6guUI0o', title: 'Learn UI Design [7 Fundamentals] - Full Course (DesignCourse)', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=I0-vBdh4sZ8', title: 'UX Design Tutorial - building a portfolio', durationMin: 45, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Figma', url: 'https://www.figma.com/community', title: 'Figma Community — inspiration', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/professional-certificates/google-ux-design', title: 'Google UX Design Certificate', durationMin: 1800, lang: 'en' },
       ],
     },
   ],
@@ -1176,8 +1525,12 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'ISTQB', url: 'https://www.istqb.org/certifications/certified-tester-foundation-level', title: 'ISTQB Foundation Level syllabus', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TestingMindset', title: 'Testing Mindset channel', durationMin: 45, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Guru99', url: 'https://www.guru99.com/software-testing.html', title: 'Software Testing — complete guide', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Beginner Tutorial: Test Automation & QA foundations', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=VywxIQ2ZXw4', title: 'Postman Beginner\'s Course - API Testing (freeCodeCamp)', durationMin: 240, lang: 'en' },
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/qa', title: 'QA Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Ministry of Testing', url: 'https://www.ministryoftesting.com/dojo', title: 'Ministry of Testing — Dojo exercises', durationMin: 90, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/software-testing/', title: 'Software Testing courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -1188,6 +1541,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Atlassian', url: 'https://www.atlassian.com/agile', title: 'Agile Coach — Atlassian', durationMin: 30, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Scrum.org', url: 'https://www.scrum.org/resources/what-is-scrum', title: 'What is Scrum?', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Test Automation & QA in Agile teams (overview)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (SDLC context, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Atlassian', url: 'https://www.atlassian.com/agile/tutorials', title: 'Agile & Scrum tutorials', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Coursera', url: 'https://www.coursera.org/specializations/agile-development', title: 'Agile Development Specialization (Coursera)', durationMin: 900, lang: 'en' },
       ],
     },
     {
@@ -1198,8 +1556,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Ministry of Testing', url: 'https://www.ministryoftesting.com/dojo', title: 'Ministry of Testing — Dojo', durationMin: 45, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TestAutomationUniversity', title: 'Test Automation University', durationMin: 60, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Guru99', url: 'https://www.guru99.com/test-case-design-technique.html', title: 'Test case design techniques', durationMin: 25, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Beginner Tutorial: Test Automation & case design', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pq20Gd4LXeI', title: 'Playwright Automation Tutorial for Beginners', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Ministry of Testing', url: 'https://www.ministryoftesting.com/dojo', title: 'Write test cases — Dojo exercises', durationMin: 90, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/software-testing/', title: 'Software Testing courses on Udemy', durationMin: 600, lang: 'en' },
       ],
     },
     {
@@ -1210,6 +1571,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Atlassian', url: 'https://www.atlassian.com/software/jira/guides', title: 'Jira guides — Atlassian', durationMin: 30, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Atlassian', url: 'https://www.atlassian.com/agile/project-management/bug-report', title: 'How to write a good bug report', durationMin: 20, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'QA workflow & bug reporting (Test Automation)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=VywxIQ2ZXw4', title: 'Postman Beginner\'s Course - reporting API defects (freeCodeCamp)', durationMin: 240, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Atlassian', url: 'https://www.atlassian.com/software/jira/free', title: 'Track bugs in a free Jira project', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/jira/', title: 'Jira & bug tracking on Udemy', durationMin: 360, lang: 'en' },
       ],
     },
     {
@@ -1221,7 +1587,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       resources: [
         { kind: 'PRACTICE', provider: 'SQLZoo', url: 'https://sqlzoo.net/', title: 'SQLZoo interactive practice', durationMin: 180, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'PostgreSQL', url: 'https://www.postgresql.org/docs/current/tutorial.html', title: 'PostgreSQL Tutorial', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'SQL Full Course for Beginners', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=HXV3zeQKqGY', title: 'SQL Tutorial - Full Database Course for Beginners (freeCodeCamp)', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=qw--VYLpxG4', title: 'Learn PostgreSQL Tutorial - Full Course (freeCodeCamp)', durationMin: 250, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Mode', url: 'https://mode.com/sql-tutorial/', title: 'SQL Tutorial for testers (Mode)', durationMin: 40, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'HackerRank', url: 'https://www.hackerrank.com/domains/sql', title: 'HackerRank SQL challenges', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-sql-bootcamp/', title: 'The Complete SQL Bootcamp', durationMin: 540, lang: 'en' },
       ],
     },
     {
@@ -1232,8 +1602,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Postman', url: 'https://learning.postman.com/docs/getting-started/introduction/', title: 'Postman learning center', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TestAutomationUniversity', title: 'API Testing with Postman', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Postman', url: 'https://learning.postman.com/docs/writing-scripts/test-scripts/', title: 'Writing test scripts in Postman', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=VywxIQ2ZXw4', title: 'Postman Beginner\'s Course - API Testing (freeCodeCamp)', durationMin: 240, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Beginner Tutorial: API & E2E Test Automation', durationMin: 30, lang: 'en' },
         { kind: 'PRACTICE', provider: 'Postman', url: 'https://www.postman.com/api-platform/api-testing/', title: 'Postman API testing practice', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/postman/', title: 'Postman API testing courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -1243,7 +1616,12 @@ const qaEngineer: RoadmapGraphTemplate = {
       group: 'Core',
       type: 'OPTIONAL',
       resources: [
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'Linux Command Line Basics', durationMin: 90, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=ZtqBQ68cfJc', title: 'The 50 Most Popular Linux & Terminal Commands (freeCodeCamp)', durationMin: 300, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=3c-iBn73dDE', title: 'Docker Tutorial (CLI usage, TechWorld with Nana)', durationMin: 120, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Ubuntu', url: 'https://ubuntu.com/tutorials/command-line-for-beginners', title: 'The Linux command line for beginners', durationMin: 40, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Linux Journey', url: 'https://linuxjourney.com/', title: 'Linux Journey', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'OverTheWire', url: 'https://overthewire.org/wargames/bandit/', title: 'OverTheWire: Bandit (shell practice)', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/linux/', title: 'Linux command line courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -1254,8 +1632,12 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'POPULAR', provider: 'javascript.info', url: 'https://javascript.info/', title: 'The Modern JavaScript Tutorial', durationMin: 300, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@freecodecamp', title: 'JavaScript Full Course', durationMin: 180, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg', title: 'Learn JavaScript - Full Course for Beginners (freeCodeCamp)', durationMin: 200, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=hdI2bqOjy3c', title: 'JavaScript Crash Course For Beginners (Traversy Media)', durationMin: 100, lang: 'en' },
         { kind: 'OFFICIAL_DOC', provider: 'MDN', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide', title: 'MDN JavaScript Guide', durationMin: 120, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'learn.javascript.ru', url: 'https://learn.javascript.ru/', title: 'Современный учебник JavaScript', durationMin: 300, lang: 'ru' },
+        { kind: 'PRACTICE', provider: 'Exercism', url: 'https://exercism.org/tracks/javascript', title: 'JavaScript track', durationMin: 300, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/course/the-complete-javascript-course/', title: 'The Complete JavaScript Course', durationMin: 4020, lang: 'en' },
       ],
     },
     {
@@ -1266,9 +1648,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'Playwright', url: 'https://playwright.dev/docs/intro', title: 'Playwright — Getting Started', durationMin: 60, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TestAutomationUniversity', title: 'Playwright automation tutorials', durationMin: 90, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Beginner Tutorial: Playwright Test Automation', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pq20Gd4LXeI', title: 'Playwright Automation Tutorial for Beginners from Scratch', durationMin: 60, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Playwright', url: 'https://playwright.dev/docs/writing-tests', title: 'Writing Playwright tests', durationMin: 40, lang: 'en' },
         { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/playwright/', title: 'Playwright courses on Udemy', durationMin: 900, lang: 'en' },
-        { kind: 'PRACTICE', provider: 'Playwright', url: 'https://playwright.dev/docs/writing-tests', title: 'Writing Playwright tests', durationMin: 120, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Playwright', url: 'https://playwright.dev/docs/test-assertions', title: 'Practice assertions in Playwright', durationMin: 120, lang: 'en' },
       ],
     },
     {
@@ -1279,6 +1663,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'SUBTOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'Playwright', url: 'https://playwright.dev/docs/pom', title: 'Playwright — Page Object Models', durationMin: 25, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'Playwright', url: 'https://playwright.dev/docs/best-practices', title: 'Playwright — Best Practices', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Playwright Test Automation - structuring tests', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pq20Gd4LXeI', title: 'Playwright Automation Tutorial - Page Object Model', durationMin: 60, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'Playwright', url: 'https://playwright.dev/docs/writing-tests', title: 'Refactor tests with POM', durationMin: 120, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/playwright/', title: 'Playwright courses on Udemy', durationMin: 900, lang: 'en' },
       ],
     },
     {
@@ -1290,7 +1679,10 @@ const qaEngineer: RoadmapGraphTemplate = {
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'GitHub', url: 'https://docs.github.com/en/actions', title: 'GitHub Actions documentation', durationMin: 45, lang: 'en' },
         { kind: 'ARTICLE', provider: 'Playwright', url: 'https://playwright.dev/docs/ci', title: 'Playwright — Continuous Integration', durationMin: 20, lang: 'en' },
-        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/@TechWorldwithNana', title: 'GitHub Actions CI/CD Tutorial', durationMin: 60, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=R8_veQiYBjI', title: 'GitHub Actions Tutorial - CI/CD Pipeline (TechWorld with Nana)', durationMin: 35, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Playwright Test Automation - running in CI', durationMin: 30, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'GitHub', url: 'https://docs.github.com/en/actions/quickstart', title: 'Run tests in a GitHub Actions workflow', durationMin: 60, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/github/', title: 'GitHub Actions courses on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -1301,6 +1693,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'OPTIONAL',
       resources: [
         { kind: 'OFFICIAL_DOC', provider: 'OWASP', url: 'https://owasp.org/www-project-top-ten/', title: 'OWASP Top Ten', durationMin: 45, lang: 'en' },
+        { kind: 'OFFICIAL_DOC', provider: 'k6', url: 'https://grafana.com/docs/k6/latest/', title: 'k6 load testing documentation', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Test Automation - performance & security basics', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=erEgovG9WBs', title: '100+ Web Development Things (security context, Fireship)', durationMin: 13, lang: 'en' },
+        { kind: 'PRACTICE', provider: 'OWASP', url: 'https://owasp.org/www-project-juice-shop/', title: 'OWASP Juice Shop — security testing practice', durationMin: 180, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/performance-testing/', title: 'Performance & security testing on Udemy', durationMin: 480, lang: 'en' },
       ],
     },
     {
@@ -1311,8 +1708,11 @@ const qaEngineer: RoadmapGraphTemplate = {
       type: 'TOPIC',
       resources: [
         { kind: 'ARTICLE', provider: 'roadmap.sh', url: 'https://roadmap.sh/qa', title: 'QA Roadmap', durationMin: 20, lang: 'en' },
+        { kind: 'ARTICLE', provider: 'Ministry of Testing', url: 'https://www.ministryoftesting.com/articles', title: 'QA interview prep articles', durationMin: 40, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=oboomg80YTI', title: 'Beginner Tutorial: Playwright Test Automation (portfolio project)', durationMin: 30, lang: 'en' },
+        { kind: 'FREE_VIDEO', provider: 'YouTube', url: 'https://www.youtube.com/watch?v=pq20Gd4LXeI', title: 'Playwright Automation Tutorial from Scratch', durationMin: 60, lang: 'en' },
         { kind: 'PRACTICE', provider: 'GitHub', url: 'https://github.com/topics/testing', title: 'Open-source testing projects', durationMin: 180, lang: 'en' },
-        { kind: 'ARTICLE', provider: 'Ministry Testing', url: 'https://www.ministryoftesting.com/articles', title: 'QA interview prep articles', durationMin: 40, lang: 'en' },
+        { kind: 'PAID_COURSE', provider: 'Udemy', url: 'https://www.udemy.com/topic/playwright/', title: 'Playwright & QA courses on Udemy', durationMin: 900, lang: 'en' },
       ],
     },
   ],
