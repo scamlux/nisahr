@@ -215,8 +215,8 @@ function GraphSection({ roadmap, onChanged }: { roadmap: any; onChanged: () => v
             {roadmap.level} · {roadmap.weeklyHours}{tr.hoursPerWeek} · ~{roadmap.estimatedWeeks} {tr.weeksApprox}
           </p>
         </div>
-        <div className="ml-auto flex items-center gap-4">
-          <div className="hidden w-44 sm:block">
+        <div className="ml-auto flex w-full items-center gap-4 sm:w-auto">
+          <div className="w-full sm:w-44">
             <div className="mb-1 flex justify-between text-[11px] text-muted">
               <span>{done}/{total}</span>
               <span className="tabular-nums">{roadmap.completion}% {tr.complete}</span>
@@ -243,8 +243,9 @@ function GraphSection({ roadmap, onChanged }: { roadmap: any; onChanged: () => v
         </div>
       </div>
 
-      {/* canvas */}
-      <div className="card relative h-[68vh] min-h-[480px] overflow-hidden p-0">
+      {/* canvas — the pan/zoom flowchart is hard to use on a phone, so it is
+          desktop-only; small screens get a readable grouped list instead. */}
+      <div className="card relative hidden h-[68vh] min-h-[480px] overflow-hidden p-0 lg:block">
         <GraphCanvas
           nodes={roadmap.nodes}
           edges={roadmap.edges ?? []}
@@ -254,6 +255,9 @@ function GraphSection({ roadmap, onChanged }: { roadmap: any; onChanged: () => v
         <p className="pointer-events-none absolute left-4 top-3 z-10 text-[11px] text-muted">
           {tr.graphHint}
         </p>
+      </div>
+      <div className="lg:hidden">
+        <MobileNodeList nodes={roadmap.nodes} onNodeClick={setNodeId} />
       </div>
 
       <AnimatePresence>
@@ -267,6 +271,80 @@ function GraphSection({ roadmap, onChanged }: { roadmap: any; onChanged: () => v
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+/** Mobile-friendly roadmap: nodes grouped by section, each row opens the drawer. */
+function MobileNodeList({ nodes, onNodeClick }: { nodes: any[]; onNodeClick: (id: string) => void }) {
+  const { t } = useI18n();
+  const tr = t.pages.roadmap;
+
+  // Preserve template order while grouping by the section label.
+  // (Note: `Map` is imported from lucide-react here as an icon, so we group
+  // with a plain array instead of the JS Map constructor.)
+  const groups = useMemo(() => {
+    const out: { group: string; items: any[] }[] = [];
+    for (const n of nodes) {
+      const g = n.group || tr.title;
+      const bucket = out.find((b) => b.group === g);
+      if (bucket) bucket.items.push(n);
+      else out.push({ group: g, items: [n] });
+    }
+    return out;
+  }, [nodes, tr.title]);
+
+  const statusStyles: Record<string, string> = {
+    DONE: 'border-success/40 bg-success/10 text-success',
+    IN_PROGRESS: 'border-primary/40 bg-primary/10 text-primary',
+    SKIPPED: 'border-border bg-surface-2 text-muted opacity-60',
+    NOT_STARTED: 'border-border bg-surface-2 text-muted',
+  };
+
+  return (
+    <div className="space-y-5">
+      {groups.map((section) => (
+        <div key={section.group}>
+          <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-primary">
+            {section.group}
+          </p>
+          <div className="space-y-2">
+            {section.items.map((n: any) => (
+              <button
+                key={n.id}
+                onClick={() => onNodeClick(n.id)}
+                className="flex w-full items-center gap-3 rounded-xl border border-border bg-surface p-3 text-left transition-colors active:bg-surface-2"
+              >
+                <span
+                  className={cn(
+                    'grid h-7 w-7 shrink-0 place-items-center rounded-lg border',
+                    statusStyles[n.status] ?? statusStyles.NOT_STARTED,
+                  )}
+                >
+                  {n.status === 'DONE' ? <Check className="h-3.5 w-3.5" />
+                    : n.status === 'IN_PROGRESS' ? <CircleDot className="h-3.5 w-3.5" />
+                    : <Circle className="h-3.5 w-3.5" />}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-2">
+                    <span className={cn('truncate text-sm font-medium', n.status === 'DONE' && 'text-muted line-through')}>
+                      {n.title}
+                    </span>
+                    {n.type === 'OPTIONAL' && (
+                      <span className="chip shrink-0 border-border !py-0 text-[9px]">{tr.legendOptional}</span>
+                    )}
+                  </span>
+                  {n.resources?.length > 0 && (
+                    <span className="mt-0.5 flex items-center gap-1 text-[11px] text-muted">
+                      <LibraryBig className="h-3 w-3" /> {n.resources.length}
+                    </span>
+                  )}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 

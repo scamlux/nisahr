@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import type { UpdateProfileDto } from '@careeros/shared';
 import { PrismaService } from '../../prisma/prisma.service';
 import { computeGraphCompletion } from '../roadmap/roadmap-graph.service';
 
@@ -73,6 +74,8 @@ export class ProfileService {
         ? {
             interests: user.careerProfile.interests,
             goals: user.careerProfile.goals,
+            // `bio` is an alias for goals — surfaced as the editable mini-resume.
+            bio: user.careerProfile.goals,
             experienceLevel: user.careerProfile.experienceLevel,
             currentSkills: user.careerProfile.currentSkills,
             onboardingCompleted: user.careerProfile.onboardingCompleted,
@@ -119,5 +122,56 @@ export class ProfileService {
     if (!stages.length) return 0;
     const done = stages.filter((s) => s.status === 'DONE').length;
     return Math.round((done / stages.length) * 100);
+  }
+
+  /**
+   * F5: edit identity + mini-resume. Only touches existing columns (name,
+   * avatarUrl on User; goals/interests on CareerProfile) so it needs no schema
+   * migration. Returns the fresh public user for the client to persist.
+   */
+  async update(userId: string, dto: UpdateProfileDto) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new UnauthorizedException();
+
+    const userData: { name?: string; avatarUrl?: string | null } = {};
+    if (dto.name !== undefined) userData.name = dto.name.trim();
+    if (dto.avatarUrl !== undefined) userData.avatarUrl = dto.avatarUrl || null;
+
+    const profileData: { goals?: string; interests?: string[] } = {};
+    if (dto.bio !== undefined) profileData.goals = dto.bio;
+    if (dto.interests !== undefined) {
+      profileData.interests = dto.interests.map((s) => s.trim()).filter(Boolean);
+    }
+
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...userData,
+        ...(Object.keys(profileData).length
+          ? {
+              careerProfile: {
+                upsert: { create: profileData, update: profileData },
+              },
+            }
+          : {}),
+      },
+      include: { careerProfile: true },
+    });
+
+    return {
+      user: {
+        id: updated.id,
+        email: updated.email,
+        name: updated.name,
+        role: updated.role,
+        plan: updated.plan,
+        provider: updated.provider,
+        emailVerified: updated.emailVerified,
+        avatarUrl: updated.avatarUrl,
+        createdAt: updated.createdAt.toISOString(),
+      },
+      bio: updated.careerProfile?.goals ?? '',
+      interests: updated.careerProfile?.interests ?? [],
+    };
   }
 }

@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   Award, BadgeCheck, BrainCircuit, Check, Crown, ExternalLink, GraduationCap, Loader2,
-  Map, Mail, MessageSquare, Shield, Sparkles, Target, TrendingUp,
+  Map, Mail, MessageSquare, Pencil, Shield, Sparkles, Target, LogOut, X,
 } from 'lucide-react';
 import { BILLING_ENABLED } from '@/lib/billing';
 import { api, apiError } from '@/lib/api';
@@ -18,8 +19,11 @@ import { useI18n } from '@/lib/i18n';
 
 export default function ProfilePage() {
   const { t } = useI18n();
-  const { user, setUser, setTokens, refreshToken } = useAuth();
+  const router = useRouter();
+  const qc = useQueryClient();
+  const { user, setUser, setTokens, refreshToken, logout } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
 
   const PLANS = [
     { id: 'FREE', name: t.pages.profile.planFreeName, price: '$0', features: [t.pages.profile.freeFeatureChat, t.pages.profile.freeFeatureRoadmap, t.pages.profile.freeFeatureLearningHub, t.pages.profile.freeFeatureTracker] },
@@ -62,35 +66,83 @@ export default function ProfilePage() {
       <PageHeader title={t.pages.profile.title} subtitle={t.pages.profile.subtitle} />
 
       {/* identity */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="card mb-6 flex items-center gap-4 p-6">
-        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent text-xl font-bold text-primary-fg">
-          {user ? initials(user.name) : '?'}
-        </div>
-        <div className="flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="font-display text-xl font-bold">{user?.name}</h2>
-            {hub?.user?.emailVerified && (
-              <span className="chip border-success/30 bg-success/10 text-success">
-                <BadgeCheck className="h-3 w-3" /> {t.pages.profile.verified}
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="card mb-6 p-5 sm:p-6">
+        <div className="flex items-start gap-4">
+          <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-accent text-xl font-bold text-primary-fg">
+            {user?.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={user.avatarUrl} alt={user.name} className="h-full w-full object-cover" />
+            ) : (
+              user ? initials(user.name) : '?'
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="font-display text-xl font-bold">{user?.name}</h2>
+              {hub?.user?.emailVerified && (
+                <span className="chip border-success/30 bg-success/10 text-success">
+                  <BadgeCheck className="h-3 w-3" /> {t.pages.profile.verified}
+                </span>
+              )}
+              {hub?.user?.provider === 'google' && (
+                <span className="chip border-border">Google</span>
+              )}
+            </div>
+            <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted">
+              <span className="flex items-center gap-1.5"><Mail className="h-3.5 w-3.5" /> {user?.email}</span>
+              <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" /> {user?.role}</span>
+              <span className="flex items-center gap-1.5">
+                {!BILLING_ENABLED
+                  ? <><Sparkles className="h-3.5 w-3.5 text-primary" /> {t.pages.profile.freeChip}</>
+                  : user?.plan === 'PREMIUM'
+                    ? <><Crown className="h-3.5 w-3.5 text-warning" /> {t.pages.profile.premium}</>
+                    : t.pages.profile.freePlan}
               </span>
+            </div>
+            {hub?.careerProfile?.bio && (
+              <p className="mt-2 whitespace-pre-line text-sm text-fg/90">{hub.careerProfile.bio}</p>
             )}
-            {hub?.user?.provider === 'google' && (
-              <span className="chip border-border">Google</span>
+            {hub?.careerProfile?.interests && hub.careerProfile.interests.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {hub.careerProfile.interests.map((it) => (
+                  <span key={it} className="chip border-primary/20 bg-primary/5 text-primary">{it}</span>
+                ))}
+              </div>
             )}
           </div>
-          <div className="mt-1 flex flex-wrap gap-3 text-sm text-muted">
-            <span className="flex items-center gap-1.5"><Mail className="h-3.5 w-3.5" /> {user?.email}</span>
-            <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" /> {user?.role}</span>
-            <span className="flex items-center gap-1.5">
-              {!BILLING_ENABLED
-                ? <><Sparkles className="h-3.5 w-3.5 text-primary" /> {t.pages.profile.freeChip}</>
-                : user?.plan === 'PREMIUM'
-                  ? <><Crown className="h-3.5 w-3.5 text-warning" /> {t.pages.profile.premium}</>
-                  : t.pages.profile.freePlan}
-            </span>
-          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2 border-t border-border/60 pt-4">
+          <button className="btn-ghost !py-2 text-sm" onClick={() => setEditing(true)}>
+            <Pencil className="h-4 w-4" /> {t.pages.profile.editProfile}
+          </button>
+          <button
+            className="btn-ghost !py-2 text-sm text-muted hover:text-danger"
+            onClick={() => { logout(); router.push('/login'); }}
+          >
+            <LogOut className="h-4 w-4" /> {t.pages.profile.signOut}
+          </button>
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {editing && (
+          <EditProfileModal
+            initial={{
+              name: user?.name ?? '',
+              avatarUrl: user?.avatarUrl ?? '',
+              bio: hub?.careerProfile?.bio ?? '',
+              interests: hub?.careerProfile?.interests ?? [],
+            }}
+            onClose={() => setEditing(false)}
+            onSaved={(u) => {
+              setUser({ name: u.user.name, avatarUrl: u.user.avatarUrl });
+              qc.invalidateQueries({ queryKey: ['profile-overview'] });
+              setEditing(false);
+              toast.success(t.pages.profile.profileSaved);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       {hub && <ProfileHub hub={hub} />}
 
@@ -183,7 +235,7 @@ export default function ProfilePage() {
 
 interface ProfileOverview {
   user: { provider: string; emailVerified: boolean; avatarUrl: string | null } | null;
-  careerProfile: { interests: string[]; experienceLevel: string } | null;
+  careerProfile: { interests: string[]; experienceLevel: string; bio?: string } | null;
   psychResult: { profileCode: string; takenAt: string } | null;
   roadmaps: { id: string; targetRole: string; completion: number; status: string }[];
   activeRoadmap: { id: string; targetRole: string; completion: number } | null;
@@ -273,5 +325,95 @@ function ProfileHub({ hub }: { hub: ProfileOverview }) {
         </div>
       )}
     </div>
+  );
+}
+
+/** F5: edit identity + mini-resume (name, avatar, bio, interests). */
+function EditProfileModal({
+  initial, onClose, onSaved,
+}: {
+  initial: { name: string; avatarUrl: string; bio: string; interests: string[] };
+  onClose: () => void;
+  onSaved: (data: { user: { name: string; avatarUrl: string | null } }) => void;
+}) {
+  const { t } = useI18n();
+  const tr = t.pages.profile;
+  const [name, setName] = useState(initial.name);
+  const [avatarUrl, setAvatarUrl] = useState(initial.avatarUrl);
+  const [bio, setBio] = useState(initial.bio);
+  const [interests, setInterests] = useState(initial.interests.join(', '));
+  const [saving, setSaving] = useState(false);
+
+  async function save(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const { data } = await api.patch('/profile', {
+        name: name.trim(),
+        avatarUrl: avatarUrl.trim(),
+        bio,
+        interests: interests.split(',').map((s) => s.trim()).filter(Boolean),
+      });
+      onSaved(data);
+    } catch (err) {
+      toast.error(apiError(err, tr.profileSaveError));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[80] grid place-items-center bg-black/60 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="glass max-h-[90vh] w-full max-w-md overflow-y-auto rounded-3xl p-6"
+      >
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="font-display text-xl font-bold">{tr.editProfile}</h2>
+          <button type="button" onClick={onClose} className="text-muted hover:text-fg"><X className="h-5 w-5" /></button>
+        </div>
+
+        {/* live avatar preview */}
+        <div className="mb-5 flex items-center gap-3">
+          <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-accent text-lg font-bold text-primary-fg">
+            {avatarUrl.trim()
+              // eslint-disable-next-line @next/next/no-img-element
+              ? <img src={avatarUrl} alt="" className="h-full w-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              : (name ? initials(name) : '?')}
+          </div>
+          <p className="text-xs text-muted">{tr.avatarHint}</p>
+        </div>
+
+        <form onSubmit={save} className="space-y-4">
+          <div>
+            <label className="mb-1.5 block text-sm font-medium">{tr.fieldName}</label>
+            <input className="input" value={name} onChange={(e) => setName(e.target.value)} minLength={2} required />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium">{tr.fieldAvatar}</label>
+            <input className="input" type="url" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} placeholder="https://…" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium">{tr.fieldBio}</label>
+            <textarea className="input min-h-[96px] resize-y" value={bio} onChange={(e) => setBio(e.target.value)} maxLength={2000} placeholder={tr.bioPlaceholder} />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium">{tr.fieldInterests}</label>
+            <input className="input" value={interests} onChange={(e) => setInterests(e.target.value)} placeholder={tr.interestsPlaceholder} />
+          </div>
+          <div className="flex gap-2 pt-1">
+            <button type="button" className="btn-ghost flex-1 py-3" onClick={onClose}>{tr.cancel}</button>
+            <button className="btn-primary flex-1 py-3" disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : tr.save}
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
   );
 }
