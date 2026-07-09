@@ -165,9 +165,9 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
             ) : quizMode && course.quizzes[0] ? (
               <Quiz quiz={course.quizzes[0]} onExit={() => setQuizMode(false)} />
             ) : (
-              <div className="flex flex-1 overflow-hidden">
+              <div className="flex flex-1 flex-col overflow-hidden sm:flex-row">
                 {/* lesson list */}
-                <div className="w-64 shrink-0 overflow-y-auto border-r border-border/60 p-3">
+                <div className="max-h-40 w-full shrink-0 overflow-y-auto border-b border-border/60 p-3 sm:max-h-none sm:w-64 sm:border-b-0 sm:border-r">
                   {course.lessons.map((l: any, i: number) => {
                     const done = completedLessonIds.includes(l.id);
                     return (

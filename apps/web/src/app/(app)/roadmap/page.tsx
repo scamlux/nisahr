@@ -476,7 +476,7 @@ function GenerateModal({ initialRole, onClose, onDone }: { initialRole?: string 
           </div>
           <div>
             <label className="mb-1.5 block text-sm font-medium">{t.pages.roadmap.yourLevelLabel}</label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {LEVELS.map((l) => (
                 <button key={l} onClick={() => setLevel(l)} className={cn('rounded-lg border py-2 text-xs font-medium transition-all', level === l ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted')}>
                   {LEVEL_LABELS[l]}
