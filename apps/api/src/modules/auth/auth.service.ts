@@ -11,6 +11,8 @@ import * as bcrypt from 'bcryptjs';
 import { AuthResponse, GoogleMockDto, LoginDto, RegisterDto } from '@careeros/shared';
 import { PrismaService } from '../../prisma/prisma.service';
 import { User } from '@prisma/client';
+import { emailVerifySecret, isProduction, jwtAccessSecret, jwtRefreshSecret } from '../../config/secrets';
+import { appUrl, sendEmail } from '../../config/mail';
 
 /** Real email sending is on only when explicitly configured; dev auto-verifies. */
 export function mailEnabled(): boolean {
@@ -60,11 +62,11 @@ export class AuthService {
       plan: user.plan,
     };
     const accessToken = await this.jwt.signAsync(payload, {
-      secret: process.env.JWT_ACCESS_SECRET ?? 'dev_access_secret_change_me',
+      secret: jwtAccessSecret(),
       expiresIn: process.env.JWT_ACCESS_TTL ?? '900s',
     });
     const refreshToken = await this.jwt.signAsync(payload, {
-      secret: process.env.JWT_REFRESH_SECRET ?? 'dev_refresh_secret_change_me',
+      secret: jwtRefreshSecret(),
       expiresIn: process.env.JWT_REFRESH_TTL ?? '7d',
     });
     return { accessToken, refreshToken };
@@ -108,7 +110,7 @@ export class AuthService {
     let payload: { sub: string };
     try {
       payload = await this.jwt.verifyAsync(refreshToken, {
-        secret: process.env.JWT_REFRESH_SECRET ?? 'dev_refresh_secret_change_me',
+        secret: jwtRefreshSecret(),
       });
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
@@ -253,7 +255,7 @@ export class AuthService {
   /* ----------------------- F7: email verification ------------------------- */
 
   private verifyEmailSecret(): string {
-    return process.env.EMAIL_VERIFY_SECRET ?? process.env.JWT_SECRET ?? 'dev_verify_secret_change_me';
+    return emailVerifySecret();
   }
 
   /** Signed, stateless verification token (would be emailed in production). */
@@ -266,8 +268,19 @@ export class AuthService {
 
   private async sendVerificationEmail(user: User): Promise<void> {
     const token = await this.signVerifyToken(user.id);
-    // No mail provider is wired in this build; log the link so it is testable.
-    this.logger.log(`Email verification link for ${user.email}: /verify-email?token=${token}`);
+    const link = `${appUrl()}/verify-email?token=${token}`;
+    const sent = await sendEmail({
+      to: user.email,
+      subject: 'Verify your CareerOS email',
+      html:
+        `<p>Hi ${user.name ?? 'there'},</p>` +
+        `<p>Confirm your email address to finish setting up your CareerOS account.</p>` +
+        `<p><a href="${link}">Verify my email</a></p>` +
+        `<p>If the button doesn't work, paste this link into your browser:<br>${link}</p>`,
+      text: `Verify your CareerOS email: ${link}`,
+    });
+    // If no provider is configured, log the link so the flow stays testable.
+    if (!sent) this.logger.log(`Email verification link for ${user.email}: ${link}`);
   }
 
   /**
@@ -282,6 +295,12 @@ export class AuthService {
     if (mailEnabled()) {
       await this.sendVerificationEmail(user);
       return { sent: true };
+    }
+    if (isProduction()) {
+      // Never leak a raw verification token over the API in production. If mail
+      // is not configured, the flow is a no-op rather than a token disclosure.
+      this.logger.warn('requestVerification: MAIL_ENABLED is off in production — configure a mail provider (RESEND_API_KEY).');
+      return { sent: false };
     }
     return { sent: true, token };
   }
