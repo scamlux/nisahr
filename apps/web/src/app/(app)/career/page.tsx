@@ -260,7 +260,7 @@ function MockInterview({ locked }: { locked: boolean }) {
                 ))}
               </div>
             </div>
-            <select className="input max-w-[200px]" value={targetRole} onChange={(e) => setTargetRole(e.target.value)}>
+            <select className="input sm:max-w-[200px]" value={targetRole} onChange={(e) => setTargetRole(e.target.value)}>
               {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
             </select>
             <button className="btn-primary" onClick={start} disabled={loading}>
@@ -468,7 +468,7 @@ function JobReadiness({ locked }: { locked: boolean }) {
       <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle}</h2>
       <p className="mb-5 text-sm text-muted">{t.pages.career.jobReadinessSubtitle}</p>
       <div className="flex flex-wrap items-end gap-3">
-        <select className="input max-w-[220px]" value={role} onChange={(e) => setRole(e.target.value)}>
+        <select className="input sm:max-w-[220px]" value={role} onChange={(e) => setRole(e.target.value)}>
           {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
         </select>
         <button className="btn-primary" onClick={compute} disabled={loading}>

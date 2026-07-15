@@ -139,7 +139,7 @@ export default function HomePage() {
               <div className={cn('max-w-[85%]', m.role === 'user' ? 'order-2' : '')}>
                 <div
                   className={cn(
-                    'rounded-2xl px-4 py-3 text-sm leading-relaxed',
+                    'break-words rounded-2xl px-4 py-3 text-sm leading-relaxed',
                     m.role === 'user'
                       ? 'bg-primary text-primary-fg'
                       : 'border border-border bg-surface-2/60',

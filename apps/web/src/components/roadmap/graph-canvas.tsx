@@ -179,6 +179,7 @@ export function GraphCanvas({
         pannable
         zoomable
         position="bottom-left"
+        className="!hidden sm:!block"
         nodeColor={(n) => {
           const s = (n.data as GraphNodeData).status;
           if (s === 'DONE') return 'rgb(var(--success))';
