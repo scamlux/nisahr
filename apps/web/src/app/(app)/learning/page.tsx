@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { PageHeader } from '@/components/app/page-header';
+import { Reveal } from '@/components/ui/reveal';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
@@ -31,7 +32,7 @@ export default function LearningPage() {
       <PageHeader title={t.pages.learning.title} subtitle={t.pages.learning.subtitle} />
 
       {certificates?.length > 0 && (
-        <div className="mb-8">
+        <Reveal className="mb-8">
           <p className="mb-3 flex items-center gap-2 text-sm font-medium"><Award className="h-4 w-4 text-warning" /> {t.pages.learning.yourCertificates}</p>
           <div className="flex flex-wrap gap-3">
             {certificates.map((c: any) => (
@@ -46,7 +47,7 @@ export default function LearningPage() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       )}
 
       {isLoading ? (
@@ -57,8 +58,9 @@ export default function LearningPage() {
             <motion.button
               key={c.id}
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ delay: Math.min(i, 5) * 0.05 }}
               onClick={() => setOpenCourse(c.id)}
               className="card group overflow-hidden p-0 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-glow"
             >
