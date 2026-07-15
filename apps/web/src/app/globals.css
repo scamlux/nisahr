@@ -33,6 +33,11 @@
   --primary: 190 88 58;
   --primary-fg: 255 255 255;
   --accent: 200 90 58;
+  /* Status colors tuned for contrast on the light paper background
+     (without these the dark-theme values leaked through and looked washed out). */
+  --success: 44 122 84;
+  --warning: 176 120 32;
+  --danger: 194 66 52;
 }
 
 * {

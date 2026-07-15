@@ -86,14 +86,14 @@ export default function ProgressPage() {
             <AreaChart data={data.weeklySeries}>
               <defs>
                 <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgb(124 108 255)" stopOpacity={0.5} />
-                  <stop offset="100%" stopColor="rgb(124 108 255)" stopOpacity={0} />
+                  <stop offset="0%" stopColor="rgb(var(--primary))" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="rgb(var(--primary))" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="week" stroke="rgb(var(--muted))" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="rgb(var(--muted))" fontSize={12} tickLine={false} axisLine={false} width={28} />
               <Tooltip content={<ChartTooltip unit={t.pages.progress.hoursUnit} />} cursor={{ stroke: 'rgb(var(--border))' }} />
-              <Area type="monotone" dataKey="hours" stroke="rgb(124 108 255)" strokeWidth={2.5} fill="url(#g1)" />
+              <Area type="monotone" dataKey="hours" stroke="rgb(var(--primary))" strokeWidth={2.5} fill="url(#g1)" />
             </AreaChart>
           </ResponsiveContainer>
         </motion.div>
@@ -113,8 +113,8 @@ export default function ProgressPage() {
           <BarChart data={data.skillHeatmap}>
             <defs>
               <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgb(64 214 196)" />
-                <stop offset="100%" stopColor="rgb(124 108 255)" />
+                <stop offset="0%" stopColor="rgb(var(--accent))" />
+                <stop offset="100%" stopColor="rgb(var(--primary))" />
               </linearGradient>
             </defs>
             <XAxis dataKey="day" stroke="rgb(var(--muted))" fontSize={12} tickLine={false} axisLine={false} />
