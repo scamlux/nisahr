@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -36,19 +36,63 @@ export default function ProfilePage() {
     queryFn: async () => (await api.get('/profile/overview')).data,
   });
 
+  const { data: subscription } = useQuery({
+    queryKey: ['subscription'],
+    queryFn: async () =>
+      (await api.get('/subscription')).data as { plan: string; checkoutEnabled?: boolean; billingEnabled?: boolean },
+  });
+  const checkoutEnabled = Boolean(subscription?.checkoutEnabled);
+
+  /** Refresh the JWT so it carries the updated plan (used by PlanGuard). */
+  async function syncPlanFromServer(fallbackPlan?: string) {
+    if (refreshToken) {
+      const { data } = await api.post('/auth/refresh', { refreshToken });
+      setTokens(data.tokens.accessToken, data.tokens.refreshToken);
+      setUser({ plan: data.user.plan });
+    } else if (fallbackPlan) {
+      setUser({ plan: fallbackPlan as any });
+    }
+  }
+
+  // Handle the return from Stripe Checkout: /profile?upgrade=success&session_id=...
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const upgrade = params.get('upgrade');
+    if (!upgrade) return;
+    const sessionId = params.get('session_id');
+    const clean = () => window.history.replaceState({}, '', '/profile');
+    if (upgrade === 'success' && sessionId) {
+      (async () => {
+        try {
+          await api.post('/subscription/confirm', { sessionId });
+          await syncPlanFromServer('PREMIUM');
+          toast.success(t.pages.profile.successPremium);
+        } catch (err) {
+          toast.error(apiError(err, t.pages.profile.errorChangePlan));
+        } finally {
+          clean();
+        }
+      })();
+    } else {
+      clean();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   async function changePlan(plan: string) {
     if (plan === user?.plan) return;
     setLoading(plan);
     try {
-      await api.post('/subscription/change', { plan });
-      // Refresh tokens so the JWT carries the new plan (used by PlanGuard).
-      if (refreshToken) {
-        const { data } = await api.post('/auth/refresh', { refreshToken });
-        setTokens(data.tokens.accessToken, data.tokens.refreshToken);
-        setUser({ plan: data.user.plan });
-      } else {
-        setUser({ plan: plan as any });
+      // Paid upgrade → hosted Stripe Checkout (redirects away and returns above).
+      if (plan === 'PREMIUM' && checkoutEnabled) {
+        const { data } = await api.post('/subscription/checkout', {});
+        if (data?.url) {
+          window.location.href = data.url;
+          return;
+        }
       }
+      await api.post('/subscription/change', { plan });
+      await syncPlanFromServer(plan);
       toast.success(plan === 'PREMIUM' ? t.pages.profile.successPremium : t.pages.profile.successFree);
     } catch (err) {
       toast.error(apiError(err, t.pages.profile.errorChangePlan));
