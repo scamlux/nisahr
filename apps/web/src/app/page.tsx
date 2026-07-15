@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -18,6 +19,7 @@ import { LandingNav } from '@/components/marketing/landing-nav';
 import { Reveal, RevealGroup, RevealItem } from '@/components/ui/reveal';
 import { AnimatedNumber } from '@/components/ui/animated-number';
 import { WordsReveal } from '@/components/ui/animated-text';
+import { useParallax } from '@/lib/gsap';
 import { useI18n } from '@/lib/i18n';
 
 const stepIcons = [MessagesSquare, Map, GraduationCap];
@@ -32,6 +34,11 @@ const statValues = [
 
 export default function LandingPage() {
   const { t } = useI18n();
+  const heroRef = useRef<HTMLElement>(null);
+
+  // GSAP (ScrollTrigger, wired to Lenis in <SmoothScroll>) drives a subtle
+  // scroll-linked parallax on the decorative hero blobs — no-op under reduced motion.
+  useParallax(heroRef, { selector: '.hero-blob', yPercent: 32 });
 
   const steps = [
     { icon: stepIcons[0], title: t.how.step1Title, body: t.how.step1Body },
@@ -56,7 +63,16 @@ export default function LandingPage() {
       <LandingNav />
 
       {/* ───────────────── HERO ───────────────── */}
-      <section className="mx-auto max-w-3xl px-6 pb-20 pt-36 text-center sm:pt-44">
+      <section
+        ref={heroRef}
+        className="relative mx-auto max-w-3xl px-6 pb-20 pt-36 text-center sm:pt-44"
+      >
+        {/* Decorative parallax blobs (GSAP ScrollTrigger) */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <span className="hero-blob aurora-blob left-[10%] top-4 h-56 w-56 bg-primary/30 sm:h-72 sm:w-72" />
+          <span className="hero-blob aurora-blob right-[8%] top-24 h-52 w-52 bg-accent/25 sm:h-64 sm:w-64" />
+        </div>
+
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
