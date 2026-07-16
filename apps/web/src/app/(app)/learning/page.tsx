@@ -136,6 +136,10 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
       qc.invalidateQueries({ queryKey: ['certificates'] });
       if (data.certificate) toast.success(t.pages.learning.toastCourseComplete);
       else toast.success(t.pages.learning.toastLessonCompleted);
+      // Auto-advance to the next lesson so the flow keeps moving.
+      if (course?.lessons && activeLesson < course.lessons.length - 1) {
+        setActiveLesson(activeLesson + 1);
+      }
     } catch (err) { toast.error(apiError(err)); }
   }
 
@@ -214,7 +218,13 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
                     onClick={() => completeLesson(lesson.id)}
                     disabled={completedLessonIds.includes(lesson?.id)}
                   >
-                    {completedLessonIds.includes(lesson?.id) ? <><Check className="h-4 w-4" /> {t.pages.learning.completed}</> : t.pages.learning.markComplete}
+                    {completedLessonIds.includes(lesson?.id) ? (
+                      <><Check className="h-4 w-4" /> {t.pages.learning.completed}</>
+                    ) : course?.lessons && activeLesson < course.lessons.length - 1 ? (
+                      t.pages.learning.completeAndNext
+                    ) : (
+                      t.pages.learning.markComplete
+                    )}
                   </button>
                 </div>
               </div>
