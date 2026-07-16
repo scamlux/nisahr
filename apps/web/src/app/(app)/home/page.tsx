@@ -6,6 +6,7 @@ import { Send, Sparkles, Target, TrendingUp, Compass } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { useAiModel, useAuth } from '@/lib/store';
 import { ModelSwitcher } from '@/components/app/model-switcher';
+import { MVP_MODE } from '@/lib/flags';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
@@ -67,7 +68,11 @@ export default function HomePage() {
     setMessages((m) => [...m, userMsg]);
     setTyping(true);
     try {
-      const { provider, model } = useAiModel.getState();
+      // MVP ships offline/mock only — ignore any persisted provider choice so
+      // the request always falls back to the server's keyless mock provider.
+      const { provider, model } = MVP_MODE
+        ? { provider: null, model: null }
+        : useAiModel.getState();
       const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, {
         content: text,
         ...(provider && model ? { provider, model } : {}),
@@ -94,7 +99,7 @@ export default function HomePage() {
           <h1 className="font-display text-lg font-bold leading-tight">{t.pages.home.headerTitle}</h1>
           <p className="truncate text-xs text-muted">{t.pages.home.headerSubtitle}</p>
         </div>
-        <ModelSwitcher />
+        {!MVP_MODE && <ModelSwitcher />}
       </div>
 
       {/* messages */}
