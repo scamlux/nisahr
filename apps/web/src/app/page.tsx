@@ -15,6 +15,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { SmoothScroll } from '@/components/smooth-scroll';
+import { InteractiveGrid } from '@/components/interactive-grid';
 import { LandingNav } from '@/components/marketing/landing-nav';
 import { Reveal, RevealGroup, RevealItem } from '@/components/ui/reveal';
 import { AnimatedNumber } from '@/components/ui/animated-number';
@@ -60,6 +61,7 @@ export default function LandingPage() {
 
   return (
     <SmoothScroll>
+      <InteractiveGrid />
       <LandingNav />
 
       {/* ───────────────── HERO ───────────────── */}

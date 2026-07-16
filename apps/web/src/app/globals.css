@@ -142,6 +142,54 @@ html.lenis body {
   will-change: transform;
 }
 
+/* ─────────────── Interactive dot-grid background ───────────────
+   A faint dot matrix fills the viewport; a second, brighter matrix is
+   revealed only in a soft circle that follows the pointer (--mx/--my),
+   giving an ambient "spotlight" reveal. Pure CSS paint + one rAF-throttled
+   CSS-var write — no canvas, no per-frame layout. Reduced-motion users get
+   a static, centred glow (the tracker bails and the vars keep their default).
+   Theme-aware via --border / --primary tokens. */
+.dot-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  --mx: 50%;
+  --my: 22%;
+}
+.dot-grid::before,
+.dot-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(var(--border) / 0.9) 1px, transparent 1px);
+  background-size: 34px 34px;
+  background-position: center;
+}
+/* Base layer: barely-there dots, faded toward the edges. */
+.dot-grid::before {
+  opacity: 0.35;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+}
+/* Highlight layer: brand-tinted dots, revealed only around the pointer. */
+.dot-grid::after {
+  background-image: radial-gradient(rgb(var(--primary) / 0.85) 1px, transparent 1px);
+  -webkit-mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000 0%, transparent 62%);
+  mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000 0%, transparent 62%);
+  transition: opacity 0.4s ease;
+}
+/* A soft brand glow that trails the same pointer position. */
+.dot-grid-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    460px circle at var(--mx) var(--my),
+    rgb(var(--primary) / 0.1),
+    transparent 60%
+  );
+}
+
 /* Skeleton shimmer */
 .skeleton {
   position: relative;
