@@ -27,6 +27,17 @@ export default function LearningPage() {
     queryFn: async () => (await api.get('/learning/certificates')).data,
   });
 
+  // Seed data can carry the same course from multiple instructors (e.g. a demo
+  // + a real owner). Keep one card per title so the catalogue has no visual dupes.
+  const uniqueCourses = Array.isArray(courses)
+    ? courses.filter(
+        (c: any, i: number, arr: any[]) =>
+          arr.findIndex(
+            (o: any) => o.title?.trim().toLowerCase() === c.title?.trim().toLowerCase(),
+          ) === i,
+      )
+    : courses;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
       <PageHeader title={t.pages.learning.title} subtitle={t.pages.learning.subtitle} />
@@ -54,7 +65,7 @@ export default function LearningPage() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><CardSkeleton /><CardSkeleton /><CardSkeleton /></div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {courses?.map((c: any, i: number) => (
+          {uniqueCourses?.map((c: any, i: number) => (
             <motion.button
               key={c.id}
               initial={{ opacity: 0, y: 16 }}
