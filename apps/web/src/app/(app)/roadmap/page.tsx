@@ -19,6 +19,7 @@ import { CatalogModal } from '@/components/roadmap/catalog-modal';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
+import { MVP_MODE } from '@/lib/flags';
 
 const ROLES = ['Frontend Developer', 'Backend Developer', 'Product Manager', 'UI/UX Designer', 'Data Analyst', 'QA Engineer', 'AI Engineer'];
 const LEVELS = ['BEGINNER', 'JUNIOR', 'MID', 'SENIOR'];
@@ -102,7 +103,8 @@ export default function RoadmapPage() {
               <LibraryBig className="h-4 w-4" /> {t.pages.roadmap.catalogButton}
             </button>
             <button className="btn-primary" onClick={() => setShowGen(true)}>
-              <Plus className="h-4 w-4" /> {t.pages.roadmap.newRoadmap}
+              <Plus className="h-4 w-4" />{' '}
+              {MVP_MODE ? t.pages.roadmap.regenerateRoadmap : t.pages.roadmap.newRoadmap}
             </button>
           </div>
         }
@@ -126,8 +128,8 @@ export default function RoadmapPage() {
         />
       ) : (
         <>
-          {/* roadmap switcher */}
-          {roadmaps.length > 1 && (
+          {/* roadmap switcher (hidden in MVP — one active roadmap per user) */}
+          {!MVP_MODE && roadmaps.length > 1 && (
             <div className="mb-5 flex flex-wrap gap-2">
               {roadmaps.map((r: any) => (
                 <button
