@@ -20,6 +20,7 @@ import { cn, initials } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LangSwitcher } from '@/components/ui/lang-switcher';
 import { useI18n } from '@/lib/i18n';
+import { MVP_MODE } from '@/lib/flags';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -27,15 +28,17 @@ export function Sidebar() {
   const { user, logout } = useAuth();
   const { t } = useI18n();
 
+  // `mvpHidden` items are dropped in MVP mode (single-path product) but
+  // restored with NEXT_PUBLIC_MVP_MODE=false. Nothing is deleted.
   const nav = [
     { href: '/home', label: t.pages.app.navHome, icon: MessagesSquare },
     { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit },
     { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
-    { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap },
+    { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap, mvpHidden: true },
     { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },
     { href: '/career', label: t.pages.app.navCareer, icon: Briefcase },
     { href: '/profile', label: t.pages.app.navProfile, icon: User },
-  ];
+  ].filter((i) => !(MVP_MODE && i.mvpHidden));
 
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border/60 bg-surface/40 p-4 backdrop-blur-xl lg:flex">
