@@ -33,7 +33,7 @@ export function Sidebar() {
   // restored with NEXT_PUBLIC_MVP_MODE=false. Nothing is deleted.
   const nav = [
     { href: '/home', label: t.pages.app.navHome, icon: MessagesSquare },
-    { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit },
+    { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit, mvpHidden: true },
     { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
     { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap, mvpHidden: true },
     { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },

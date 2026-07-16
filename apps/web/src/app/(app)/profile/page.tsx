@@ -9,6 +9,7 @@ import {
   Map, Mail, MessageSquare, Shield, Sparkles, Target, TrendingUp,
 } from 'lucide-react';
 import { BILLING_ENABLED } from '@/lib/billing';
+import { MVP_MODE } from '@/lib/flags';
 import { api, apiError } from '@/lib/api';
 import { useAuth } from '@/lib/store';
 import { PageHeader } from '@/components/app/page-header';
@@ -267,9 +268,9 @@ function ProfileHub({ hub }: { hub: ProfileOverview }) {
         ))}
       </div>
 
-      {/* psych + active roadmap */}
+      {/* psych + active roadmap (psych card hidden in MVP — test is gated) */}
       <div className="grid gap-4 md:grid-cols-2">
-        {hub.psychResult && (
+        {!MVP_MODE && hub.psychResult && (
           <Link href="/psych-test" className="card group flex items-center gap-4 p-5 transition-all hover:border-primary/40">
             <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
               <BrainCircuit className="h-6 w-6" />
