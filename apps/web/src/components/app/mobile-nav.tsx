@@ -3,6 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MessagesSquare, Map, GraduationCap, LineChart, Briefcase, User } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+
+type NavItem = {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  mvpHidden?: boolean;
+  mvpOnly?: boolean;
+};
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
 import { MVP_MODE } from '@/lib/flags';
@@ -14,7 +23,7 @@ export function MobileNav() {
   // `mvpHidden` entries drop out in MVP mode; `mvpOnly` entries appear only in
   // MVP mode. Both restored/cleared with NEXT_PUBLIC_MVP_MODE=false. In MVP the
   // bar is Home · Roadmap · Progress · Career · Profile — all sections reachable.
-  const items = [
+  const items: NavItem[] = [
     { href: '/home', label: t.pages.app.navHomeShort, icon: MessagesSquare },
     { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
     { href: '/learning', label: t.pages.app.navLearningShort, icon: GraduationCap, mvpHidden: true },

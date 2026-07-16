@@ -15,6 +15,9 @@ import {
   Crown,
   BrainCircuit,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+
+type NavItem = { href: string; label: string; icon: LucideIcon; mvpHidden?: boolean };
 import { useAuth } from '@/lib/store';
 import { cn, initials } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -31,7 +34,7 @@ export function Sidebar() {
 
   // `mvpHidden` items are dropped in MVP mode (single-path product) but
   // restored with NEXT_PUBLIC_MVP_MODE=false. Nothing is deleted.
-  const nav = [
+  const nav: NavItem[] = [
     { href: '/home', label: t.pages.app.navHome, icon: MessagesSquare },
     { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit, mvpHidden: true },
     { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
