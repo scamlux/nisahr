@@ -31,6 +31,7 @@ export const pagesEn = {
   "career": {
     "pageTitle": "Career Preparation",
     "pageSubtitle": "Sharpen your resume, rehearse interviews and measure your readiness.",
+    "targetRoleLabel": "Target role",
     "roleFrontendDeveloper": "Frontend Developer",
     "roleBackendDeveloper": "Backend Developer",
     "roleProductManager": "Product Manager",
@@ -436,6 +437,7 @@ export const pagesRu: typeof pagesEn = {
   "career": {
     "pageTitle": "Подготовка к карьере",
     "pageSubtitle": "Улучшайте резюме, репетируйте собеседования и оценивайте свою готовность.",
+    "targetRoleLabel": "Целевая роль",
     "roleFrontendDeveloper": "Frontend-разработчик",
     "roleBackendDeveloper": "Backend-разработчик",
     "roleProductManager": "Продакт-менеджер",
@@ -841,6 +843,7 @@ export const pagesUz: typeof pagesEn = {
   "career": {
     "pageTitle": "Karyeraga tayyorgarlik",
     "pageSubtitle": "Rezyumeni yaxshilang, suhbatga tayyorlaning va tayyorligingizni baholang.",
+    "targetRoleLabel": "Maqsadli rol",
     "roleFrontendDeveloper": "Frontend dasturchi",
     "roleBackendDeveloper": "Backend dasturchi",
     "roleProductManager": "Mahsulot menejeri",

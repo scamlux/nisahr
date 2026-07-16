@@ -17,37 +17,68 @@ import { PremiumGate } from '@/components/app/premium-gate';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
+const ROLE_OPTION_VALUES = [
+  'Frontend Developer',
+  'Backend Developer',
+  'Product Manager',
+  'UI/UX Designer',
+  'Data Analyst',
+  'QA Engineer',
+  'AI Engineer',
+] as const;
+
+/** Role option list built from the shared values + localized labels. */
+function useRoleOptions() {
+  const { t } = useI18n();
+  const labels: Record<(typeof ROLE_OPTION_VALUES)[number], string> = {
+    'Frontend Developer': t.pages.career.roleFrontendDeveloper,
+    'Backend Developer': t.pages.career.roleBackendDeveloper,
+    'Product Manager': t.pages.career.roleProductManager,
+    'UI/UX Designer': t.pages.career.roleUiUxDesigner,
+    'Data Analyst': t.pages.career.roleDataAnalyst,
+    'QA Engineer': t.pages.career.roleQaEngineer,
+    'AI Engineer': t.pages.career.roleAiEngineer,
+  };
+  return ROLE_OPTION_VALUES.map((value) => ({ value, label: labels[value] }));
+}
+
 export default function CareerPage() {
   const { t } = useI18n();
   const isPremium = !BILLING_ENABLED || useAuth((s) => s.user?.plan) === 'PREMIUM';
+  const roleOptions = useRoleOptions();
+  // One shared target role drives all three tools below.
+  const [role, setRole] = useState('Frontend Developer');
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 lg:px-8">
       <PageHeader title={t.pages.career.pageTitle} subtitle={t.pages.career.pageSubtitle} />
+      <div className="card mb-6 flex flex-wrap items-center gap-3 p-4">
+        <label htmlFor="career-role" className="text-sm font-medium">
+          {t.pages.career.targetRoleLabel}
+        </label>
+        <select
+          id="career-role"
+          className="input sm:max-w-[240px]"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          {roleOptions.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
+        </select>
+      </div>
       <div className="space-y-8">
-        <ResumeReview />
-        <MockInterview locked={!isPremium} />
-        <JobReadiness locked={!isPremium} />
+        <ResumeReview role={role} />
+        <MockInterview locked={!isPremium} role={role} />
+        <JobReadiness locked={!isPremium} role={role} />
       </div>
     </div>
   );
 }
 
 /* ------------------------------ Resume ------------------------------ */
-function ResumeReview() {
+function ResumeReview({ role }: { role: string }) {
   const { t } = useI18n();
-  const ROLE_OPTIONS = [
-    { value: 'Frontend Developer', label: t.pages.career.roleFrontendDeveloper },
-    { value: 'Backend Developer', label: t.pages.career.roleBackendDeveloper },
-    { value: 'Product Manager', label: t.pages.career.roleProductManager },
-    { value: 'UI/UX Designer', label: t.pages.career.roleUiUxDesigner },
-    { value: 'Data Analyst', label: t.pages.career.roleDataAnalyst },
-    { value: 'QA Engineer', label: t.pages.career.roleQaEngineer },
-    { value: 'AI Engineer', label: t.pages.career.roleAiEngineer },
-  ];
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState('');
   const [text, setText] = useState('');
-  const [targetRole, setTargetRole] = useState('Frontend Developer');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [dragging, setDragging] = useState(false);
@@ -63,7 +94,7 @@ function ResumeReview() {
       const form = new FormData();
       if (fileRef.current) form.append('file', fileRef.current);
       if (text.trim()) form.append('text', text);
-      form.append('targetRole', targetRole);
+      form.append('targetRole', role);
       const { data } = await api.post('/resume/review', form, { headers: { 'Content-Type': 'multipart/form-data' } });
       setResult(data);
       toast.success(t.pages.career.resumeAnalyzed);
@@ -95,10 +126,7 @@ function ResumeReview() {
           </div>
           <textarea className="input mt-3 min-h-[80px] resize-none" placeholder={t.pages.career.resumePastePlaceholder} value={text} onChange={(e) => setText(e.target.value)} />
           <div className="mt-3 flex gap-2">
-            <select className="input" value={targetRole} onChange={(e) => setTargetRole(e.target.value)}>
-              {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-            </select>
-            <button className="btn-primary shrink-0" onClick={review} disabled={loading}>
+            <button className="btn-primary" onClick={review} disabled={loading}>
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.analyzeButton}
             </button>
           </div>
@@ -142,17 +170,8 @@ function ResumeReview() {
 }
 
 /* --------------------------- Mock Interview ------------------------- */
-function MockInterview({ locked }: { locked: boolean }) {
+function MockInterview({ locked, role }: { locked: boolean; role: string }) {
   const { t } = useI18n();
-  const ROLE_OPTIONS = [
-    { value: 'Frontend Developer', label: t.pages.career.roleFrontendDeveloper },
-    { value: 'Backend Developer', label: t.pages.career.roleBackendDeveloper },
-    { value: 'Product Manager', label: t.pages.career.roleProductManager },
-    { value: 'UI/UX Designer', label: t.pages.career.roleUiUxDesigner },
-    { value: 'Data Analyst', label: t.pages.career.roleDataAnalyst },
-    { value: 'QA Engineer', label: t.pages.career.roleQaEngineer },
-    { value: 'AI Engineer', label: t.pages.career.roleAiEngineer },
-  ];
   const TYPE_OPTIONS = [
     { value: 'HR', label: t.pages.career.typeHr },
     { value: 'TECHNICAL', label: t.pages.career.typeTechnical },
@@ -160,7 +179,6 @@ function MockInterview({ locked }: { locked: boolean }) {
   ];
   const qc = useQueryClient();
   const [type, setType] = useState('HR');
-  const [targetRole, setTargetRole] = useState('Frontend Developer');
   const [state, setState] = useState<any>(null);
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
@@ -186,7 +204,7 @@ function MockInterview({ locked }: { locked: boolean }) {
   async function start() {
     setLoading(true); setTurns([]); setReportId(null);
     try {
-      const { data } = await api.post('/interview/mock', { type, targetRole });
+      const { data } = await api.post('/interview/mock', { type, targetRole: role });
       setState(data);
       setShowHistory(false);
     } catch (err) { toast.error(apiError(err)); } finally { setLoading(false); }
@@ -260,9 +278,6 @@ function MockInterview({ locked }: { locked: boolean }) {
                 ))}
               </div>
             </div>
-            <select className="input sm:max-w-[200px]" value={targetRole} onChange={(e) => setTargetRole(e.target.value)}>
-              {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-            </select>
             <button className="btn-primary" onClick={start} disabled={loading}>
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.startInterviewButton}
             </button>
@@ -424,18 +439,8 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
 }
 
 /* --------------------------- Job Readiness -------------------------- */
-function JobReadiness({ locked }: { locked: boolean }) {
+function JobReadiness({ locked, role }: { locked: boolean; role: string }) {
   const { t } = useI18n();
-  const ROLE_OPTIONS = [
-    { value: 'Frontend Developer', label: t.pages.career.roleFrontendDeveloper },
-    { value: 'Backend Developer', label: t.pages.career.roleBackendDeveloper },
-    { value: 'Product Manager', label: t.pages.career.roleProductManager },
-    { value: 'UI/UX Designer', label: t.pages.career.roleUiUxDesigner },
-    { value: 'Data Analyst', label: t.pages.career.roleDataAnalyst },
-    { value: 'QA Engineer', label: t.pages.career.roleQaEngineer },
-    { value: 'AI Engineer', label: t.pages.career.roleAiEngineer },
-  ];
-  const [role, setRole] = useState('Frontend Developer');
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
@@ -468,9 +473,6 @@ function JobReadiness({ locked }: { locked: boolean }) {
       <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle}</h2>
       <p className="mb-5 text-sm text-muted">{t.pages.career.jobReadinessSubtitle}</p>
       <div className="flex flex-wrap items-end gap-3">
-        <select className="input sm:max-w-[220px]" value={role} onChange={(e) => setRole(e.target.value)}>
-          {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-        </select>
         <button className="btn-primary" onClick={compute} disabled={loading}>
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.computeScoreButton}
         </button>
