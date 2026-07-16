@@ -21,6 +21,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LangSwitcher } from '@/components/ui/lang-switcher';
 import { useI18n } from '@/lib/i18n';
 import { MVP_MODE } from '@/lib/flags';
+import { BILLING_ENABLED } from '@/lib/billing';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -88,7 +89,8 @@ export function Sidebar() {
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium">{user?.name}</p>
             <p className="flex items-center gap-1 text-xs text-muted">
-              {user?.plan === 'PREMIUM' ? (
+              {/* Free-first: no crown/Premium unless billing is explicitly on. */}
+              {BILLING_ENABLED && user?.plan === 'PREMIUM' ? (
                 <><Crown className="h-3 w-3 text-warning" /> {t.pages.app.planPremium}</>
               ) : (
                 t.pages.app.planFree

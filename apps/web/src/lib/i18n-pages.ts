@@ -164,7 +164,7 @@ export const pagesEn = {
   "profile": {
     "freeTitle": "CareerOS is free",
     "freeBody": "Every feature — AI chat, roadmaps, assessments and certificates — is included for everyone. No plans, no paywalls.",
-    "freeChip": "All features included",
+    "freeChip": "Free",
     "verified": "Verified",
     "statRoadmaps": "Roadmaps",
     "statNodes": "Topics done",
@@ -569,7 +569,7 @@ export const pagesRu: typeof pagesEn = {
   "profile": {
     "freeTitle": "CareerOS — бесплатно",
     "freeBody": "Все возможности — AI-чат, роадмапы, тесты и сертификаты — доступны каждому. Без тарифов и пейволов.",
-    "freeChip": "Все функции включены",
+    "freeChip": "Бесплатно",
     "verified": "Подтверждён",
     "statRoadmaps": "Роадмапы",
     "statNodes": "Тем пройдено",
@@ -974,7 +974,7 @@ export const pagesUz: typeof pagesEn = {
   "profile": {
     "freeTitle": "CareerOS — bepul",
     "freeBody": "Barcha imkoniyatlar — AI chat, roadmaplar, testlar va sertifikatlar — hamma uchun ochiq. Tariflar va pullik rejalarsiz.",
-    "freeChip": "Barcha funksiyalar kiritilgan",
+    "freeChip": "Bepul",
     "verified": "Tasdiqlangan",
     "statRoadmaps": "Roadmaplar",
     "statNodes": "Mavzular tugatilgan",
