@@ -14,6 +14,7 @@ import { api, apiError } from '@/lib/api';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { Skeleton } from '@/components/ui/skeleton';
+import { InfoHint } from '@/components/ui/info-hint';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
@@ -281,7 +282,9 @@ export default function PsychTestPage() {
                     <span className="chip border-primary/30 bg-primary/10 font-mono text-lg font-bold tracking-[0.2em] text-primary">
                       {result.profileCode}
                     </span>
-                    <span className="text-xs text-muted">{tr.profileCodeLabel}</span>
+                    <span className="flex items-center gap-1.5 text-xs text-muted">
+                      {tr.profileCodeLabel} <InfoHint text={tr.riasecHint} />
+                    </span>
                   </div>
                   <div className="mt-5 space-y-2">
                     {Object.entries(result.axes).map(([axis, value]) => (

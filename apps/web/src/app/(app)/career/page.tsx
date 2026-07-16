@@ -13,6 +13,7 @@ import { BILLING_ENABLED } from '@/lib/billing';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { ProgressRing } from '@/components/ui/progress-ring';
+import { InfoHint } from '@/components/ui/info-hint';
 import { PremiumGate } from '@/components/app/premium-gate';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
@@ -470,7 +471,7 @@ function JobReadiness({ locked, role }: { locked: boolean; role: string }) {
 
   return (
     <section className="card p-6">
-      <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle}</h2>
+      <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle} <InfoHint text={t.pages.career.jobReadinessHint} /></h2>
       <p className="mb-5 text-sm text-muted">{t.pages.career.jobReadinessSubtitle}</p>
       <div className="flex flex-wrap items-end gap-3">
         <button className="btn-primary" onClick={compute} disabled={loading}>
