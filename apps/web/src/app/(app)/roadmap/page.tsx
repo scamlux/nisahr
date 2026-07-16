@@ -99,9 +99,11 @@ export default function RoadmapPage() {
         subtitle={t.pages.roadmap.subtitle}
         action={
           <div className="flex gap-2">
-            <button className="btn-ghost" onClick={() => setShowCatalog(true)}>
-              <LibraryBig className="h-4 w-4" /> {t.pages.roadmap.catalogButton}
-            </button>
+            {!MVP_MODE && (
+              <button className="btn-ghost" onClick={() => setShowCatalog(true)}>
+                <LibraryBig className="h-4 w-4" /> {t.pages.roadmap.catalogButton}
+              </button>
+            )}
             <button className="btn-primary" onClick={() => setShowGen(true)}>
               <Plus className="h-4 w-4" />{' '}
               {MVP_MODE ? t.pages.roadmap.regenerateRoadmap : t.pages.roadmap.newRoadmap}
@@ -120,9 +122,11 @@ export default function RoadmapPage() {
               <button className="btn-primary" onClick={() => setShowGen(true)}>
                 <Sparkles className="h-4 w-4" /> {t.pages.roadmap.generateRoadmap}
               </button>
-              <button className="btn-ghost" onClick={() => setShowCatalog(true)}>
-                <LibraryBig className="h-4 w-4" /> {t.pages.roadmap.catalogButton}
-              </button>
+              {!MVP_MODE && (
+                <button className="btn-ghost" onClick={() => setShowCatalog(true)}>
+                  <LibraryBig className="h-4 w-4" /> {t.pages.roadmap.catalogButton}
+                </button>
+              )}
             </div>
           }
         />
