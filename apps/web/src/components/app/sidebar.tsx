@@ -12,19 +12,16 @@ import {
   Briefcase,
   User,
   LogOut,
-  Crown,
   BrainCircuit,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-type NavItem = { href: string; label: string; icon: LucideIcon; mvpHidden?: boolean };
+type NavItem = { href: string; label: string; icon: LucideIcon };
 import { useAuth } from '@/lib/store';
 import { cn, initials } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LangSwitcher } from '@/components/ui/lang-switcher';
 import { useI18n } from '@/lib/i18n';
-import { MVP_MODE } from '@/lib/flags';
-import { BILLING_ENABLED } from '@/lib/billing';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -32,17 +29,16 @@ export function Sidebar() {
   const { user, logout } = useAuth();
   const { t } = useI18n();
 
-  // `mvpHidden` items are dropped in MVP mode (single-path product) but
-  // restored with NEXT_PUBLIC_MVP_MODE=false. Nothing is deleted.
+  // Full funnel: test -> roles -> roadmap -> learning -> progress -> career.
   const nav: NavItem[] = [
     { href: '/home', label: t.pages.app.navHome, icon: MessagesSquare },
-    { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit, mvpHidden: true },
+    { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit },
     { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
-    { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap, mvpHidden: true },
+    { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap },
     { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },
     { href: '/career', label: t.pages.app.navCareer, icon: Briefcase },
     { href: '/profile', label: t.pages.app.navProfile, icon: User },
-  ].filter((i) => !(MVP_MODE && i.mvpHidden));
+  ];
 
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border/60 bg-surface/40 p-4 backdrop-blur-xl lg:flex">
@@ -91,14 +87,7 @@ export function Sidebar() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium">{user?.name}</p>
-            <p className="flex items-center gap-1 text-xs text-muted">
-              {/* Free-first: no crown/Premium unless billing is explicitly on. */}
-              {BILLING_ENABLED && user?.plan === 'PREMIUM' ? (
-                <><Crown className="h-3 w-3 text-warning" /> {t.pages.app.planPremium}</>
-              ) : (
-                t.pages.app.planFree
-              )}
-            </p>
+            <p className="truncate text-xs text-muted">{user?.email}</p>
           </div>
           <button
             onClick={() => {
