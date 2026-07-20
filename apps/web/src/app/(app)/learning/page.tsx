@@ -206,13 +206,13 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
                     </button>
                   )}
                 </div>
-                {/* lesson player */}
+                {/* lesson content */}
                 <div className="flex-1 overflow-y-auto p-6">
-                  <div className="mb-4 grid aspect-video place-items-center rounded-2xl bg-black/40">
-                    <PlayCircle className="h-16 w-16 text-white/40" />
-                  </div>
+                  <span className="chip mb-3 border-primary/20 bg-primary/5 text-[10px] uppercase tracking-wide text-primary">
+                    <BookOpen className="h-3 w-3" /> {t.pages.learning.lessonLabel} {activeLesson + 1}
+                  </span>
                   <h3 className="font-display text-lg font-semibold">{lesson?.title}</h3>
-                  <p className="mt-2 text-sm text-muted">{lesson?.content}</p>
+                  <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted">{lesson?.content}</p>
                   <button
                     className="btn-primary mt-5"
                     onClick={() => completeLesson(lesson.id)}
