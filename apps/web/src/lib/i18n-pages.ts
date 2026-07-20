@@ -3,10 +3,10 @@
 
 export const pagesEn = {
   "home": {
-    "headerTitle": "AI Career Consultant",
-    "headerSubtitle": "Your personal AI-HR — ask anything about your path",
-    "greetingHi": "Hi",
-    "greetingRest": "where do you want to go?",
+    "headerTitle": "NISA",
+    "headerSubtitle": "Your AI career guide — let's uncover what you really want",
+    "greetingHi": "Hey",
+    "greetingRest": "so tell me — where do you dream of going?",
     "heroSubtitle": "Tell me about your interests and goals. I’ll recommend roles and show your skill gaps.",
     "suggestion1": "I like design and building things — what fits me?",
     "suggestion2": "How do I become a frontend developer?",
@@ -418,10 +418,10 @@ export const pagesEn = {
 
 export const pagesRu: typeof pagesEn = {
   "home": {
-    "headerTitle": "ИИ карьерный консультант",
-    "headerSubtitle": "Ваш персональный ИИ-HR — спрашивайте о чём угодно, что касается вашего пути",
+    "headerTitle": "NISA",
+    "headerSubtitle": "Твой AI-навигатор по карьере — давай поймём, чего ты правда хочешь",
     "greetingHi": "Привет,",
-    "greetingRest": "куда вы хотите двигаться?",
+    "greetingRest": "расскажи — куда ты мечтаешь двигаться?",
     "heroSubtitle": "Расскажите о своих интересах и целях. Я подберу подходящие роли и покажу пробелы в навыках.",
     "suggestion1": "Мне нравится дизайн и создавать вещи — что мне подойдёт?",
     "suggestion2": "Как мне стать фронтенд-разработчиком?",
@@ -833,10 +833,10 @@ export const pagesRu: typeof pagesEn = {
 
 export const pagesUz: typeof pagesEn = {
   "home": {
-    "headerTitle": "AI karyera maslahatchisi",
-    "headerSubtitle": "Sizning shaxsiy AI-HR — yo'lingiz haqida xohlagan narsani so'rang",
+    "headerTitle": "NISA",
+    "headerSubtitle": "Karyera bo'yicha AI yo'lboshchingiz — nimani xohlashingizni birga aniqlaymiz",
     "greetingHi": "Salom,",
-    "greetingRest": "qayerga bormoqchisiz?",
+    "greetingRest": "ayting-chi — qayerga intilyapsiz?",
     "heroSubtitle": "Qiziqishlaringiz va maqsadlaringiz haqida ayting. Men mos lavozimlarni tavsiya qilib, ko'nikma bo'shliqlaringizni ko'rsataman.",
     "suggestion1": "Menga dizayn va narsalar yaratish yoqadi — menga nima mos keladi?",
     "suggestion2": "Frontend dasturchi bo'lish uchun nima qilishim kerak?",
