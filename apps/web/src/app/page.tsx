@@ -18,20 +18,12 @@ import { SmoothScroll } from '@/components/smooth-scroll';
 import { InteractiveGrid } from '@/components/interactive-grid';
 import { LandingNav } from '@/components/marketing/landing-nav';
 import { Reveal, RevealGroup, RevealItem } from '@/components/ui/reveal';
-import { AnimatedNumber } from '@/components/ui/animated-number';
 import { WordsReveal } from '@/components/ui/animated-text';
 import { useParallax } from '@/lib/gsap';
 import { useI18n } from '@/lib/i18n';
 
 const stepIcons = [MessagesSquare, Map, GraduationCap];
 const featureIcons = [MessagesSquare, Map, GraduationCap, LineChart, Mic, Sparkles];
-
-const statValues = [
-  { n: 7, suffix: '' },
-  { n: 50, suffix: '+' },
-  { n: 100, suffix: '' },
-  { n: 5, suffix: '' },
-];
 
 export default function LandingPage() {
   const { t } = useI18n();
@@ -45,18 +37,6 @@ export default function LandingPage() {
     { icon: stepIcons[0], title: t.how.step1Title, body: t.how.step1Body },
     { icon: stepIcons[1], title: t.how.step2Title, body: t.how.step2Body },
     { icon: stepIcons[2], title: t.how.step3Title, body: t.how.step3Body },
-  ];
-
-  const stats = [
-    { ...statValues[0], s: t.stats.tracks },
-    { ...statValues[1], s: t.stats.milestones },
-    { ...statValues[2], s: t.stats.readiness },
-    { ...statValues[3], s: t.stats.modules },
-  ];
-
-  const plans = [
-    { ...t.pricing.free, price: '$0', highlighted: false },
-    { ...t.pricing.premium, price: '$12', highlighted: true },
   ];
 
   return (
@@ -121,23 +101,6 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* ───────────────── STATS ───────────────── */}
-      <section className="mx-auto max-w-4xl px-6 pb-8">
-        <RevealGroup className="grid grid-cols-2 gap-y-10 md:grid-cols-4">
-          {stats.map((stat, i) => (
-            <RevealItem
-              key={stat.s}
-              className={`px-4 text-center ${i > 0 ? 'md:border-l md:border-border' : ''}`}
-            >
-              <div className="font-display text-4xl font-bold text-fg sm:text-5xl">
-                <AnimatedNumber value={stat.n} suffix={stat.suffix} />
-              </div>
-              <div className="mt-2 text-sm text-muted">{stat.s}</div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
-
       {/* ───────────────── HOW IT WORKS ───────────────── */}
       <section id="how" className="mx-auto mt-16 max-w-5xl border-t border-border px-6 py-24">
         <div className="mx-auto max-w-2xl text-center">
@@ -195,55 +158,6 @@ export default function LandingPage() {
               </RevealItem>
             );
           })}
-        </RevealGroup>
-      </section>
-
-      {/* ───────────────── PRICING ───────────────── */}
-      <section id="pricing" className="mx-auto max-w-4xl border-t border-border px-6 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            <WordsReveal segments={[{ text: t.pricing.title }]} />
-          </h2>
-          <Reveal delay={0.1}>
-            <p className="mt-4 text-lg text-muted">{t.pricing.subtitle}</p>
-          </Reveal>
-        </div>
-        <RevealGroup className="mx-auto mt-14 grid max-w-3xl gap-5 md:grid-cols-2">
-          {plans.map((plan) => (
-            <RevealItem
-              key={plan.name}
-              className={
-                plan.highlighted
-                  ? 'relative rounded-2xl border-2 border-primary bg-surface p-8'
-                  : 'rounded-2xl border border-border bg-surface p-8'
-              }
-            >
-              {plan.highlighted && (
-                <span className="absolute -top-3 left-8 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-fg">
-                  <Sparkles className="h-3 w-3" /> {t.pricing.mostPopular}
-                </span>
-              )}
-              <h3 className="font-display text-xl font-bold">{plan.name}</h3>
-              <p className="mt-1.5 text-sm text-muted">{plan.tagline}</p>
-              <div className="mt-6 flex items-end gap-1">
-                <span className="font-display text-5xl font-bold">{plan.price}</span>
-                <span className="mb-1.5 text-muted">{t.pricing.perMonth}</span>
-              </div>
-              <ul className="mt-7 space-y-3.5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-3 text-[15px]">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/register"
-                className={`mt-8 w-full ${plan.highlighted ? 'btn-primary' : 'btn-ghost'} py-3`}
-              >
-                {plan.cta}
-              </Link>
-            </RevealItem>
-          ))}
         </RevealGroup>
       </section>
 
