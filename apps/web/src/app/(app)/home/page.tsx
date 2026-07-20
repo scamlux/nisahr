@@ -4,9 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Send, Sparkles, Target, TrendingUp, Compass } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
-import { useAiModel, useAuth } from '@/lib/store';
-import { ModelSwitcher } from '@/components/app/model-switcher';
-import { MVP_MODE } from '@/lib/flags';
+import { useAuth } from '@/lib/store';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
@@ -68,14 +66,9 @@ export default function HomePage() {
     setMessages((m) => [...m, userMsg]);
     setTyping(true);
     try {
-      // MVP ships offline/mock only — ignore any persisted provider choice so
-      // the request always falls back to the server's keyless mock provider.
-      const { provider, model } = MVP_MODE
-        ? { provider: null, model: null }
-        : useAiModel.getState();
+      // Single provider (OpenAI/GPT): the server resolves the model itself.
       const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, {
         content: text,
-        ...(provider && model ? { provider, model } : {}),
       });
       setMessages((m) => [...m, data]);
       setStreamingId(data.id); // client-side reveal for the fresh reply only
@@ -99,7 +92,6 @@ export default function HomePage() {
           <h1 className="font-display text-lg font-bold leading-tight">{t.pages.home.headerTitle}</h1>
           <p className="truncate text-xs text-muted">{t.pages.home.headerSubtitle}</p>
         </div>
-        {!MVP_MODE && <ModelSwitcher />}
       </div>
 
       {/* messages */}
@@ -150,10 +142,10 @@ export default function HomePage() {
                       : 'border border-border bg-surface-2/60',
                   )}
                 >
-                  {m.role === 'assistant' ? (
+                  {m.role === 'assistant' && m.id === streamingId ? (
                     <Typewriter
                       text={m.content}
-                      stream={m.id === streamingId}
+                      stream
                       onDone={() => setStreamingId((id) => (id === m.id ? null : id))}
                     />
                   ) : (
