@@ -4,17 +4,14 @@ import { useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, FileText, Loader2, Mic, Send, Gauge, Check, AlertTriangle, Lightbulb, Crown,
+  Upload, FileText, Loader2, Mic, Send, Gauge, Check, AlertTriangle, Lightbulb,
   History, ChevronDown, RotateCcw, ArrowLeft, Trophy,
 } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
-import { useAuth } from '@/lib/store';
-import { BILLING_ENABLED } from '@/lib/billing';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { ProgressRing } from '@/components/ui/progress-ring';
 import { InfoHint } from '@/components/ui/info-hint';
-import { PremiumGate } from '@/components/app/premium-gate';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
@@ -43,33 +40,70 @@ function useRoleOptions() {
   return ROLE_OPTION_VALUES.map((value) => ({ value, label: labels[value] }));
 }
 
+type Tab = 'resume' | 'interview' | 'readiness';
+
 export default function CareerPage() {
   const { t } = useI18n();
-  const isPremium = !BILLING_ENABLED || useAuth((s) => s.user?.plan) === 'PREMIUM';
   const roleOptions = useRoleOptions();
-  // One shared target role drives all three tools below.
   const [role, setRole] = useState('Frontend Developer');
+  const [tab, setTab] = useState<Tab>('resume');
+
+  const tabs: { key: Tab; label: string; icon: typeof FileText }[] = [
+    { key: 'resume', label: t.pages.career.resumeReviewTitle, icon: FileText },
+    { key: 'interview', label: t.pages.career.mockInterviewTitle, icon: Mic },
+    { key: 'readiness', label: t.pages.career.jobReadinessTitle, icon: Gauge },
+  ];
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 lg:px-8">
       <PageHeader title={t.pages.career.pageTitle} subtitle={t.pages.career.pageSubtitle} />
-      <div className="card mb-6 flex flex-wrap items-center gap-3 p-4">
-        <label htmlFor="career-role" className="text-sm font-medium">
-          {t.pages.career.targetRoleLabel}
-        </label>
-        <select
-          id="career-role"
-          className="input sm:max-w-[240px]"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
+
+      {/* shared role + tabs */}
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="inline-flex rounded-xl border border-border bg-surface p-1">
+          {tabs.map((tb) => {
+            const Icon = tb.icon;
+            return (
+              <button
+                key={tb.key}
+                onClick={() => setTab(tb.key)}
+                className={cn(
+                  'inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50',
+                  tab === tb.key ? 'bg-primary text-primary-fg' : 'text-muted hover:text-fg',
+                )}
+              >
+                <Icon className="h-4 w-4" /> <span className="hidden sm:inline">{tb.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex items-center gap-2">
+          <label htmlFor="career-role" className="text-xs text-muted">{t.pages.career.targetRoleLabel}</label>
+          <select
+            id="career-role"
+            className="input max-w-[220px]"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            {roleOptions.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={tab}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.18 }}
         >
-          {roleOptions.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-        </select>
-      </div>
-      <div className="space-y-8">
-        <ResumeReview role={role} />
-        <MockInterview locked={!isPremium} role={role} />
-        <JobReadiness locked={!isPremium} role={role} />
-      </div>
+          {tab === 'resume' && <ResumeReview role={role} />}
+          {tab === 'interview' && <MockInterview role={role} />}
+          {tab === 'readiness' && <JobReadiness role={role} />}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -171,7 +205,7 @@ function ResumeReview({ role }: { role: string }) {
 }
 
 /* --------------------------- Mock Interview ------------------------- */
-function MockInterview({ locked, role }: { locked: boolean; role: string }) {
+function MockInterview({ role }: { role: string }) {
   const { t } = useI18n();
   const TYPE_OPTIONS = [
     { value: 'HR', label: t.pages.career.typeHr },
@@ -190,17 +224,7 @@ function MockInterview({ locked, role }: { locked: boolean; role: string }) {
   const historyQuery = useQuery({
     queryKey: ['interview-history'],
     queryFn: async () => (await api.get('/interview/history')).data,
-    enabled: !locked,
   });
-
-  if (locked) {
-    return (
-      <section>
-        <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-semibold"><Mic className="h-5 w-5 text-primary" /> {t.pages.career.mockInterviewTitle} <Crown className="h-4 w-4 text-warning" /></h2>
-        <PremiumGate feature={t.pages.career.mockInterviewFeature} />
-      </section>
-    );
-  }
 
   async function start() {
     setLoading(true); setTurns([]); setReportId(null);
@@ -440,19 +464,10 @@ function ReportView({ id, onNew }: { id: string; onNew: () => void }) {
 }
 
 /* --------------------------- Job Readiness -------------------------- */
-function JobReadiness({ locked, role }: { locked: boolean; role: string }) {
+function JobReadiness({ role }: { role: string }) {
   const { t } = useI18n();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-
-  if (locked) {
-    return (
-      <section>
-        <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle} <Crown className="h-4 w-4 text-warning" /></h2>
-        <PremiumGate feature={t.pages.career.jobReadinessFeature} />
-      </section>
-    );
-  }
 
   async function compute() {
     setLoading(true);
@@ -473,6 +488,13 @@ function JobReadiness({ locked, role }: { locked: boolean; role: string }) {
     <section className="card p-6">
       <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-semibold"><Gauge className="h-5 w-5 text-primary" /> {t.pages.career.jobReadinessTitle} <InfoHint text={t.pages.career.jobReadinessHint} /></h2>
       <p className="mb-5 text-sm text-muted">{t.pages.career.jobReadinessSubtitle}</p>
+
+      {!data && (
+        <div className="mb-5 rounded-xl border border-border bg-surface-2/30 p-4 text-sm text-muted">
+          {t.pages.career.jobReadinessHint}
+        </div>
+      )}
+
       <div className="flex flex-wrap items-end gap-3">
         <button className="btn-primary" onClick={compute} disabled={loading}>
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t.pages.career.computeScoreButton}
