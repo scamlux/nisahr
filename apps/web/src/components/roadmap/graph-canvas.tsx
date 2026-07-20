@@ -6,7 +6,6 @@ import {
   BackgroundVariant,
   Controls,
   Handle,
-  MiniMap,
   Position,
   ReactFlow,
   type Edge,
@@ -178,20 +177,6 @@ export function GraphCanvas({
     >
       <Background variant={BackgroundVariant.Dots} gap={24} size={1.5} color="rgb(var(--border))" />
       <Controls showInteractive={false} position="bottom-right" />
-      <MiniMap
-        pannable
-        zoomable
-        position="bottom-left"
-        className="!hidden sm:!block"
-        nodeColor={(n) => {
-          const s = (n.data as GraphNodeData).status;
-          if (s === 'DONE') return 'rgb(var(--success))';
-          if (s === 'IN_PROGRESS') return 'rgb(var(--primary))';
-          return 'rgb(var(--border))';
-        }}
-        maskColor="rgb(var(--bg) / 0.75)"
-        style={{ backgroundColor: 'rgb(var(--surface))' }}
-      />
     </ReactFlow>
   );
 }

@@ -221,3 +221,16 @@ html.lenis body {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* React Flow controls — theme-aware */
+.react-flow__controls-button {
+  background: rgb(var(--surface));
+  border-color: rgb(var(--border));
+  color: rgb(var(--fg));
+}
+.react-flow__controls-button:hover {
+  background: rgb(var(--surface-2));
+}
+.react-flow__controls-button svg {
+  fill: currentColor;
+}
