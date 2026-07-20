@@ -35,7 +35,7 @@ export class ResumeService {
     targetRole = 'your target role',
   ) {
     const parsedText = this.extractText(file, rawText);
-    const result = this.ai.reviewResume(parsedText, targetRole);
+    const result = await this.ai.reviewResume(parsedText, targetRole);
 
     const review = await this.prisma.resumeReview.create({
       data: {

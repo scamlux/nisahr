@@ -12,7 +12,7 @@ export class InterviewService {
   ) {}
 
   async start(userId: string, dto: StartInterviewDto) {
-    const questions = this.ai.interviewQuestions(dto.type, dto.targetRole);
+    const questions = await this.ai.generateInterviewQuestions(dto.type, dto.targetRole);
     const transcript: Turn[] = questions.map((q) => ({ question: q }));
 
     const interview = await this.prisma.mockInterview.create({
@@ -45,7 +45,11 @@ export class InterviewService {
     const currentIndex = transcript.findIndex((t) => t.answer === undefined);
     if (currentIndex === -1) throw new ForbiddenException('No pending question');
 
-    const evaln = this.ai.evaluateAnswer(answer);
+    const evaln = await this.ai.evaluateAnswer(
+      answer,
+      transcript[currentIndex]?.question,
+      interview.targetRole,
+    );
     transcript[currentIndex] = {
       ...transcript[currentIndex],
       answer,

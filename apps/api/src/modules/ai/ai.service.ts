@@ -46,6 +46,14 @@ import { LLM_PROVIDER, LlmMessage, LlmProvider } from './llm-provider.interface'
 import { AiRegistryService } from './ai-registry.service';
 import { pickTemplate } from './roadmap-templates';
 import { SearchToolsService } from '../search/search-tools.service';
+import {
+  answerEvalSchema,
+  insightsSchema,
+  interviewQuestionsSchema,
+  resumeReviewSchema,
+  roadmapSchema,
+} from './ai-schemas';
+import type { ZodType } from 'zod';
 
 export interface AiCallOptions {
   provider?: string;
@@ -77,6 +85,42 @@ export class AiService {
 
   get providerName() {
     return this.llm.name;
+  }
+
+  /** True when a real GPT key is configured; false -> deterministic fallbacks. */
+  get llmAvailable() {
+    return this.llm.available;
+  }
+
+  /**
+   * Ask GPT for JSON, validate it against a zod schema, and return the parsed
+   * value — or `null` on missing key / network error / malformed / off-shape
+   * output. Callers fall back to a deterministic template when this returns null,
+   * so bad model output can never reach the DB or the user.
+   */
+  private async generateJson<T>(opts: {
+    system: string;
+    user: string;
+    schema: ZodType<T>;
+    temperature?: number;
+    maxTokens?: number;
+  }): Promise<T | null> {
+    if (!this.llmAvailable) return null;
+    try {
+      const { text } = await this.chatWith(
+        [
+          { role: 'system', content: opts.system },
+          { role: 'user', content: opts.user },
+        ],
+        { json: true, temperature: opts.temperature ?? 0.4, maxTokens: opts.maxTokens ?? 1500 },
+      );
+      return opts.schema.parse(JSON.parse(text));
+    } catch (err) {
+      this.logger.warn(
+        `GPT JSON generation failed, using deterministic fallback: ${(err as Error).message}`,
+      );
+      return null;
+    }
   }
 
   /**
@@ -284,18 +328,52 @@ export class AiService {
   }
 
   /**
-   * Personalized roadmap. Adapts the closest standard template to the user's
-   * level and weekly hours. The same path is used as AI fallback so the app
-   * never hard-fails without credentials.
+   * Personalized roadmap. Asks GPT for a staged plan tailored to the user's
+   * role, level, weekly hours and profile; validates it against a zod schema.
+   * Falls back to the closest standard template on any failure so the app never
+   * hard-fails without credentials.
    */
   async generateRoadmap(
     targetRole: string,
     level: ExperienceLevel,
     weeklyHours: number,
-    _profile?: ProfileLike,
+    profile?: ProfileLike,
   ): Promise<AiRoadmap> {
+    const gpt = await this.generateJson({
+      schema: roadmapSchema,
+      temperature: 0.5,
+      maxTokens: 3500,
+      system:
+        'You are a senior career mentor. Design a practical, staged learning roadmap. ' +
+        'Respond ONLY with JSON of this shape: { "targetRole": string, "level": "BEGINNER"|"JUNIOR"|"MID"|"SENIOR", ' +
+        '"estimatedWeeks": number, "stages": [{ "order": number, "title": string, "description": string, ' +
+        '"milestone": boolean, "skills": [{"name": string, "category": string}], ' +
+        '"resources": [{"title": string, "type": "VIDEO"|"ARTICLE"|"YOUTUBE"|"COURSERA"|"UDEMY"|"INTERNAL", "url": string, "provider": string, "durationMin": number}], ' +
+        '"tasks": [{"title": string, "description": string, "isAutoChecked": boolean}] }] }. ' +
+        '4-7 stages ordered from fundamentals to job-readiness; make the final stage a milestone. ' +
+        'Prefer real, well-known learning resources.',
+      user:
+        `Target role: ${targetRole}\nCurrent level: ${level}\nWeekly study hours: ${weeklyHours}\n` +
+        (profile
+          ? `Interests: ${(profile.interests ?? []).join(', ') || '—'}\n` +
+            `Known skills: ${(profile.currentSkills ?? []).join(', ') || '—'}\n` +
+            `Goal: ${profile.goals ?? '—'}\n`
+          : '') +
+        'Scale the number of stages and estimatedWeeks to the weekly hours and level. Return JSON only.',
+    });
+    if (!gpt) return this.templateRoadmap(targetRole, level, weeklyHours);
+    // zod applied all defaults at runtime, so the shape is complete; the
+    // requested level is authoritative, GPT content is kept otherwise.
+    return { ...gpt, level, targetRole: gpt.targetRole || targetRole } as AiRoadmap;
+  }
+
+  /** Deterministic roadmap fallback: closest template scaled by hours + level. */
+  private templateRoadmap(
+    targetRole: string,
+    level: ExperienceLevel,
+    weeklyHours: number,
+  ): AiRoadmap {
     const tmpl = pickTemplate(targetRole);
-    // Scale estimated weeks by weekly hours (10h baseline) and experience.
     const levelFactor: Record<string, number> = {
       BEGINNER: 1, JUNIOR: 0.85, MID: 0.7, SENIOR: 0.55,
     };
@@ -304,7 +382,6 @@ export class AiService {
       4,
       Math.round(tmpl.estimatedWeeks * hoursFactor * (levelFactor[level] ?? 1)),
     );
-
     return {
       targetRole: targetRole || tmpl.targetRole,
       level,
@@ -313,8 +390,30 @@ export class AiService {
     };
   }
 
-  /** Resume review: score + strengths/gaps/suggestions from parsed text. */
-  reviewResume(text: string, targetRole = 'your target role') {
+  /**
+   * Resume review — GPT-first (score + strengths/gaps/suggestions tailored to
+   * the target role), falling back to keyword heuristics.
+   */
+  async reviewResume(
+    text: string,
+    targetRole = 'your target role',
+  ): Promise<{ score: number; strengths: string[]; gaps: string[]; suggestions: string[] }> {
+    const gpt = await this.generateJson({
+      schema: resumeReviewSchema,
+      temperature: 0.3,
+      maxTokens: 900,
+      system:
+        'You are a resume reviewer. Assess the resume for the target role and respond as JSON ' +
+        '{ "score": number (0-100), "strengths": string[], "gaps": string[], "suggestions": string[] }. ' +
+        'Be specific and actionable; each item one short sentence.',
+      user: `Target role: ${targetRole}\n\nResume text:\n${text.slice(0, 6000)}`,
+    });
+    return (gpt as { score: number; strengths: string[]; gaps: string[]; suggestions: string[] } | null)
+      ?? this.heuristicReviewResume(text, targetRole);
+  }
+
+  /** Deterministic resume scoring (fallback). */
+  private heuristicReviewResume(text: string, targetRole = 'your target role') {
     const lc = text.toLowerCase();
     const len = text.trim().length;
     const has = (w: string) => lc.includes(w);
@@ -349,7 +448,27 @@ export class AiService {
     return { score, strengths, gaps, suggestions };
   }
 
-  /** Next interview question for a turn-based mock interview. */
+  /**
+   * Interview questions for a mock interview — GPT-first (personalised to role
+   * and type), falling back to the deterministic bank below.
+   */
+  async generateInterviewQuestions(type: string, targetRole: string): Promise<string[]> {
+    const gpt = await this.generateJson({
+      schema: interviewQuestionsSchema,
+      temperature: 0.6,
+      maxTokens: 600,
+      system:
+        'You are an interviewer. Produce 5 concise interview questions as JSON ' +
+        '{ "questions": string[] } — one question per array item, no numbering.',
+      user:
+        `Role: ${targetRole}\nInterview type: ${type} ` +
+        '(HR = motivation/fit, TECHNICAL = skills/problem-solving, BEHAVIORAL = past behaviour). ' +
+        'Ask questions that fit this type. Return JSON only.',
+    });
+    return gpt?.questions ?? this.interviewQuestions(type, targetRole);
+  }
+
+  /** Deterministic interview-question bank (chat-prep hot path + fallback). */
   interviewQuestions(type: string, targetRole: string): string[] {
     const common = [
       `Tell me about yourself and why ${targetRole} interests you.`,
@@ -373,8 +492,28 @@ export class AiService {
     return common;
   }
 
-  /** Evaluate a single interview answer. */
-  evaluateAnswer(answer: string): { score: number; feedback: string } {
+  /** Evaluate a single interview answer — GPT-first, heuristic fallback. */
+  async evaluateAnswer(
+    answer: string,
+    question?: string,
+    targetRole?: string,
+  ): Promise<{ score: number; feedback: string }> {
+    const gpt = await this.generateJson({
+      schema: answerEvalSchema,
+      temperature: 0.3,
+      maxTokens: 400,
+      system:
+        'You are an interview coach. Score the candidate answer 0-100 and give one ' +
+        'short, specific coaching sentence. Respond as JSON { "score": number, "feedback": string }.',
+      user:
+        `${targetRole ? `Role: ${targetRole}\n` : ''}` +
+        `${question ? `Question: ${question}\n` : ''}Answer: ${answer}`,
+    });
+    return gpt ?? this.heuristicEvaluateAnswer(answer);
+  }
+
+  /** Deterministic answer scoring (fallback). */
+  private heuristicEvaluateAnswer(answer: string): { score: number; feedback: string } {
     const len = answer.trim().length;
     const hasStructure = /(first|then|finally|because|result|impact|i )/i.test(answer);
     const hasMetric = /\d/.test(answer);
@@ -392,8 +531,31 @@ export class AiService {
     return { score, feedback };
   }
 
-  /** AI learning insights for the analytics dashboard. */
-  insights(stats: {
+  /** AI learning insights for the analytics dashboard — GPT-first, heuristic fallback. */
+  async insights(stats: {
+    streakDays: number;
+    weeklyHours: number;
+    roadmapCompletion: number;
+    completedSkills: number;
+  }): Promise<{ productivity: string; pace: string; growthZones: string[]; motivationRisk: string; weeklySummary: string }> {
+    const gpt = await this.generateJson({
+      schema: insightsSchema,
+      temperature: 0.5,
+      maxTokens: 500,
+      system:
+        'You are a supportive learning coach. Given the learner stats, respond as JSON ' +
+        '{ "productivity": string, "pace": string, "growthZones": string[], ' +
+        '"motivationRisk": "LOW"|"MEDIUM"|"HIGH", "weeklySummary": string }. ' +
+        'Be concrete, specific and encouraging; 1-2 short sentences per text field.',
+      user:
+        `Streak days: ${stats.streakDays}\nWeekly hours: ${stats.weeklyHours}\n` +
+        `Roadmap completion: ${stats.roadmapCompletion}%\nCompleted skills: ${stats.completedSkills}`,
+    });
+    return gpt ?? this.heuristicInsights(stats);
+  }
+
+  /** Deterministic insights (fallback). */
+  private heuristicInsights(stats: {
     streakDays: number;
     weeklyHours: number;
     roadmapCompletion: number;
