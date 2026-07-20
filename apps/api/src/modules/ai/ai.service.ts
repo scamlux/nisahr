@@ -145,13 +145,13 @@ export class AiService {
     messages.push(...history);
 
     let text: string;
-    let meta = { provider: 'mock', model: 'careeros-mock' };
+    let meta = { provider: 'openai', model: this.registry.defaultModelFor() };
     try {
       const result = await this.chatWith(messages, { ...opts, temperature: 0.7 });
       text = result.text;
       meta = { provider: result.provider, model: result.model };
     } catch (err) {
-      this.logger.warn(`LLM chat failed, using fallback: ${(err as Error).message}`);
+      this.logger.warn(`LLM chat failed, using deterministic fallback: ${(err as Error).message}`);
       text = this.toolFallbackText(intent, toolPayload);
     }
 
