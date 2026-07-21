@@ -1,0 +1,29 @@
+# Render Blueprint — CareerOS SearXNG (keyless meta-search).
+#
+# Deploy (dashboard): Render -> New -> Blueprint -> connect github.com/scamlux/nisahr
+#   -> when prompted for the Blueprint file, pick  infra/searxng/render.yaml
+#   -> Apply. No secrets to paste (SEARXNG_SECRET is generated automatically).
+#
+# After the service is live, wire it into the CareerOS API (Vercel project
+# nisahr-api) production env:
+#   SEARCH_PROVIDER = searxng
+#   SEARXNG_URL     = https://careeros-searxng.onrender.com
+# then redeploy nisahr-api. The frontend already calls that API
+# (NEXT_PUBLIC_API_URL = https://nisahr-api.vercel.app/api).
+services:
+  - type: web
+    name: careeros-searxng
+    runtime: docker
+    dockerfilePath: infra/searxng/Dockerfile
+    dockerContext: infra/searxng
+    plan: free
+    region: frankfurt # match nisahr-api / Supabase eu-central-1
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "8080" # tell Render which port the SearXNG container listens on
+      - key: SEARXNG_SECRET
+        generateValue: true # replaces the settings.yml placeholder at boot
+      - key: SEARXNG_REDIS_URL
+        value: "" # no Redis on free tier; SearXNG runs fine without it
