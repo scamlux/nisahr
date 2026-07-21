@@ -99,7 +99,7 @@ export default function OnboardingPage() {
           >
             <PartyPopper className="h-8 w-8" />
           </motion.div>
-          <h1 className="font-display text-2xl font-bold">{t.pages.onboarding.doneTitle}</h1>
+          <h2 className="font-display text-2xl font-bold">{t.pages.onboarding.doneTitle}</h2>
           <p className="mt-2 text-muted">{t.pages.onboarding.doneSubtitle}</p>
         </motion.div>
       </div>
