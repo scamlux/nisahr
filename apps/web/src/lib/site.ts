@@ -4,7 +4,7 @@
  */
 
 /** Production origin. Env-driven, with a safe Vercel fallback. */
-export const siteUrl: string = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://careeros.vercel.app';
+export const siteUrl: string = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nisahr-web.vercel.app';
 
 /** Human-readable product name. */
 export const siteName = 'CareerOS' as const;
