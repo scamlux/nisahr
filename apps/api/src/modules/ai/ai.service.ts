@@ -425,7 +425,8 @@ export class AiService {
         'Be specific and actionable; each strengths/weaknesses item one short sentence.',
       user: `Target role: ${targetRole}\n\nResume text:\n${text.slice(0, 6000)}`,
     });
-    return gpt ?? this.heuristicReviewResume(text, targetRole);
+    // zod applied the array defaults at runtime; the cast restores the output type.
+    return (gpt as ResumeReviewV2Json | null) ?? this.heuristicReviewResume(text, targetRole);
   }
 
   /** Deterministic resume scoring (fallback) — same shape as the GPT contract. */
