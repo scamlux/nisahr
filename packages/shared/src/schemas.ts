@@ -169,6 +169,18 @@ export const interviewAnswerSchema = z.object({
 });
 export type InterviewAnswerDto = z.infer<typeof interviewAnswerSchema>;
 
+/* --------------------------- Resume review ---------------------- */
+/**
+ * Multipart-friendly: multer delivers text fields as strings; the file itself
+ * is handled by FileInterceptor, so both fields are optional here and the
+ * "file OR text present" check lives in ResumeService.extractText.
+ */
+export const resumeReviewRequestSchema = z.object({
+  text: z.string().trim().max(20000).optional(),
+  targetRole: z.string().trim().min(2).max(80).optional().default('your target role'),
+});
+export type ResumeReviewRequestDto = z.infer<typeof resumeReviewRequestSchema>;
+
 /* --------------------------- Subscription ----------------------- */
 export const changePlanSchema = z.object({
   plan: z.enum(['FREE', 'PREMIUM']),

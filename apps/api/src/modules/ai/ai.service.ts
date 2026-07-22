@@ -50,7 +50,8 @@ import {
   answerEvalSchema,
   insightsSchema,
   interviewQuestionsSchema,
-  resumeReviewSchema,
+  resumeReviewV2Schema,
+  ResumeReviewV2Json,
   roadmapSchema,
 } from './ai-schemas';
 import type { ZodType } from 'zod';
@@ -402,61 +403,79 @@ export class AiService {
   }
 
   /**
-   * Resume review — GPT-first (score + strengths/gaps/suggestions tailored to
-   * the target role), falling back to keyword heuristics.
+   * Resume review — GPT-first structured analysis (overall_score, strengths,
+   * weaknesses, missing_keywords vs the target role, rewrite_suggestions),
+   * falling back to keyword heuristics on any failure.
    */
   async reviewResume(
     text: string,
     targetRole = 'your target role',
-  ): Promise<{ score: number; strengths: string[]; gaps: string[]; suggestions: string[] }> {
+  ): Promise<ResumeReviewV2Json> {
     const gpt = await this.generateJson({
-      schema: resumeReviewSchema,
+      schema: resumeReviewV2Schema,
       temperature: 0.3,
-      maxTokens: 900,
+      maxTokens: 1200,
       system:
-        'You are a resume reviewer. Assess the resume for the target role and respond as JSON ' +
-        '{ "score": number (0-100), "strengths": string[], "gaps": string[], "suggestions": string[] }. ' +
-        'Be specific and actionable; each item one short sentence.',
+        'You are an expert resume reviewer and ATS specialist. Assess the resume against the target role ' +
+        'and respond ONLY with JSON of exactly this shape: { "overall_score": number (0-100), ' +
+        '"strengths": string[], "weaknesses": string[], "missing_keywords": string[], ' +
+        '"rewrite_suggestions": string[] }. ' +
+        '"missing_keywords" are skills/technologies expected for the target role that the resume does not mention (max 15, short terms). ' +
+        '"rewrite_suggestions" are concrete rewrites of weak lines or sections. ' +
+        'Be specific and actionable; each strengths/weaknesses item one short sentence.',
       user: `Target role: ${targetRole}\n\nResume text:\n${text.slice(0, 6000)}`,
     });
-    return (gpt as { score: number; strengths: string[]; gaps: string[]; suggestions: string[] } | null)
-      ?? this.heuristicReviewResume(text, targetRole);
+    return gpt ?? this.heuristicReviewResume(text, targetRole);
   }
 
-  /** Deterministic resume scoring (fallback). */
-  private heuristicReviewResume(text: string, targetRole = 'your target role') {
+  /** Deterministic resume scoring (fallback) — same shape as the GPT contract. */
+  private heuristicReviewResume(text: string, targetRole = 'your target role'): ResumeReviewV2Json {
     const lc = text.toLowerCase();
     const len = text.trim().length;
     const has = (w: string) => lc.includes(w);
 
     const strengths: string[] = [];
-    const gaps: string[] = [];
-    const suggestions: string[] = [];
+    const weaknesses: string[] = [];
+    const rewriteSuggestions: string[] = [];
 
     if (has('project')) strengths.push('Shows hands-on projects');
-    else gaps.push('No clear projects — add 2-3 with impact and links');
+    else weaknesses.push('No clear projects — add 2-3 with impact and links');
 
     if (/\d+%|\d+\s?(users|customers|x)/.test(lc)) strengths.push('Includes quantified results');
-    else suggestions.push('Quantify achievements (e.g. "cut load time 40%")');
+    else rewriteSuggestions.push('Quantify achievements (e.g. "cut load time 40%")');
 
     if (has('github') || has('portfolio')) strengths.push('Links to portfolio/GitHub');
-    else suggestions.push('Add a GitHub and portfolio link near the top');
+    else rewriteSuggestions.push('Add a GitHub and portfolio link near the top');
 
-    if (len < 400) gaps.push('Resume is thin — expand experience and skills');
+    if (len < 400) weaknesses.push('Resume is thin — expand experience and skills');
     if (!has('education') && !has('university') && !has('bootcamp'))
-      suggestions.push('Add an education or training section');
+      rewriteSuggestions.push('Add an education or training section');
 
     if (!has(targetRole.toLowerCase().split(' ')[0]))
-      suggestions.push(`Tailor the summary toward "${targetRole}"`);
+      rewriteSuggestions.push(`Tailor the summary toward "${targetRole}"`);
+
+    // Missing keywords: role-template skills that the resume never mentions.
+    const templateSkills = pickTemplate(targetRole).stages.flatMap((s) =>
+      s.skills.map((sk) => sk.name),
+    );
+    const missingKeywords = [...new Set(templateSkills)]
+      .filter((name) => !lc.includes(name.toLowerCase()))
+      .slice(0, 15);
 
     const base = 55;
     const score = Math.max(
       20,
-      Math.min(95, base + strengths.length * 9 - gaps.length * 8 + (len > 800 ? 6 : 0)),
+      Math.min(95, base + strengths.length * 9 - weaknesses.length * 8 + (len > 800 ? 6 : 0)),
     );
 
     if (strengths.length === 0) strengths.push('Clear, readable formatting');
-    return { score, strengths, gaps, suggestions };
+    return {
+      overall_score: score,
+      strengths,
+      weaknesses,
+      missing_keywords: missingKeywords,
+      rewrite_suggestions: rewriteSuggestions,
+    };
   }
 
   /**

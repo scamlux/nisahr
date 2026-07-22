@@ -48,13 +48,18 @@ export const roadmapSchema = z.object({
 });
 export type RoadmapJson = z.infer<typeof roadmapSchema>;
 
-export const resumeReviewSchema = z.object({
-  score: z.coerce.number().int().min(0).max(100),
-  strengths: z.array(z.string().min(1).max(200)).min(1).max(8),
-  gaps: z.array(z.string().min(1).max(200)).max(8).default([]),
-  suggestions: z.array(z.string().min(1).max(200)).max(8).default([]),
+/**
+ * Resume Review v2 — the structured analysis contract returned by
+ * POST /resume/review. Hard caps keep off-shape GPT output out of the API.
+ */
+export const resumeReviewV2Schema = z.object({
+  overall_score: z.coerce.number().int().min(0).max(100),
+  strengths: z.array(z.string().min(1).max(300)).min(1).max(8),
+  weaknesses: z.array(z.string().min(1).max(300)).max(8).default([]),
+  missing_keywords: z.array(z.string().min(1).max(60)).max(15).default([]),
+  rewrite_suggestions: z.array(z.string().min(1).max(400)).max(8).default([]),
 });
-export type ResumeReviewJson = z.infer<typeof resumeReviewSchema>;
+export type ResumeReviewV2Json = z.infer<typeof resumeReviewV2Schema>;
 
 export const interviewQuestionsSchema = z.object({
   questions: z.array(z.string().min(4).max(300)).min(3).max(6),

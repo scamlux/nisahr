@@ -37,18 +37,29 @@ export class ResumeService {
     const parsedText = this.extractText(file, rawText);
     const result = await this.ai.reviewResume(parsedText, targetRole);
 
+    // Persist into the existing ResumeReview columns (no DB migration):
+    // score <- overall_score, gaps <- weaknesses, suggestions <- rewrite_suggestions.
     const review = await this.prisma.resumeReview.create({
       data: {
         userId,
         fileUrl: file?.originalname ?? '',
         parsedText: parsedText.slice(0, 8000),
-        score: result.score,
+        score: result.overall_score,
         strengths: result.strengths,
-        gaps: result.gaps,
-        suggestions: result.suggestions,
+        gaps: result.weaknesses,
+        suggestions: result.rewrite_suggestions,
       },
     });
-    return review;
+    // Superset response: legacy fields (score/strengths/gaps/suggestions) keep
+    // the /career Resume tab working; the new keys feed /resume-review.
+    // missing_keywords is not persisted, so history won't include it.
+    return {
+      ...review,
+      overall_score: result.overall_score,
+      weaknesses: result.weaknesses,
+      missing_keywords: result.missing_keywords,
+      rewrite_suggestions: result.rewrite_suggestions,
+    };
   }
 
   async history(userId: string) {

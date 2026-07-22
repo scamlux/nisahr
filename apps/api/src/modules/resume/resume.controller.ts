@@ -9,8 +9,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { resumeReviewRequestSchema, ResumeReviewRequestDto } from '@careeros/shared';
 import { ResumeService } from './resume.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { CurrentUser, JwtUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('resume')
@@ -26,10 +28,9 @@ export class ResumeController {
   review(
     @CurrentUser() user: JwtUser,
     @UploadedFile() file: Express.Multer.File,
-    @Body('text') text?: string,
-    @Body('targetRole') targetRole?: string,
+    @Body(new ZodValidationPipe(resumeReviewRequestSchema)) dto: ResumeReviewRequestDto,
   ) {
-    return this.resume.review(user.userId, file, text, targetRole);
+    return this.resume.review(user.userId, file, dto.text, dto.targetRole);
   }
 
   @Get('history')
