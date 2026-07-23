@@ -2,19 +2,16 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import {
-  Area, AreaChart, Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
-} from 'recharts';
-import { Flame, Clock, GraduationCap, Award, Sparkles, TrendingUp, Brain } from 'lucide-react';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Flame, Clock, GraduationCap, Award, Sparkles, TrendingUp, Brain, LineChart } from 'lucide-react';
+import Link from 'next/link';
 import { api } from '@/lib/api';
-import { useAuth } from '@/lib/store';
-import { BILLING_ENABLED } from '@/lib/billing';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { ProgressRing } from '@/components/ui/progress-ring';
 import { AnimatedNumber } from '@/components/ui/animated-number';
 import { CardSkeleton } from '@/components/ui/skeleton';
-import { PremiumGate } from '@/components/app/premium-gate';
+import { EmptyState } from '@/components/ui/empty-state';
 import type { ProgressDashboard } from '@careeros/shared';
 
 function ChartTooltip({ active, payload, label, unit = 'h' }: any) {
@@ -29,18 +26,21 @@ function ChartTooltip({ active, payload, label, unit = 'h' }: any) {
 
 export default function ProgressPage() {
   const { t } = useI18n();
-  const user = useAuth((s) => s.user);
-  const isPremium = !BILLING_ENABLED || user?.plan === 'PREMIUM';
 
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
     queryFn: async () => (await api.get('/progress/dashboard')).data as ProgressDashboard,
   });
 
+  const hasActivity =
+    !!data &&
+    (data.streakDays > 0 || data.completedSkills > 0 || data.completedCourses > 0 ||
+      data.roadmapCompletion > 0 || data.monthlyHours > 0);
+
   const { data: insights } = useQuery({
     queryKey: ['insights'],
     queryFn: async () => (await api.get('/progress/insights')).data,
-    enabled: isPremium,
+    enabled: hasActivity,
   });
 
   if (isLoading || !data) {
@@ -48,6 +48,24 @@ export default function ProgressPage() {
       <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
         <PageHeader title={t.pages.progress.loadingTitle} subtitle={t.pages.progress.loadingSubtitle} />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><CardSkeleton /><CardSkeleton /><CardSkeleton /><CardSkeleton /></div>
+      </div>
+    );
+  }
+
+  if (!hasActivity) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
+        <PageHeader title={t.pages.progress.title} subtitle={t.pages.progress.subtitle} />
+        <EmptyState
+          icon={LineChart}
+          title={t.pages.progress.emptyTitle}
+          body={t.pages.progress.emptyBody}
+          action={
+            <Link href="/roadmap" className="btn-primary">
+              <TrendingUp className="h-4 w-4" /> {t.pages.progress.emptyCta}
+            </Link>
+          }
+        />
       </div>
     );
   }
@@ -82,18 +100,18 @@ export default function ProgressPage() {
         {/* weekly hours area chart */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="card p-5 lg:col-span-2">
           <p className="mb-4 flex items-center gap-2 text-sm font-medium"><TrendingUp className="h-4 w-4 text-primary" /> {t.pages.progress.weeklyHoursChartTitle}</p>
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={data.weeklySeries}>
               <defs>
                 <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgb(124 108 255)" stopOpacity={0.5} />
-                  <stop offset="100%" stopColor="rgb(124 108 255)" stopOpacity={0} />
+                  <stop offset="0%" stopColor="rgb(var(--primary))" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="rgb(var(--primary))" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="week" stroke="rgb(var(--muted))" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="rgb(var(--muted))" fontSize={12} tickLine={false} axisLine={false} width={28} />
               <Tooltip content={<ChartTooltip unit={t.pages.progress.hoursUnit} />} cursor={{ stroke: 'rgb(var(--border))' }} />
-              <Area type="monotone" dataKey="hours" stroke="rgb(124 108 255)" strokeWidth={2.5} fill="url(#g1)" />
+              <Area type="monotone" dataKey="hours" stroke="rgb(var(--primary))" strokeWidth={2.5} fill="url(#g1)" />
             </AreaChart>
           </ResponsiveContainer>
         </motion.div>
@@ -106,30 +124,10 @@ export default function ProgressPage() {
         </motion.div>
       </div>
 
-      {/* heatmap */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="card mt-6 p-5">
-        <p className="mb-4 text-sm font-medium">{t.pages.progress.weeklyActivityTitle}</p>
-        <ResponsiveContainer width="100%" height={160}>
-          <BarChart data={data.skillHeatmap}>
-            <defs>
-              <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgb(64 214 196)" />
-                <stop offset="100%" stopColor="rgb(124 108 255)" />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="day" stroke="rgb(var(--muted))" fontSize={12} tickLine={false} axisLine={false} />
-            <Tooltip content={<ChartTooltip unit={t.pages.progress.hoursUnit} />} cursor={{ fill: 'rgb(var(--surface-2))' }} />
-            <Bar dataKey="hours" fill="url(#g2)" radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </motion.div>
-
-      {/* AI insights */}
+      {/* AI insights (real GPT) */}
       <div className="mt-6">
         <p className="mb-3 flex items-center gap-2 text-sm font-medium"><Brain className="h-4 w-4 text-primary" /> {t.pages.progress.aiInsightsTitle}</p>
-        {!isPremium ? (
-          <PremiumGate feature={t.pages.progress.premiumGateFeature} />
-        ) : insights ? (
+        {insights ? (
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="grid gap-4 md:grid-cols-2">
             <div className="card p-5">
               <p className="flex items-center gap-2 text-sm font-medium"><Sparkles className="h-4 w-4 text-accent" /> {t.pages.progress.weeklySummaryTitle}</p>

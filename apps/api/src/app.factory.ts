@@ -6,6 +6,7 @@ import type { Express } from 'express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { assertProductionConfig } from './config/secrets';
 
 /**
  * Apply CORS, global prefix, pipes, filters, interceptors and (optionally) Swagger.
@@ -13,6 +14,9 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
  * (api/index.ts) so both stay behaviourally identical.
  */
 export function configureApp(app: INestApplication): void {
+  // Fail fast in production if secrets/DB/CORS are misconfigured.
+  assertProductionConfig();
+
   const corsOrigin = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
   app.enableCors({
     origin: corsOrigin === '*' ? true : corsOrigin.split(',').map((o) => o.trim()),

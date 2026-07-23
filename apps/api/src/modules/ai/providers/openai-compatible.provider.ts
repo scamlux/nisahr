@@ -63,7 +63,7 @@ export abstract class OpenAiCompatibleProvider implements LlmProvider {
   }
 }
 
-/** OpenAI (or any compatible base URL via OPENAI_BASE_URL). */
+/** OpenAI (or any compatible base URL via OPENAI_BASE_URL) — the only provider. */
 @Injectable()
 export class OpenAiLlmProvider extends OpenAiCompatibleProvider {
   readonly name = 'openai';
@@ -72,28 +72,4 @@ export class OpenAiLlmProvider extends OpenAiCompatibleProvider {
   protected readonly defaultModel = 'gpt-4o-mini';
   protected baseUrlEnv = 'OPENAI_BASE_URL';
   protected modelEnv = 'OPENAI_MODEL';
-}
-
-/** Groq — very fast open-model inference, OpenAI-compatible. */
-@Injectable()
-export class GroqLlmProvider extends OpenAiCompatibleProvider {
-  readonly name = 'groq';
-  protected readonly apiKeyEnv = 'GROQ_API_KEY';
-  protected readonly defaultBaseUrl = 'https://api.groq.com/openai/v1';
-  protected readonly defaultModel = 'llama-3.3-70b-versatile';
-  protected modelEnv = 'GROQ_MODEL';
-}
-
-/** OpenRouter — one key for many upstream models, OpenAI-compatible. */
-@Injectable()
-export class OpenRouterLlmProvider extends OpenAiCompatibleProvider {
-  readonly name = 'openrouter';
-  protected readonly apiKeyEnv = 'OPENROUTER_API_KEY';
-  protected readonly defaultBaseUrl = 'https://openrouter.ai/api/v1';
-  protected readonly defaultModel = 'openrouter/auto';
-  protected modelEnv = 'OPENROUTER_MODEL';
-  protected extraHeaders = {
-    'HTTP-Referer': 'https://careeros.dev',
-    'X-Title': 'CareerOS',
-  };
 }

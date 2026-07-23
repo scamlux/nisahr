@@ -7,13 +7,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Compass, Loader2, Sparkles, Timer,
 } from 'lucide-react';
-import {
-  PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer,
-} from 'recharts';
 import { api, apiError } from '@/lib/api';
 import { useI18n } from '@/lib/i18n';
 import { PageHeader } from '@/components/app/page-header';
 import { Skeleton } from '@/components/ui/skeleton';
+import { InfoHint } from '@/components/ui/info-hint';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
@@ -124,14 +122,6 @@ export default function PsychTestPage() {
       setTimeout(() => setStep((s) => s + 1), 180);
     }
   }
-
-  const radarData = useMemo(() => {
-    if (!result || !test) return [];
-    return Object.entries(result.axes).map(([axis, value]) => ({
-      axis: test.axisLabels[axis]?.[loc]?.split(' (')[0] ?? axis,
-      value,
-    }));
-  }, [result, test, loc]);
 
   if (isLoading || !test) {
     return (
@@ -271,7 +261,7 @@ export default function PsychTestPage() {
             {/* profile card */}
             <div className="card relative mb-6 overflow-hidden p-6">
               <div className="aurora-blob left-1/3 top-0 h-44 w-44 bg-accent/15" />
-              <div className="relative grid items-center gap-6 md:grid-cols-[1fr_260px]">
+              <div className="relative">
                 <div>
                   <h2 className="flex items-center gap-2 font-display text-2xl font-bold">
                     <Sparkles className="h-5 w-5 text-primary" /> {tr.resultTitle}
@@ -281,7 +271,9 @@ export default function PsychTestPage() {
                     <span className="chip border-primary/30 bg-primary/10 font-mono text-lg font-bold tracking-[0.2em] text-primary">
                       {result.profileCode}
                     </span>
-                    <span className="text-xs text-muted">{tr.profileCodeLabel}</span>
+                    <span className="flex items-center gap-1.5 text-xs text-muted">
+                      {tr.profileCodeLabel} <InfoHint text={tr.riasecHint} />
+                    </span>
                   </div>
                   <div className="mt-5 space-y-2">
                     {Object.entries(result.axes).map(([axis, value]) => (
@@ -301,15 +293,6 @@ export default function PsychTestPage() {
                       </div>
                     ))}
                   </div>
-                </div>
-                <div className="h-56">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart data={radarData} outerRadius="78%">
-                      <PolarGrid stroke="rgb(var(--border))" />
-                      <PolarAngleAxis dataKey="axis" tick={{ fill: 'rgb(var(--muted))', fontSize: 10 }} />
-                      <Radar dataKey="value" stroke="rgb(var(--primary))" fill="rgb(var(--primary))" fillOpacity={0.35} />
-                    </RadarChart>
-                  </ResponsiveContainer>
                 </div>
               </div>
             </div>

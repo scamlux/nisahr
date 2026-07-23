@@ -15,8 +15,8 @@ export default function LoginPage() {
   const router = useRouter();
   const setAuth = useAuth((s) => s.setAuth);
   const { t } = useI18n();
-  const [email, setEmail] = useState('premium@careeros.dev');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function submit(e: React.FormEvent) {

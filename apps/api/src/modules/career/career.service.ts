@@ -122,8 +122,8 @@ export class CareerService {
       score: m.matchScore,
     }));
 
-    // LLM enrichment of the reason texts only — ranking stays deterministic.
-    if (this.ai.providerName !== 'mock') {
+    // GPT enrichment of the reason texts only — ranking stays deterministic.
+    if (this.ai.llmAvailable) {
       try {
         const { text } = await this.ai.chatWith(
           [

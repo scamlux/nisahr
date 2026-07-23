@@ -196,7 +196,7 @@ export default function AssessmentPage() {
               <div className="space-y-6">
                 {result?.status === 'PASSED' && <Celebration />}
                 <div className="text-center">
-                  <h1 className="font-display text-2xl font-bold">{tr.passedTitle}</h1>
+                  <h2 className="font-display text-2xl font-bold">{tr.passedTitle}</h2>
                   {result && <p className="mt-1 text-sm text-muted">{result.feedback}</p>}
                 </div>
                 <Certificate cert={cert} verifyUrl={verifyUrl} labels={certLabels} />

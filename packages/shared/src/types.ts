@@ -118,6 +118,18 @@ export interface AiRoadmap {
   stages: AiRoadmapStage[];
 }
 
+/**
+ * Structured resume analysis (Resume Review v2). The API also returns the
+ * legacy persisted fields (score/strengths/gaps/suggestions) alongside these.
+ */
+export interface ResumeReviewResult {
+  overall_score: number;
+  strengths: string[];
+  weaknesses: string[];
+  missing_keywords: string[];
+  rewrite_suggestions: string[];
+}
+
 export interface JobReadinessBreakdown {
   skillsCoverage: number;
   roadmapProgress: number;

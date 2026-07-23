@@ -1,0 +1,30 @@
+# CareerOS SearXNG — keyless meta-search backing the CareerOS search providers.
+#
+# Inherits every upstream default (use_default_settings: true); we override only
+# what the CareerOS API needs for server-to-server calls:
+#   - enable the JSON output format  (SearxngSearchProvider fetches ?format=json)
+#   - disable the per-IP limiter     (a single backend hits this, not browsers)
+# secret_key is replaced at boot by the $SEARXNG_SECRET env var (see Dockerfile).
+use_default_settings: true
+
+general:
+  instance_name: "CareerOS Search"
+  donation_url: false
+  contact_url: false
+
+server:
+  secret_key: "ultrasecretkey" # overwritten at container start by $SEARXNG_SECRET
+  base_url: false # auto-detect from the request (Render external URL)
+  limiter: false # no per-IP rate limiting — the only caller is the CareerOS API
+  image_proxy: false
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: "en"
+  formats:
+    - html
+    - json # <-- the reason this instance exists
+
+ui:
+  static_use_hash: true

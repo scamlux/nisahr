@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { themeInitScript } from '@/lib/theme';
+import { siteName, siteUrl, defaultDescription } from '@/lib/site';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const display = Plus_Jakarta_Sans({
@@ -13,10 +14,35 @@ const display = Plus_Jakarta_Sans({
 });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
 
+const defaultTitle = 'CareerOS — Your AI Career Operating System';
+
 export const metadata: Metadata = {
-  title: 'CareerOS — Your AI Career Operating System',
-  description:
-    'From "I don\'t know what to become" to "I got a job." AI-HR consultant, personalized roadmaps, learning hub, progress tracking and interview prep — in one platform.',
+  metadataBase: new URL(siteUrl),
+  applicationName: siteName,
+  title: {
+    default: defaultTitle,
+    template: '%s · CareerOS',
+  },
+  description: defaultDescription,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName,
+    url: siteUrl,
+    title: defaultTitle,
+    description: defaultDescription,
+    locale: 'ru_RU',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: defaultTitle,
+    description: defaultDescription,
+  },
+  robots: { index: true, follow: true },
+  verification: {
+    google:
+      process.env.GOOGLE_SITE_VERIFICATION ?? 'TOtDtnceVs9-irYbtqHA0-ru15mNT9FTpXb9zbYQDQY',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

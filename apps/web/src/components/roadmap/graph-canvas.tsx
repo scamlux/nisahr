@@ -6,14 +6,13 @@ import {
   BackgroundVariant,
   Controls,
   Handle,
-  MiniMap,
   Position,
   ReactFlow,
   type Edge,
   type Node,
   type NodeProps,
 } from '@xyflow/react';
-import { BookOpen, Check, CircleDot, SkipForward } from 'lucide-react';
+import { BookOpen, Check, CircleDot, Flag, SkipForward } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface GraphNodeData {
@@ -22,6 +21,7 @@ export interface GraphNodeData {
   nodeType: 'TOPIC' | 'SUBTOPIC' | 'OPTIONAL';
   status: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE' | 'SKIPPED';
   resourceCount: number;
+  milestone?: boolean;
   [key: string]: unknown;
 }
 
@@ -31,6 +31,7 @@ export interface ApiGraphNode {
   group: string;
   type: 'TOPIC' | 'SUBTOPIC' | 'OPTIONAL';
   status: GraphNodeData['status'];
+  milestone?: boolean;
   x: number;
   y: number;
   resources: unknown[];
@@ -66,7 +67,7 @@ function RoadmapNodeCard({ data, selected }: NodeProps) {
         'rounded-xl border-2 px-4 py-2.5 transition-all duration-150',
         isTopic ? 'min-w-[190px] max-w-[240px]' : 'min-w-[150px] max-w-[220px]',
         d.nodeType === 'OPTIONAL' && 'border-dashed',
-        STATUS_STYLES[d.status],
+        d.milestone ? 'border-warning/60 bg-warning/5' : STATUS_STYLES[d.status],
         selected && 'ring-2 ring-primary/50',
         'cursor-pointer hover:-translate-y-0.5 hover:shadow-soft',
       )}
@@ -83,7 +84,7 @@ function RoadmapNodeCard({ data, selected }: NodeProps) {
         >
           {d.title}
         </p>
-        {STATUS_ICON[d.status]}
+        {d.milestone ? <Flag className="h-3.5 w-3.5 shrink-0 text-warning" /> : STATUS_ICON[d.status]}
       </div>
       {d.resourceCount > 0 && (
         <p className="mt-1 flex items-center gap-1 text-[10px] text-muted">
@@ -123,6 +124,7 @@ export function GraphCanvas({
           nodeType: n.type,
           status: n.status,
           resourceCount: n.resources?.length ?? 0,
+          milestone: n.milestone,
         } satisfies GraphNodeData,
       })),
     [nodes, selectedNodeId],
@@ -175,19 +177,6 @@ export function GraphCanvas({
     >
       <Background variant={BackgroundVariant.Dots} gap={24} size={1.5} color="rgb(var(--border))" />
       <Controls showInteractive={false} position="bottom-right" />
-      <MiniMap
-        pannable
-        zoomable
-        position="bottom-left"
-        nodeColor={(n) => {
-          const s = (n.data as GraphNodeData).status;
-          if (s === 'DONE') return 'rgb(var(--success))';
-          if (s === 'IN_PROGRESS') return 'rgb(var(--primary))';
-          return 'rgb(var(--border))';
-        }}
-        maskColor="rgb(var(--bg) / 0.75)"
-        style={{ backgroundColor: 'rgb(var(--surface))' }}
-      />
     </ReactFlow>
   );
 }

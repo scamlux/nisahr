@@ -10,11 +10,14 @@ import {
   GraduationCap,
   LineChart,
   Briefcase,
+  FileText,
   User,
   LogOut,
-  Crown,
   BrainCircuit,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+
+type NavItem = { href: string; label: string; icon: LucideIcon };
 import { useAuth } from '@/lib/store';
 import { cn, initials } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -27,13 +30,15 @@ export function Sidebar() {
   const { user, logout } = useAuth();
   const { t } = useI18n();
 
-  const nav = [
+  // Full funnel: test -> roles -> roadmap -> learning -> progress -> career.
+  const nav: NavItem[] = [
     { href: '/home', label: t.pages.app.navHome, icon: MessagesSquare },
     { href: '/psych-test', label: t.pages.app.navPsychTest, icon: BrainCircuit },
     { href: '/roadmap', label: t.pages.app.navRoadmap, icon: Map },
     { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap },
     { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },
     { href: '/career', label: t.pages.app.navCareer, icon: Briefcase },
+    { href: '/resume-review', label: t.pages.app.navResumeReview, icon: FileText },
     { href: '/profile', label: t.pages.app.navProfile, icon: User },
   ];
 
@@ -84,13 +89,7 @@ export function Sidebar() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium">{user?.name}</p>
-            <p className="flex items-center gap-1 text-xs text-muted">
-              {user?.plan === 'PREMIUM' ? (
-                <><Crown className="h-3 w-3 text-warning" /> {t.pages.app.planPremium}</>
-              ) : (
-                t.pages.app.planFree
-              )}
-            </p>
+            <p className="truncate text-xs text-muted">{user?.email}</p>
           </div>
           <button
             onClick={() => {

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
 import { PageHeader } from '@/components/app/page-header';
+import { Reveal } from '@/components/ui/reveal';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
@@ -26,12 +27,23 @@ export default function LearningPage() {
     queryFn: async () => (await api.get('/learning/certificates')).data,
   });
 
+  // Seed data can carry the same course from multiple instructors (e.g. a demo
+  // + a real owner). Keep one card per title so the catalogue has no visual dupes.
+  const uniqueCourses = Array.isArray(courses)
+    ? courses.filter(
+        (c: any, i: number, arr: any[]) =>
+          arr.findIndex(
+            (o: any) => o.title?.trim().toLowerCase() === c.title?.trim().toLowerCase(),
+          ) === i,
+      )
+    : courses;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
       <PageHeader title={t.pages.learning.title} subtitle={t.pages.learning.subtitle} />
 
       {certificates?.length > 0 && (
-        <div className="mb-8">
+        <Reveal className="mb-8">
           <p className="mb-3 flex items-center gap-2 text-sm font-medium"><Award className="h-4 w-4 text-warning" /> {t.pages.learning.yourCertificates}</p>
           <div className="flex flex-wrap gap-3">
             {certificates.map((c: any) => (
@@ -46,19 +58,20 @@ export default function LearningPage() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       )}
 
       {isLoading ? (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><CardSkeleton /><CardSkeleton /><CardSkeleton /></div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {courses?.map((c: any, i: number) => (
+          {uniqueCourses?.map((c: any, i: number) => (
             <motion.button
               key={c.id}
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ delay: Math.min(i, 5) * 0.05 }}
               onClick={() => setOpenCourse(c.id)}
               className="card group overflow-hidden p-0 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-glow"
             >
@@ -123,6 +136,10 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
       qc.invalidateQueries({ queryKey: ['certificates'] });
       if (data.certificate) toast.success(t.pages.learning.toastCourseComplete);
       else toast.success(t.pages.learning.toastLessonCompleted);
+      // Auto-advance to the next lesson so the flow keeps moving.
+      if (course?.lessons && activeLesson < course.lessons.length - 1) {
+        setActiveLesson(activeLesson + 1);
+      }
     } catch (err) { toast.error(apiError(err)); }
   }
 
@@ -165,9 +182,9 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
             ) : quizMode && course.quizzes[0] ? (
               <Quiz quiz={course.quizzes[0]} onExit={() => setQuizMode(false)} />
             ) : (
-              <div className="flex flex-1 overflow-hidden">
+              <div className="flex flex-1 flex-col overflow-hidden sm:flex-row">
                 {/* lesson list */}
-                <div className="w-64 shrink-0 overflow-y-auto border-r border-border/60 p-3">
+                <div className="max-h-40 w-full shrink-0 overflow-y-auto border-b border-border/60 p-3 sm:max-h-none sm:w-64 sm:border-b-0 sm:border-r">
                   {course.lessons.map((l: any, i: number) => {
                     const done = completedLessonIds.includes(l.id);
                     return (
@@ -189,19 +206,25 @@ function CourseModal({ courseId, onClose }: { courseId: string; onClose: () => v
                     </button>
                   )}
                 </div>
-                {/* lesson player */}
+                {/* lesson content */}
                 <div className="flex-1 overflow-y-auto p-6">
-                  <div className="mb-4 grid aspect-video place-items-center rounded-2xl bg-black/40">
-                    <PlayCircle className="h-16 w-16 text-white/40" />
-                  </div>
+                  <span className="chip mb-3 border-primary/20 bg-primary/5 text-[10px] uppercase tracking-wide text-primary">
+                    <BookOpen className="h-3 w-3" /> {t.pages.learning.lessonLabel} {activeLesson + 1}
+                  </span>
                   <h3 className="font-display text-lg font-semibold">{lesson?.title}</h3>
-                  <p className="mt-2 text-sm text-muted">{lesson?.content}</p>
+                  <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted">{lesson?.content}</p>
                   <button
                     className="btn-primary mt-5"
                     onClick={() => completeLesson(lesson.id)}
                     disabled={completedLessonIds.includes(lesson?.id)}
                   >
-                    {completedLessonIds.includes(lesson?.id) ? <><Check className="h-4 w-4" /> {t.pages.learning.completed}</> : t.pages.learning.markComplete}
+                    {completedLessonIds.includes(lesson?.id) ? (
+                      <><Check className="h-4 w-4" /> {t.pages.learning.completed}</>
+                    ) : course?.lessons && activeLesson < course.lessons.length - 1 ? (
+                      t.pages.learning.completeAndNext
+                    ) : (
+                      t.pages.learning.markComplete
+                    )}
                   </button>
                 </div>
               </div>

@@ -22,9 +22,6 @@ export default function OnboardingPage() {
   const [experienceLevel, setExperienceLevel] = useState('BEGINNER');
   const [currentSkills, setCurrentSkills] = useState<string[]>([]);
   const [goals, setGoals] = useState('');
-  const [strengths, setStrengths] = useState('');
-  const [weaknesses, setWeaknesses] = useState('');
-  const [preferredWorkStyle, setPreferredWorkStyle] = useState('Remote');
 
   const INTERESTS = [
     { value: 'Web', label: t.pages.onboarding.interestWeb },
@@ -56,13 +53,6 @@ export default function OnboardingPage() {
     { v: 'MID', label: t.pages.onboarding.levelMidLabel, desc: t.pages.onboarding.levelMidDesc },
     { v: 'SENIOR', label: t.pages.onboarding.levelSeniorLabel, desc: t.pages.onboarding.levelSeniorDesc },
   ];
-  const WORK_STYLES = [
-    { value: 'Remote', label: t.pages.onboarding.workStyleRemote },
-    { value: 'Hybrid', label: t.pages.onboarding.workStyleHybrid },
-    { value: 'On-site', label: t.pages.onboarding.workStyleOnsite },
-    { value: 'Async', label: t.pages.onboarding.workStyleAsync },
-    { value: 'Collaborative', label: t.pages.onboarding.workStyleCollaborative },
-  ];
 
   const toggle = (arr: string[], set: (v: string[]) => void, v: string) =>
     set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
@@ -83,9 +73,6 @@ export default function OnboardingPage() {
         experienceLevel,
         currentSkills,
         goals,
-        strengths,
-        weaknesses,
-        preferredWorkStyle,
       });
       setUser({ onboardingCompleted: true });
       setDone(true);
@@ -112,7 +99,7 @@ export default function OnboardingPage() {
           >
             <PartyPopper className="h-8 w-8" />
           </motion.div>
-          <h1 className="font-display text-2xl font-bold">{t.pages.onboarding.doneTitle}</h1>
+          <h2 className="font-display text-2xl font-bold">{t.pages.onboarding.doneTitle}</h2>
           <p className="mt-2 text-muted">{t.pages.onboarding.doneSubtitle}</p>
         </motion.div>
       </div>
@@ -190,29 +177,6 @@ export default function OnboardingPage() {
                     value={goals}
                     onChange={(e) => setGoals(e.target.value)}
                   />
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <input
-                      className="input"
-                      placeholder={t.pages.onboarding.strengthsPlaceholder}
-                      value={strengths}
-                      onChange={(e) => setStrengths(e.target.value)}
-                    />
-                    <input
-                      className="input"
-                      placeholder={t.pages.onboarding.weaknessesPlaceholder}
-                      value={weaknesses}
-                      onChange={(e) => setWeaknesses(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <p className="mb-2 text-sm text-muted">{t.pages.onboarding.workStyleLabel}</p>
-                    <ChipGrid
-                      options={WORK_STYLES}
-                      selected={[preferredWorkStyle]}
-                      onToggle={setPreferredWorkStyle}
-                      single
-                    />
-                  </div>
                 </div>
               </Section>
             )}

@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Send, Sparkles, Target, TrendingUp, Compass } from 'lucide-react';
 import { api, apiError } from '@/lib/api';
-import { useAiModel, useAuth } from '@/lib/store';
-import { ModelSwitcher } from '@/components/app/model-switcher';
+import { useAuth } from '@/lib/store';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
@@ -67,10 +66,9 @@ export default function HomePage() {
     setMessages((m) => [...m, userMsg]);
     setTyping(true);
     try {
-      const { provider, model } = useAiModel.getState();
+      // Single provider (OpenAI/GPT): the server resolves the model itself.
       const { data } = await api.post(`/chat/sessions/${sessionId}/messages`, {
         content: text,
-        ...(provider && model ? { provider, model } : {}),
       });
       setMessages((m) => [...m, data]);
       setStreamingId(data.id); // client-side reveal for the fresh reply only
@@ -84,7 +82,7 @@ export default function HomePage() {
   const empty = messages.length === 0;
 
   return (
-    <div className="mx-auto flex h-screen max-w-3xl flex-col px-4 py-6 lg:px-8">
+    <div className="mx-auto flex h-[calc(100dvh-5rem)] max-w-3xl flex-col px-4 py-6 lg:h-screen lg:px-8">
       {/* header */}
       <div className="mb-4 flex items-center gap-3">
         <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent text-primary-fg">
@@ -94,7 +92,6 @@ export default function HomePage() {
           <h1 className="font-display text-lg font-bold leading-tight">{t.pages.home.headerTitle}</h1>
           <p className="truncate text-xs text-muted">{t.pages.home.headerSubtitle}</p>
         </div>
-        <ModelSwitcher />
       </div>
 
       {/* messages */}
@@ -139,16 +136,16 @@ export default function HomePage() {
               <div className={cn('max-w-[85%]', m.role === 'user' ? 'order-2' : '')}>
                 <div
                   className={cn(
-                    'rounded-2xl px-4 py-3 text-sm leading-relaxed',
+                    'break-words rounded-2xl px-4 py-3 text-sm leading-relaxed',
                     m.role === 'user'
                       ? 'bg-primary text-primary-fg'
                       : 'border border-border bg-surface-2/60',
                   )}
                 >
-                  {m.role === 'assistant' ? (
+                  {m.role === 'assistant' && m.id === streamingId ? (
                     <Typewriter
                       text={m.content}
-                      stream={m.id === streamingId}
+                      stream
                       onDone={() => setStreamingId((id) => (id === m.id ? null : id))}
                     />
                   ) : (
