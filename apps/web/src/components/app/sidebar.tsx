@@ -10,6 +10,7 @@ import {
   GraduationCap,
   LineChart,
   Briefcase,
+  FileText,
   User,
   LogOut,
   BrainCircuit,
@@ -37,6 +38,7 @@ export function Sidebar() {
     { href: '/learning', label: t.pages.app.navLearning, icon: GraduationCap },
     { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },
     { href: '/career', label: t.pages.app.navCareer, icon: Briefcase },
+    { href: '/resume-review', label: t.pages.app.navResumeReview, icon: FileText },
     { href: '/profile', label: t.pages.app.navProfile, icon: User },
   ];
 

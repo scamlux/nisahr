@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { MessagesSquare, Map, GraduationCap, LineChart, Briefcase, User } from 'lucide-react';
+import { MessagesSquare, Map, GraduationCap, LineChart, Briefcase, FileText, User } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 type NavItem = {
@@ -29,6 +29,7 @@ export function MobileNav() {
     { href: '/learning', label: t.pages.app.navLearningShort, icon: GraduationCap, mvpHidden: true },
     { href: '/progress', label: t.pages.app.navProgress, icon: LineChart },
     { href: '/career', label: t.pages.app.navCareerShort, icon: Briefcase },
+    { href: '/resume-review', label: t.pages.app.navResumeReviewShort, icon: FileText, mvpHidden: true },
     { href: '/profile', label: t.pages.app.navProfile, icon: User, mvpOnly: true },
   ].filter((i) => !(MVP_MODE && i.mvpHidden) && !(!MVP_MODE && i.mvpOnly));
 
